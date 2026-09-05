@@ -38,10 +38,50 @@ gcloud services enable \
 cp .env.example .env
 ```
 
-Fill in every required value. The code **raises a named error** rather than
-defaulting — a placeholder default surfaces much later as a confusing BigQuery
-404 in whichever query happens to run first, which is a far worse afternoon
-than an error at startup.
+Fill in every required value. Almost everywhere, the code **raises a named
+error** rather than defaulting — a placeholder default surfaces much later as a
+confusing BigQuery 404 in whichever query happens to run first, which is a far
+worse afternoon than an error at startup.
+
+### Set these before you deploy
+
+| Variable | Required | What goes wrong if it is unset |
+|---|---|---|
+| `GOOGLE_CLOUD_PROJECT` | yes | Most code raises at startup. **The agent catalogue does not** — see the warning below. |
+| `GOOGLE_CLOUD_PROJECT_NUMBER` | yes | Registration fails; generated A2A card URLs are wrong. |
+| `VERTEX_STAGING_BUCKET` | yes | Agent registration (step 7) fails. The bucket must already exist. |
+| `VIDEO_BUCKET` | yes | The showcase app serves no recordings. |
+| `MINING_DATASET` | no — `mining_data` | — |
+| `MINING_LOCATION` | no — `US` | — |
+| `MINING_REGION` | no — `us-central1` | — |
+| `BQ_CONNECTION_ID` | no — `gemini-connection` | — |
+| `ENGINE_SERVICE_ACCOUNT` | no — derived from the project | — |
+| `BQ_BINARY` | no — resolved from `PATH` | Set it only if the `bq` CLI is not on your `PATH`. |
+
+> **The one place a missing variable fails quietly.**
+> `vendor/agent_registry/catalog_definitions.py` falls back to the visible
+> placeholders `unset-project` and `unset-project-number` instead of raising,
+> because it is also imported by tooling that inspects the catalogue offline
+> and never reaches GCP. The trade-off is that an unset environment produces a
+> catalogue that looks fine and is wrong.
+>
+> Catch it by eye: if a generated A2A card contains
+> `sa-mining-agent-runner@unset-project.iam.gserviceaccount.com`, or a URL with
+> `unset-project-number` in it, your environment is not set. Export the
+> variables and regenerate.
+
+Export them into the shell you run these commands from — a `.env` file on disk
+is not read automatically by the scripts:
+
+```bash
+set -a && . ./.env && set +a
+```
+
+The deployed containers get these separately: `scripts/deploy.py` and
+`scripts/deploy_apps.py` both pass `--set-env-vars=GOOGLE_CLOUD_PROJECT=…`
+through to Cloud Run. Cloud Run, unlike App Engine, does not provide that
+variable on its own, and the agent packages resolve it at **import** time — so
+an agent container without it does not fail on a query, it fails to start.
 
 Create the staging bucket referenced by `VERTEX_STAGING_BUCKET` before step 7;
 Agent Engine does not create it for you:

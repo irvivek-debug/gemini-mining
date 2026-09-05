@@ -7,10 +7,22 @@ import os
 from enum import Enum
 from typing import List, Optional, Dict, Any
 
-# Deployment-specific values. This module is imported by tooling that only
-# inspects the catalogue (and never reaches GCP), so these resolve to obvious
-# placeholders rather than raising -- the scripts that actually deploy read
-# the same variables through mining_agents.config, which does raise.
+# DEPLOYMENT TODO: set GOOGLE_CLOUD_PROJECT and GOOGLE_CLOUD_PROJECT_NUMBER
+# before deploying or registering anything. See "Set these before you deploy"
+# in docs/RECREATE.md.
+#
+# These fall back to visible placeholders instead of raising, because this
+# module is also imported by tooling that only inspects the catalogue offline
+# and never reaches GCP. That is a deliberate exception to the rule elsewhere
+# in this repo that a missing value fails loudly: mining_agents.config, which
+# every deploying script goes through, does raise.
+#
+# The cost of the exception is that an unset variable produces a catalogue
+# that looks fine and is wrong. It is designed to be caught by eye -- the
+# placeholder is visible in any A2A card it generates, e.g.
+# "sa-mining-agent-runner@unset-project.iam.gserviceaccount.com" or a URL
+# containing "unset-project-number". If you see either, the environment is
+# not set.
 _PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT", "unset-project")
 _PROJECT_NUMBER = os.environ.get("GOOGLE_CLOUD_PROJECT_NUMBER", "unset-project-number")
 _REGION = os.environ.get("MINING_REGION", "us-central1")
