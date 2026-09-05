@@ -1,8 +1,102 @@
 # Working in this repository
 
-Guidance for an AI coding agent (Gemini CLI, Antigravity) working on this
-codebase. These are the patterns the original build paid for; ignoring them
-reproduces bugs that have already been fixed once.
+Guidance for an AI coding agent (Antigravity / Gemini CLI) working on this
+codebase. Part one is how to deploy it. Part two is the engineering patterns
+the original build paid for; ignoring those reproduces bugs already fixed once.
+
+---
+
+# Part 1 — Deploying this repository
+
+`docs/RECREATE.md` is the authoritative, ordered procedure. **Read it before
+running anything.** This section is the operating contract around it.
+
+## Before you run a single command
+
+Ask the user for these and wait for real answers. Do not invent them, and do
+not proceed with placeholders — the catalogue will silently generate
+`...@unset-project.iam.gserviceaccount.com` if you do:
+
+1. Their GCP **project ID** and **project number**
+2. Whether billing is enabled on it
+3. A **staging bucket** name, and a **video bucket** name
+4. Explicit confirmation that they want to spend money (see the cost gate)
+
+Write them into `.env` (copied from `.env.example`), then export them into your
+shell — nothing loads that file automatically:
+
+```bash
+cp .env.example .env      # then fill it in
+set -a && . ./.env && set +a
+```
+
+## The cost gate — STOP here
+
+Three steps in `docs/RECREATE.md` create billable, hard-to-undo resources:
+
+| Step | What it does | Why it needs a human |
+|---|---|---|
+| 5 `--apply` | **Overwrites ten live BigQuery tables** | Destroys existing data in that dataset |
+| 7 register | Creates **101 Vertex AI Agent Engine instances** | Billable, and near the default quota of 100 |
+| 8 deploy | Creates **52+ Cloud Run services** | Billable, and slow to unpick |
+
+**Stop and get explicit confirmation before each of those three.** Present what
+will be created, in which project, and wait. A dry run first is always correct:
+step 5 has `--dry-run`, step 7 registers nothing without
+`--confirm yes-register-for-real`, and `scripts/deploy.py` prints its argv
+before executing.
+
+Never run `scripts/deploy.py`'s printed domain-binding command yourself. It is
+printed deliberately and left for a human.
+
+## Order is not a suggestion
+
+Several steps succeed while producing nothing when their inputs are missing.
+The worst is the property graph: created over empty tables it **succeeds and
+returns zero rows**, so a broken deployment looks like a working one. Load the
+data (step 5) before creating the graph or registering agents.
+
+## How to tell it actually worked
+
+Do not report success because commands exited zero. Run step 9:
+
+```bash
+python scripts/verify_grounded.py
+python scripts/grounding_test.py
+pytest tests/
+```
+
+These prove a **read happened** — `meta.tables_read` in the tool envelope,
+checked against the live source — rather than proving an agent replied. An
+agent that answers fluently while querying nothing passes a liveness check and
+fails this one. That distinction is the entire point of the project.
+
+## Failure signatures worth recognising
+
+| What you see | What it actually is |
+|---|---|
+| `RuntimeError: GOOGLE_CLOUD_PROJECT is unset` | `.env` not exported into this shell |
+| `...@unset-project.iam.gserviceaccount.com` in output | Same, but the catalogue fell back quietly |
+| Model 404, "not found or no access" | Regional endpoint. The tiered models are `global` only |
+| A container that will not start | Missing `GOOGLE_CLOUD_PROJECT`; config resolves at import time |
+| Graph query returns zero rows, no error | Data was never loaded |
+| Agent answers confidently, cites nothing | Grounding is broken — this is the failure this repo exists to prevent |
+| Registration fails near the 100th agent | `ReasoningEngineEntitiesPerProjectPerRegion` quota |
+
+## Rules for you, the agent
+
+- Do not hardcode a project ID, project number, service-account email, bucket,
+  or endpoint anywhere — including tests, fixtures, and docstrings. Everything
+  comes from the environment.
+- Do not weaken a failing check to make a step pass.
+- If a command fails, report the actual error. Do not summarise it as "some
+  issues" and continue.
+- Report denominators honestly: "97 of 100 agents registered" is information,
+  "deployed successfully" is not.
+
+---
+
+# Part 2 — Engineering patterns
 
 ## The domain rule
 

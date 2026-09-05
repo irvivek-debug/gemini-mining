@@ -53,8 +53,39 @@ Start here: **[docs/RECREATE.md](docs/RECREATE.md)** walks the full path from an
 empty GCP project to a registered agent estate, in order.
 
 ```bash
-cp .env.example .env      # then fill in your project values
+cp .env.example .env                 # fill in your project values
+set -a && . ./.env && set +a         # nothing loads .env automatically
 ```
+
+You need a GCP project with billing, `gcloud` and `bq` authenticated, and
+Python 3.11+. Budget about half a day, most of it waiting on data loads and
+agent registration.
+
+### Deploying with an AI agent CLI
+
+This repository is set up to be deployed by an agent (Antigravity `agy`, Gemini
+CLI, or similar). Point it at the repository root and ask it to follow
+`docs/RECREATE.md`:
+
+```bash
+agy -i "Read GEMINI.md, then deploy this repository by following docs/RECREATE.md in order. Ask me for the project values first, and stop for my confirmation before any billable step."
+```
+
+Use `-i` (interactive), not `-p`. `-p` runs a single prompt non-interactively
+and prints the answer, so the agent could neither ask you for the project
+values nor stop at the confirmation gates.
+
+The rules the agent operates under live in **[GEMINI.md](GEMINI.md)** (and
+[AGENTS.md](AGENTS.md), for runtimes that read that name instead). Both are
+loaded automatically as directory rules. They tell the agent what to collect
+from you up front, where to stop for confirmation, and — importantly — how to
+tell a working deployment from one that merely ran without errors.
+
+**Three steps cost real money and are slow to undo**: overwriting ten live
+BigQuery tables, registering 101 Vertex AI Agent Engine instances, and
+deploying 52+ Cloud Run services. Each supports a dry run, and the agent is
+instructed to stop and ask before each one. Read what it proposes before you
+approve it.
 
 ## Design principles
 
