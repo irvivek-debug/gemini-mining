@@ -1,0 +1,38 @@
+# Runtime dependencies for the workspace container, deliberately NOT the
+# repository's requirements.txt.
+#
+# The root list installs google-adk and google-cloud-aiplatform[adk,agent_engines]
+# because that is what an AGENT needs to run. This container runs no agent. It
+# serves two static applications and forwards a prompt to one of the 52 agent
+# services over HTTP, and forwarding a prompt needs an HTTP client, not a model
+# SDK. Installing the root list here would add roughly a gigabyte to the image
+# and seconds to every cold start, for code paths this process never reaches.
+#
+# What keeps the two lists from drifting into a lie is that the imports are
+# checked, not asserted: `test_the_workspace_image_needs_no_agent_sdk` in
+# tests/test_workspace_image.py imports apps.workspace.server in a subprocess
+# that refuses google.adk and google.cloud.aiplatform, and fails naming the
+# module that reached for one.
+
+fastapi>=0.115
+uvicorn[standard]>=0.30
+
+# The proxy's client. Async, because /api/invoke awaits an agent that may think
+# for minutes and the process must stay free to serve the static tree meanwhile.
+httpx>=0.27
+
+# google.auth for the Cloud Run Admin API token, google.oauth2.id_token for the
+# per-service OIDC token. Both ship in this one package; neither needs the
+# aiplatform SDK that the root requirements pull in.
+google-auth>=2.30
+
+# google.auth.transport.requests — the transport both token calls above go
+# through — is an OPTIONAL extra of google-auth, and importing it without this
+# raises ImportError at call time rather than at start-up. The first deployed
+# revision therefore came up healthy, served every page, and answered
+# /api/runtime with a 500. Importing the server is not enough to catch that;
+# only calling the token path is.
+requests>=2.32
+
+# mining_agents.catalog.definitions builds the 52-entry registry on import.
+pydantic>=2.7,<3

@@ -1,0 +1,131 @@
+# AGT-19 Strategic Planning Advisor's driver tree (Optimiser), group level.
+# Skeleton only: no resolution prose lives here. Resolution content is
+# retrieved from the document corpus so that a recommendation is the
+# customer's own standard rather than ours.
+#
+# Authority: permanently L1 — Recommend, with no promotion path. Every other
+# agent in this build can earn a higher authority tier on demonstrated
+# accuracy; this one cannot, by design, at any point. It advises the
+# Executive Committee and Board and holds write access to no system of
+# record. An agent that could move capital across a group plan is a decision
+# this product declines to make, and that ceiling is a property of the
+# agent, not of its coverage — instrumenting every driver below would not
+# change it.
+#
+# `status` says whether a diagnostic exists and nothing else. Two drivers
+# are instrumented now that `plan_versions`, `plan_assumptions`,
+# `plan_scenarios` and `contained_metal_price_deck` are populated.
+#
+# local_vs_group_divergence, capital_option_dominance and
+# plan_output_completeness stay not_instrumented for a measured reason each:
+# - local_vs_group_divergence needs a `site_plans` table (site-level
+#   objective values) and a `group_plan` table (the group-level objective
+#   computed under the same assumption set) so a site optimum can be
+#   compared against the group optimum it feeds into. Neither table, nor
+#   the simulation capability that would produce them, exists.
+# - capital_option_dominance needs an `option_outcomes` table holding a
+#   distribution of outcomes per `capital_options` row under scenario or
+#   Monte Carlo simulation. `capital_options` itself now exists
+#   (option_id, plan_version_id, description), but it carries no outcome
+#   distribution — comparing options on description text alone is not
+#   stochastic dominance.
+# - plan_output_completeness needs a `plan_output_checklist` table
+#   (plan_version_id, element_name, is_present) recording which of the
+#   assumption set, sensitivity, dissenting scenario and reversal trigger a
+#   given plan output actually states. No such table exists; `plan_versions`,
+#   `plan_assumptions` and `plan_scenarios` between them hold the four
+#   elements themselves but not a record of whether any given published
+#   output actually surfaced all four.
+metric: value lost to a group plan re-tested on the calendar rather than on the world
+root: assumptions moving faster than the review cadence that re-tests them
+
+drivers:
+  - id: assumption_staleness
+    question: >-
+      For each metric_name in `plan_assumptions`, how many of the plan's six
+      versions carried an assumption that was later superseded, and how many
+      days elapsed between that supersession and the next scheduled review
+      in `plan_versions` that would re-test the plan against it?
+    status: instrumented
+    controllable: false
+    sql: sql/agt19/assumption_staleness.sql
+    params:
+      price_metric_name: contained_metal_price_usd_per_tonne
+    doc_query: plan assumption superseded review cadence staleness price deck
+    guard: >-
+      days_stale_before_review is a calendar gap between a superseded_date
+      and a next_review_date; it does not measure how far the plan's
+      forecast actually diverged from what happened, only how long the
+      review cadence took to re-test the assumption. A metric_name with
+      superseded_count of zero across all six versions never moved on record
+      in this build's history, which is a property of that metric, not
+      evidence the driver failed to measure it. The price_lag1_* columns are
+      populated only for @price_metric_name because it is the one metric
+      this build can check against an independently observed series; every
+      other metric_name's price columns are NULL because no such series
+      exists for it, not because that metric held. price_lag1_autocorr
+      characterises the observed series as a whole — a high autocorrelation
+      means a value close in time to the one it superseded is not on its own
+      surprising, and it must be read alongside days_stale_before_review
+      rather than treated as a separate, unrelated figure.
+
+  - id: reversal_cost
+    question: >-
+      For each plan version, what does reversing the capital or operating
+      decision that version's upside and downside scenarios support cost,
+      according to `plan_scenarios.reversal_cost`?
+    status: instrumented
+    controllable: false
+    sql: sql/agt19/reversal_cost.sql
+    params: {}
+    doc_query: plan scenario reversal trigger cost capital decision downside upside
+    guard: >-
+      reversal_cost is a figure recorded on the scenario row itself; it is
+      not a probability-weighted expected cost and not a realised cost of
+      any reversal that actually happened, only what the scenario states
+      reversing its case would cost. scenario_count reflects however many
+      plan_scenarios rows exist for a plan version at the time of the query,
+      not a fixed cardinality this driver assumes — report it beside
+      min/max/mean_reversal_cost_usd rather than treating a two-scenario
+      shape as guaranteed. reversal_trigger describes the condition under
+      which the reversal would be executed; this driver reports the cost the
+      trigger is attached to and does not evaluate whether the trigger has
+      itself been met.
+
+  - id: local_vs_group_divergence
+    question: >-
+      Where does the sum of locally optimal site plans diverge from the
+      group-optimal plan? Requires a `site_plans` table (site_id,
+      plan_version_id, site_objective_value) and a `group_plan` table
+      (plan_version_id, group_objective_value) computed under the same
+      assumption set, so a site-level optimum can be compared against the
+      group optimum it feeds into. Neither table, nor the simulation
+      capability that would produce them, exists.
+    status: not_instrumented
+    controllable: false
+
+  - id: capital_option_dominance
+    question: >-
+      Which candidate capital options in `capital_options` are stochastically
+      dominated by another option once the full outcome distribution is
+      considered, not just its expected value? Requires an `option_outcomes`
+      table (option_id, simulation_run_id, outcome_value) holding a
+      distribution of outcomes per option under scenario or Monte Carlo
+      simulation. `capital_options` (option_id, plan_version_id, description)
+      now exists but carries no outcome distribution of any kind.
+    status: not_instrumented
+    controllable: false
+
+  - id: plan_output_completeness
+    question: >-
+      For a given group plan output, are the assumption set, the sensitivity,
+      the dissenting scenario and the reversal trigger with its cost all
+      actually stated, or is one of the four missing? Requires the
+      `plan_versions`, `plan_assumptions` and `plan_scenarios` tables above,
+      plus a `plan_output_checklist` table (plan_version_id, element_name,
+      is_present) recording which of the four required elements a given
+      output actually carries. No such table exists; the three source tables
+      hold the elements themselves, not a record of whether any published
+      output actually surfaced all four together.
+    status: not_instrumented
+    controllable: true

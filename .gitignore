@@ -1,0 +1,37 @@
+# Local configuration. NEVER commit a filled-in .env -- it carries your project
+# ID, project number, and bucket names. .env.example is the tracked template.
+.env
+.env.*
+!.env.example
+
+data/generated/*.parquet
+__pycache__/
+*.pyc
+packages/
+
+# Local agent and editor state, not source.
+.gemini/
+.idea/
+.vscode/
+
+# Playwright browser profiles used by the UAT harness. These hold a live
+# Google session -- Cookies, Login Data, tokens. Machine-local state, never
+# source, and a live-session leak if committed.
+data/uat/.profile*/
+
+# UAT recordings: ~500MB of .webm, regenerable by re-running scripts/uat_run.py.
+data/uat/videos/
+.DS_Store
+data/uat/videos_prev_*/
+data/uat/videos_uat_evidence_*/
+
+# Dead-air-compressed copies of the referenced captures, produced by
+# scripts/compress_referenced.py. Derived from data/uat/videos/, uploaded to
+# GCS, never a source of truth.
+data/uat/videos_tight/
+
+# BigQuery-insight scenario captures: ~350MB of .webm across three takes,
+# regenerable from the bq scenario harness.
+data/uat/bq_scenarios/
+data/uat/bq_scenarios_v1/
+data/uat/bq_scenarios_v2_flawed/

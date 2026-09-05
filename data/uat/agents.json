@@ -1,0 +1,1640 @@
+[
+ {
+  "agent_id": "AGT-19",
+  "name": "Strategic Planning Advisor",
+  "display_name": "Strategic Planning Advisor (AGT-19)",
+  "ge_id": "2639398376744540579",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/2639398376744540579/session/-",
+  "department": "Commercial/Finance/Strategy",
+  "persona": "CEO / CFO / Executive Committee",
+  "equation": "max NPV = sum [(P-s)Qr - cQc - mQm - F]/(1+d)^t",
+  "tables": [
+   "geological_block_models",
+   "financial_ledger",
+   "mine_production_schedule"
+  ],
+  "pattern": "L0_STRATEGIC",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S01-COORDINATOR",
+  "name": "Geology Swarm Coordinator",
+  "display_name": "Geology Swarm Coordinator (S01-COORDINATOR)",
+  "ge_id": "2549813273247417527",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/2549813273247417527/session/-",
+  "department": "Exploration/Geology",
+  "persona": "Elena (Chief Mine Geologist)",
+  "equation": "gamma(h) = 1/(2N(h)) * sum [Z(x_i) - Z(x_i+h)]^2",
+  "tables": [
+   "drill_holes",
+   "assay_logs",
+   "geological_block_models"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S01-1-LITHOLOGY",
+  "name": "Drill Lithology Specialist",
+  "display_name": "Drill Lithology Specialist (S01-1-LITHOLOGY)",
+  "ge_id": "5332440710463027597",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/5332440710463027597/session/-",
+  "department": "Exploration/Geology",
+  "persona": "Exploration Geologist",
+  "equation": "RQD = (sum(pieces >= 10cm) / total_length) * 100",
+  "tables": [
+   "drill_holes"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S01-2-GEOSTAT",
+  "name": "Assay Geostatistics Specialist",
+  "display_name": "Assay Geostatistics Specialist (S01-2-GEOSTAT)",
+  "ge_id": "9087835982665536979",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/9087835982665536979/session/-",
+  "department": "Exploration/Geology",
+  "persona": "Geostatistician",
+  "equation": "Z_hat(x0) = sum(lambda_i * Z(x_i))",
+  "tables": [
+   "assay_logs"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S01-3-STRUCTURAL",
+  "name": "Structural Fault Specialist",
+  "display_name": "Structural Fault Specialist (S01-3-STRUCTURAL)",
+  "ge_id": "2645900857098460761",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/2645900857098460761/session/-",
+  "department": "Exploration/Geology",
+  "persona": "Structural Geologist",
+  "equation": "n = (sin(theta)*cos(phi), sin(theta)*sin(phi), cos(theta))",
+  "tables": [
+   "geological_block_models"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S01-R-CRITIC",
+  "name": "Resource Critic (JORC / QAQC Red Team)",
+  "display_name": "Resource Critic (JORC / QAQC Red Team) (S01-R-CRITIC)",
+  "ge_id": "13867639205775571505",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/13867639205775571505/session/-",
+  "department": "Exploration/Geology",
+  "persona": "Competent Person (CP / QP)",
+  "equation": "JORC Resource Confidence Index & Blank Contamination Variance",
+  "tables": [
+   "assay_logs",
+   "qaqc_standards"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S02-COORDINATOR",
+  "name": "Mine Planning Coordinator",
+  "display_name": "Mine Planning Coordinator (S02-COORDINATOR)",
+  "ge_id": "10031640407747179171",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/10031640407747179171/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Planning Superintendent",
+  "equation": "Lerchs-Grossmann Graph Max-Flow: max sum(w_i * v_i)",
+  "tables": [
+   "mine_production_schedule",
+   "pit_designs"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S02-1-GEOTECH",
+  "name": "Pit Wall Geotechnical Specialist",
+  "display_name": "Pit Wall Geotechnical Specialist (S02-1-GEOTECH)",
+  "ge_id": "2467120801253827430",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/2467120801253827430/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Geotechnical Engineer",
+  "equation": "FoS = [c' + (sigma_n - u)*tan(phi')] / tau_m",
+  "tables": [
+   "geotech_sensors"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S02-2-SCHEDULE",
+  "name": "Phase Scheduling Specialist",
+  "display_name": "Phase Scheduling Specialist (S02-2-SCHEDULE)",
+  "ge_id": "14750280296794731530",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/14750280296794731530/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Long-Term Planning Engineer",
+  "equation": "V_t(S) = max_a [R(S, a) + gamma * V_{t+1}(S')]",
+  "tables": [
+   "mine_production_schedule"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S02-3-DUMP",
+  "name": "Waste Dump Stability Specialist",
+  "display_name": "Waste Dump Stability Specialist (S02-3-DUMP)",
+  "ge_id": "14198794820232846068",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/14198794820232846068/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Civil Mine Engineer",
+  "equation": "Bishop Method: FoS = sum([c'b + (W - ub)tan(phi')]*m_alpha) / sum(W*sin(alpha))",
+  "tables": [
+   "pit_designs"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S02-R-CRITIC",
+  "name": "Plan Compliance Critic (Red Team)",
+  "display_name": "Plan Compliance Critic (Red Team) (S02-R-CRITIC)",
+  "ge_id": "6834062730278861341",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/6834062730278861341/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Senior Mine Surveyor",
+  "equation": "F1 = Mined_Volume / Planned_Volume, F2 = Milled_Metal / Mined_Metal",
+  "tables": [
+   "survey_scans",
+   "mine_production_schedule"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S03-COORDINATOR",
+  "name": "Drill & Blast Coordinator",
+  "display_name": "Drill & Blast Coordinator (S03-COORDINATOR)",
+  "ge_id": "6919052797483217132",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/6919052797483217132/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Drill & Blast Superintendent",
+  "equation": "Kuz-Ram: x50 = A * Q^(1/6) * (115/E)^0.63 * (V0/Q)^0.8",
+  "tables": [
+   "blast_designs",
+   "explosives_inventory"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S03-1-GEOMETRY",
+  "name": "Blast Geometry Specialist",
+  "display_name": "Blast Geometry Specialist (S03-1-GEOMETRY)",
+  "ge_id": "6899800456415450209",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/6899800456415450209/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "D&B Engineer",
+  "equation": "B = K_b * d_h * sqrt(rho_e / rho_r)",
+  "tables": [
+   "blast_designs"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S03-2-EXPLOSIVE",
+  "name": "Explosives Energy Specialist",
+  "display_name": "Explosives Energy Specialist (S03-2-EXPLOSIVE)",
+  "ge_id": "385821222619278877",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/385821222619278877/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Shotfirer Technical Lead",
+  "equation": "q = M_exp / V_rock (kg/m3)",
+  "tables": [
+   "explosives_inventory"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S03-R-CRITIC",
+  "name": "Blast Safety Critic (Red Team)",
+  "display_name": "Blast Safety Critic (Red Team) (S03-R-CRITIC)",
+  "ge_id": "3034965665875988605",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/3034965665875988605/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Statutory Shotfirer",
+  "equation": "Statutory Exclusion Zone Radius & Misfire Detection Gate",
+  "tables": [
+   "blast_designs",
+   "safety_permits"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S04-COORDINATOR",
+  "name": "Load & Haul Coordinator",
+  "display_name": "Load & Haul Coordinator (S04-COORDINATOR)",
+  "ge_id": "156538017085304316",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/156538017085304316/session/-",
+  "department": "Fleet/Haulage",
+  "persona": "Dave (Dispatch Superintendent)",
+  "equation": "Little's Law Queueing: L = lambda * W",
+  "tables": [
+   "fleet_telemetry",
+   "dispatch_routes"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S04-1-SHOVEL",
+  "name": "Shovel Match Specialist",
+  "display_name": "Shovel Match Specialist (S04-1-SHOVEL)",
+  "ge_id": "17491806829630784661",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17491806829630784661/session/-",
+  "department": "Fleet/Haulage",
+  "persona": "Dispatch Controller",
+  "equation": "Passes = Truck_Capacity / (Shovel_Bucket_Payload * Fill_Factor)",
+  "tables": [
+   "fleet_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S04-2-ROUTE",
+  "name": "Haul Route Optimizer",
+  "display_name": "Haul Route Optimizer (S04-2-ROUTE)",
+  "ge_id": "2596064410481970294",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/2596064410481970294/session/-",
+  "department": "Fleet/Haulage",
+  "persona": "Fleet Planner",
+  "equation": "min sum(c_ij * x_ij) s.t. network flow continuity",
+  "tables": [
+   "dispatch_routes"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S04-3-PAYLOAD",
+  "name": "Truck Payload Sentinel",
+  "display_name": "Truck Payload Sentinel (S04-3-PAYLOAD)",
+  "ge_id": "4572058693527972819",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/4572058693527972819/session/-",
+  "department": "Fleet/Haulage",
+  "persona": "Fleet Controller",
+  "equation": "P(X > 1.20 * Target_Payload) = 0",
+  "tables": [
+   "fleet_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S04-R-CRITIC",
+  "name": "Dispatch Safety Critic (Red Team)",
+  "display_name": "Dispatch Safety Critic (Red Team) (S04-R-CRITIC)",
+  "ge_id": "408790626050543109",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/408790626050543109/session/-",
+  "department": "Fleet/Haulage",
+  "persona": "Mine Safety Lead",
+  "equation": "Haul Road Grade Braking Runaway Distance Envelope",
+  "tables": [
+   "fleet_telemetry",
+   "safety_telemetry"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S05-COORDINATOR",
+  "name": "Primary Crushing Coordinator",
+  "display_name": "Primary Crushing Coordinator (S05-COORDINATOR)",
+  "ge_id": "15517074791576987099",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/15517074791576987099/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Fixed Plant Superintendent",
+  "equation": "Bond Comminution: W = 10 Wi (1/sqrt(P80) - 1/sqrt(F80))",
+  "tables": [
+   "crusher_telemetry",
+   "assets"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S05-1-CSS",
+  "name": "Crusher CSS Specialist",
+  "display_name": "Crusher CSS Specialist (S05-1-CSS)",
+  "ge_id": "14348532487284515913",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/14348532487284515913/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Crusher Technician",
+  "equation": "Q = 3600 * A_gap * v_discharge",
+  "tables": [
+   "crusher_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S05-2-FEED",
+  "name": "Feeder Speed Specialist",
+  "display_name": "Feeder Speed Specialist (S05-2-FEED)",
+  "ge_id": "5869281968369631097",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/5869281968369631097/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Control Room Operator",
+  "equation": "u(t) = Kp*e(t) + Ki*int(e)dt + Kd*de/dt",
+  "tables": [
+   "crusher_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S05-3-WEAR",
+  "name": "Mantle Wear Estimator",
+  "display_name": "Mantle Wear Estimator (S05-3-WEAR)",
+  "ge_id": "13456155721035413965",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/13456155721035413965/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Fixed Plant Planner",
+  "equation": "V = K * (W * L) / H",
+  "tables": [
+   "assets",
+   "crusher_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S05-R-CRITIC",
+  "name": "Tramp Metal Critic (Red Team)",
+  "display_name": "Tramp Metal Critic (Red Team) (S05-R-CRITIC)",
+  "ge_id": "1150542196225760960",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/1150542196225760960/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Electrical Superintendent",
+  "equation": "Tramp Iron Eddy-Current Sensor Interlock Gate",
+  "tables": [
+   "crusher_telemetry"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S06-COORDINATOR",
+  "name": "Grinding & Milling Coordinator",
+  "display_name": "Grinding & Milling Coordinator (S06-COORDINATOR)",
+  "ge_id": "16231628556639519542",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/16231628556639519542/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Concentrator Superintendent",
+  "equation": "Morrell Specific Energy: W = 4 * M_i * (x2^f(x2) - x1^f(x1))",
+  "tables": [
+   "plant_telemetry",
+   "assets"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S06-1-SAG",
+  "name": "SAG Mill Load Specialist",
+  "display_name": "SAG Mill Load Specialist (S06-1-SAG)",
+  "ge_id": "17267471152570781932",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17267471152570781932/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Mill Operator",
+  "equation": "Acoustic Toe Angle & Ball Charge Trajectory",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S06-2-BALL",
+  "name": "Ball Mill Power Specialist",
+  "display_name": "Ball Mill Power Specialist (S06-2-BALL)",
+  "ge_id": "13921225072596694266",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/13921225072596694266/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Grinding Technician",
+  "equation": "Austin Population Balance Grinding Kinetics",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S06-3-CYCLONE",
+  "name": "Hydrocyclone Split Specialist",
+  "display_name": "Hydrocyclone Split Specialist (S06-3-CYCLONE)",
+  "ge_id": "7787327341957815195",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/7787327341957815195/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Slurry Specialist",
+  "equation": "Plitt Cut Size: d50c = (50.5 * Dc^0.46 * Di^0.6 * Do^0.68) / (Du^0.71 * h^0.38 * Q^0.45)",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S06-R-CRITIC",
+  "name": "Slurry Density Critic (Red Team)",
+  "display_name": "Slurry Density Critic (Red Team) (S06-R-CRITIC)",
+  "ge_id": "13013800279746514045",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/13013800279746514045/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Process Chemist",
+  "equation": "Pipeline Critical Settling Velocity & Slurry Viscosity Limits",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S07-COORDINATOR",
+  "name": "Flotation Recovery Coordinator",
+  "display_name": "Flotation Recovery Coordinator (S07-COORDINATOR)",
+  "ge_id": "4100790245321040707",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/4100790245321040707/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Marcus (Chief Metallurgist)",
+  "equation": "Langmuir Kinetics: R(t) = R_inf * [1 - exp(-k*t)]",
+  "tables": [
+   "flotation_assays",
+   "plant_telemetry"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S07-1-REAGENT",
+  "name": "Collector Dosing Specialist",
+  "display_name": "Collector Dosing Specialist (S07-1-REAGENT)",
+  "ge_id": "12936409017092172708",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/12936409017092172708/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Flotation Technician",
+  "equation": "theta = (K * C) / (1 + K * C)",
+  "tables": [
+   "reagent_inventory"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S07-2-AIR",
+  "name": "Froth Air Specialist",
+  "display_name": "Froth Air Specialist (S07-2-AIR)",
+  "ge_id": "13003249075149879793",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/13003249075149879793/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Plant Metallurgist",
+  "equation": "Gas Holdup: eps_g = J_g / (u_b + J_l)",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S07-3-GRADE",
+  "name": "Concentrate Grade Specialist",
+  "display_name": "Concentrate Grade Specialist (S07-3-GRADE)",
+  "ge_id": "3383821664191445726",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/3383821664191445726/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Smelter Marketing Liaison",
+  "equation": "Separation Efficiency: SE = R_val - R_gangue",
+  "tables": [
+   "flotation_assays"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S07-R-CRITIC",
+  "name": "Smelter Penalty Critic (Red Team)",
+  "display_name": "Smelter Penalty Critic (Red Team) (S07-R-CRITIC)",
+  "ge_id": "2422340200045156267",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/2422340200045156267/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Commercial Metallurgist",
+  "equation": "Arsenic / Bismuth Penalty Threshold Matrix",
+  "tables": [
+   "flotation_assays"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S08-COORDINATOR",
+  "name": "Tailings (TSF) Coordinator",
+  "display_name": "Tailings (TSF) Coordinator (S08-COORDINATOR)",
+  "ge_id": "5704906778757729715",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/5704906778757729715/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "TSF Manager (Engineer of Record)",
+  "equation": "GISTM Dam Conformance & Phreatic Surface Line",
+  "tables": [
+   "tsf_piezometers",
+   "water_balance_logs"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S08-1-WATER",
+  "name": "Decant Water Return Specialist",
+  "display_name": "Decant Water Return Specialist (S08-1-WATER)",
+  "ge_id": "7388494887499711666",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/7388494887499711666/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Water Treatment Operator",
+  "equation": "V_ret = V_in - V_evap - V_seep - V_pore",
+  "tables": [
+   "water_balance_logs"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S08-2-PORE",
+  "name": "Piezometer Pressure Specialist",
+  "display_name": "Piezometer Pressure Specialist (S08-2-PORE)",
+  "ge_id": "17689915318949018488",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17689915318949018488/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Geotech Instrumentation Tech",
+  "equation": "Terzaghi Consolidation: du/dt = c_v * (d2u / dz2)",
+  "tables": [
+   "tsf_piezometers"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S08-3-THICK",
+  "name": "Slurry Thickener Specialist",
+  "display_name": "Slurry Thickener Specialist (S08-3-THICK)",
+  "ge_id": "2504307796515544315",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/2504307796515544315/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Dewatering Technician",
+  "equation": "Kynch Sedimentation Solids Flux Theory",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S08-R-CRITIC",
+  "name": "TSF Liquefaction Critic (Red Team)",
+  "display_name": "TSF Liquefaction Critic (Red Team) (S08-R-CRITIC)",
+  "ge_id": "5536394081075780335",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/5536394081075780335/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Statutory Geotechnical Reviewer",
+  "equation": "Critical State Soil Mechanics & Static Liquefaction Index",
+  "tables": [
+   "tsf_piezometers",
+   "safety_permits"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S09-COORDINATOR",
+  "name": "Asset Reliability Swarm Coordinator",
+  "display_name": "Asset Reliability Swarm Coordinator (S09-COORDINATOR)",
+  "ge_id": "523079695801690856",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/523079695801690856/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Priya (Reliability Superintendent)",
+  "equation": "Weibull Hazard Rate: h(t) = (beta / eta) * (t / eta)^(beta - 1)",
+  "tables": [
+   "assets",
+   "crusher_telemetry",
+   "erp_work_orders"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S09-1-VIBRATION",
+  "name": "Vibration FFT Specialist",
+  "display_name": "Vibration FFT Specialist (S09-1-VIBRATION)",
+  "ge_id": "1209525171906486472",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/1209525171906486472/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Vibration Analyst (Category III)",
+  "equation": "ISO 10816-3 RMS Velocity & BPFI Harmonics",
+  "tables": [
+   "assets",
+   "crusher_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S09-2-TRIBOLOGY",
+  "name": "Oil Tribology Specialist",
+  "display_name": "Oil Tribology Specialist (S09-2-TRIBOLOGY)",
+  "ge_id": "6541943629968723451",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/6541943629968723451/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Lubrication Technician",
+  "equation": "PQ Index & Karl Fischer Moisture PPM",
+  "tables": [
+   "assets",
+   "lube_samples"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S09-3-THERMAL",
+  "name": "Thermal IR Specialist",
+  "display_name": "Thermal IR Specialist (S09-3-THERMAL)",
+  "ge_id": "12266523653873596783",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/12266523653873596783/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Thermographer",
+  "equation": "Delta T Component Temperature Rise Model",
+  "tables": [
+   "assets",
+   "crusher_telemetry"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S09-R-CRITIC",
+  "name": "Maintenance Safety Critic (Red Team)",
+  "display_name": "Maintenance Safety Critic (Red Team) (S09-R-CRITIC)",
+  "ge_id": "3018210570239869511",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/3018210570239869511/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Safety Supervisor",
+  "equation": "LOTO Isolation Integrity & Failure Window Safety Gate",
+  "tables": [
+   "assets",
+   "erp_work_orders"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S10-COORDINATOR",
+  "name": "Procurement Coordinator",
+  "display_name": "Procurement Coordinator (S10-COORDINATOR)",
+  "ge_id": "5402454714704667630",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/5402454714704667630/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Sarah (Supply Chain Superintendent)",
+  "equation": "Invoice Contract Matching & Rate Card Variance",
+  "tables": [
+   "vendor_contracts",
+   "invoices"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S10-1-CONTRACT",
+  "name": "Contract Rate Auditor",
+  "display_name": "Contract Rate Auditor (S10-1-CONTRACT)",
+  "ge_id": "4380926452236138549",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/4380926452236138549/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Procurement Analyst",
+  "equation": "Levenshtein Distance & Unit Price Deviation",
+  "tables": [
+   "vendor_contracts"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S10-2-ESCALATE",
+  "name": "PPI Indexation Auditor",
+  "display_name": "PPI Indexation Auditor (S10-2-ESCALATE)",
+  "ge_id": "15145174503599723797",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/15145174503599723797/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Commercial Specialist",
+  "equation": "P_t = P_0 * [a + b*(L_t/L_0) + c*(M_t/M_0)]",
+  "tables": [
+   "vendor_contracts"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S10-3-WARRANTY",
+  "name": "Warranty Recovery Specialist",
+  "display_name": "Warranty Recovery Specialist (S10-3-WARRANTY)",
+  "ge_id": "10236263633444215320",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/10236263633444215320/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Asset Accountant",
+  "equation": "MTBF vs Warranty Period Recovery Claimer",
+  "tables": [
+   "assets",
+   "vendor_contracts"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S10-R-CRITIC",
+  "name": "Anti-Bribery Audit Critic (Red Team)",
+  "display_name": "Anti-Bribery Audit Critic (Red Team) (S10-R-CRITIC)",
+  "ge_id": "6963659721239708994",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/6963659721239708994/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Internal Auditor",
+  "equation": "Vendor Beneficial Ownership & Single-Source Flags",
+  "tables": [
+   "vendor_contracts",
+   "invoices"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S11-COORDINATOR",
+  "name": "Spares Inventory Coordinator",
+  "display_name": "Spares Inventory Coordinator (S11-COORDINATOR)",
+  "ge_id": "2773276585102532221",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/2773276585102532221/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Warehouse Superintendent",
+  "equation": "Wilson EOQ: Q* = sqrt(2*D*S / H)",
+  "tables": [
+   "spares_inventory",
+   "purchase_orders"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S11-1-STOCK",
+  "name": "Safety Stock Optimizer",
+  "display_name": "Safety Stock Optimizer (S11-1-STOCK)",
+  "ge_id": "8952188845126189763",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/8952188845126189763/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Inventory Planner",
+  "equation": "SS = Z_alpha * sqrt(L * sigma_D^2 + D^2 * sigma_L^2)",
+  "tables": [
+   "spares_inventory"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S11-2-LEADTIME",
+  "name": "Vendor Lead Time Specialist",
+  "display_name": "Vendor Lead Time Specialist (S11-2-LEADTIME)",
+  "ge_id": "9319212464069988816",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/9319212464069988816/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Supply Expediter",
+  "equation": "Gamma Distribution Lead Time Modeling",
+  "tables": [
+   "purchase_orders"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S11-3-HOLDING",
+  "name": "Carrying Cost Analyzer",
+  "display_name": "Carrying Cost Analyzer (S11-3-HOLDING)",
+  "ge_id": "3626231911448469840",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/3626231911448469840/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Cost Controller",
+  "equation": "H = C_unit * (i + w + o)",
+  "tables": [
+   "spares_inventory"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S11-R-CRITIC",
+  "name": "Dead Stock Critic (Red Team)",
+  "display_name": "Dead Stock Critic (Red Team) (S11-R-CRITIC)",
+  "ge_id": "14327129105282995811",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/14327129105282995811/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Finance Auditor",
+  "equation": "Inactive Inventory Aging (>365 Days) Write-Down",
+  "tables": [
+   "spares_inventory"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S12-COORDINATOR",
+  "name": "Supply Chain & Port Coordinator",
+  "display_name": "Supply Chain & Port Coordinator (S12-COORDINATOR)",
+  "ge_id": "15457650955703083468",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/15457650955703083468/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Logistics Manager",
+  "equation": "Dynamic Network Sim: min sum(Rail + Port + Demurrage)",
+  "tables": [
+   "rail_schedules",
+   "port_vessels",
+   "stockpiles"
+  ],
+  "pattern": "A_COORDINATOR",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S12-1-RAIL",
+  "name": "Train Cycle Dispatch Specialist",
+  "display_name": "Train Cycle Dispatch Specialist (S12-1-RAIL)",
+  "ge_id": "17163419417666421589",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17163419417666421589/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Rail Controller",
+  "equation": "Railway Headway & Velocity Optimization",
+  "tables": [
+   "rail_schedules"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S12-2-BLEND",
+  "name": "Port Stockpile Blend Specialist",
+  "display_name": "Port Stockpile Blend Specialist (S12-2-BLEND)",
+  "ge_id": "17572349194673256958",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17572349194673256958/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Port Metallurgist",
+  "equation": "Linear Blend Optimization: min ||A*x - b||",
+  "tables": [
+   "stockpiles"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "S12-3-BERTH",
+  "name": "Marine Laytime & Demurrage Specialist",
+  "display_name": "Marine Laytime & Demurrage Specialist (S12-3-BERTH)",
+  "ge_id": "17205870215175020849",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17205870215175020849/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Marine Broker",
+  "equation": "BIMCO Laytime Pro-Rata & Demurrage Liability",
+  "tables": [
+   "port_vessels"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "S12-R-CRITIC",
+  "name": "Moisture & TML Critic (Red Team)",
+  "display_name": "Moisture & TML Critic (Red Team) (S12-R-CRITIC)",
+  "ge_id": "15122170761949992179",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/15122170761949992179/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Cargo Surveyor",
+  "equation": "IMSBC Transportable Moisture Limit (TML) Interlock",
+  "tables": [
+   "port_vessels",
+   "stockpiles"
+  ],
+  "pattern": "A_CRITIC",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D01",
+  "name": "Core Image Segmenter",
+  "display_name": "Core Image Segmenter (D01)",
+  "ge_id": "7961791724780686286",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/7961791724780686286/session/-",
+  "department": "Exploration/Geology",
+  "persona": "Elena (Mine Geologist)",
+  "equation": "ResNet-UNet Rock Classifier (<12s/tray)",
+  "tables": [
+   "drill_holes"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D02",
+  "name": "Hyperspectral Mineral Mapper",
+  "display_name": "Hyperspectral Mineral Mapper (D02)",
+  "ge_id": "905468479589496947",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/905468479589496947/session/-",
+  "department": "Exploration/Geology",
+  "persona": "Geochemist",
+  "equation": "SWIR/VNIR Spectral Feature Extractor",
+  "tables": [
+   "drill_holes",
+   "assay_logs"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D03",
+  "name": "JORC Classification Auditor",
+  "display_name": "JORC Classification Auditor (D03)",
+  "ge_id": "4649342689434985829",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/4649342689434985829/session/-",
+  "department": "Exploration/Geology",
+  "persona": "Competent Person",
+  "equation": "Spatial Drill Spacing Confidence Index",
+  "tables": [
+   "drill_holes",
+   "geological_block_models"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D04",
+  "name": "Blast Wave Front Sim",
+  "display_name": "Blast Wave Front Sim (D04)",
+  "ge_id": "17821761931664506582",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17821761931664506582/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "D&B Specialist",
+  "equation": "Chapman-Jouguet Detonation Hugoniot Solver",
+  "tables": [
+   "blast_designs"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D05",
+  "name": "Flyrock Trajectory Predictor",
+  "display_name": "Flyrock Trajectory Predictor (D05)",
+  "ge_id": "12044950816072083474",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/12044950816072083474/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Shotfirer",
+  "equation": "Ballistic Range: R = (v0^2 * sin(2*theta)) / g",
+  "tables": [
+   "blast_designs"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D06",
+  "name": "In-Situ Fragment Analyzer",
+  "display_name": "In-Situ Fragment Analyzer (D06)",
+  "ge_id": "17733897435877732313",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17733897435877732313/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "D&B Engineer",
+  "equation": "Split-Desktop High-Res Image Segmentation",
+  "tables": [
+   "blast_designs"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D07",
+  "name": "Radar Slope Displacement",
+  "display_name": "Radar Slope Displacement (D07)",
+  "ge_id": "5771882020233678970",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/5771882020233678970/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Geotech Engineer",
+  "equation": "InSAR Phase Shift Velocity Gradient Delta_phi",
+  "tables": [
+   "geotech_sensors"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D08",
+  "name": "Borehole Seismicity Sentinel",
+  "display_name": "Borehole Seismicity Sentinel (D08)",
+  "ge_id": "16222986639730781285",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/16222986639730781285/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Microseismic Technician",
+  "equation": "Gutenberg-Richter Law: log(N) = a - b*M",
+  "tables": [
+   "geotech_sensors"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D09",
+  "name": "Bench Drainage Permeability",
+  "display_name": "Bench Drainage Permeability (D09)",
+  "ge_id": "1371995073496644570",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/1371995073496644570/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "Hydrogeologist",
+  "equation": "Darcy's Law: Q = -k * A * (dh / dl)",
+  "tables": [
+   "pit_designs"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D10",
+  "name": "Haul Road Rolling Resist",
+  "display_name": "Haul Road Rolling Resist (D10)",
+  "ge_id": "10833388638952133340",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/10833388638952133340/session/-",
+  "department": "Fleet/Haulage",
+  "persona": "Civil Road Superintendent",
+  "equation": "Rolling Resistance: RR = W * (C_rr + sin(theta))",
+  "tables": [
+   "fleet_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D11",
+  "name": "Fleet Fuel Burn Sentinel",
+  "display_name": "Fleet Fuel Burn Sentinel (D11)",
+  "ge_id": "13101384251525449016",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/13101384251525449016/session/-",
+  "department": "Fleet/Haulage",
+  "persona": "Energy Manager",
+  "equation": "Specific Fuel Consumption: SFC = m_dot_f / P_engine",
+  "tables": [
+   "fleet_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D12",
+  "name": "Tire TKPH Telemetry Agent",
+  "display_name": "Tire TKPH Telemetry Agent (D12)",
+  "ge_id": "9758962924959748081",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/9758962924959748081/session/-",
+  "department": "Fleet/Haulage",
+  "persona": "Mobile Fleet Maintenance Lead",
+  "equation": "TKPH = Q_avg * V_avg <= Rating",
+  "tables": [
+   "fleet_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D13",
+  "name": "Shovel GET Tooth Sentinel",
+  "display_name": "Shovel GET Tooth Sentinel (D13)",
+  "ge_id": "6134679660633629158",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/6134679660633629158/session/-",
+  "department": "Fleet/Haulage",
+  "persona": "Shovel Operator",
+  "equation": "YOLOv8 Ground Engaging Tool Watcher",
+  "tables": [
+   "fleet_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D14",
+  "name": "Autogenous Grinding Sound",
+  "display_name": "Autogenous Grinding Sound (D14)",
+  "ge_id": "17829819385329910239",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17829819385329910239/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Mill Operator",
+  "equation": "Acoustic Power Spectrum 1/3 Octave Band FFT",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D15",
+  "name": "Trommel Screen Blinding",
+  "display_name": "Trommel Screen Blinding (D15)",
+  "ge_id": "6344681735013446444",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/6344681735013446444/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Concentrator Technician",
+  "equation": "Aperture Occlusion Optical Flow Percentage",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D16",
+  "name": "Slurry Pump Cavitation",
+  "display_name": "Slurry Pump Cavitation (D16)",
+  "ge_id": "3255539541494084213",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/3255539541494084213/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Fixed Plant Fitter",
+  "equation": "Net Positive Suction Head: NPSHa > NPSHr",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D17",
+  "name": "Sump Level Anti-Surge",
+  "display_name": "Sump Level Anti-Surge (D17)",
+  "ge_id": "7025307563315550538",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/7025307563315550538/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Process Control Specialist",
+  "equation": "Mass Balance Continuity: A * (dh/dt) = Q_in - Q_out",
+  "tables": [
+   "plant_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D18",
+  "name": "Froth Bubble Sizing/Color",
+  "display_name": "Froth Bubble Sizing/Color (D18)",
+  "ge_id": "17273012408267433389",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17273012408267433389/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Flotation Technician",
+  "equation": "Sauter Mean Bubble Diameter d32 & RGB Grade Proxy",
+  "tables": [
+   "flotation_assays",
+   "plant_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D19",
+  "name": "Xanthate Degradation",
+  "display_name": "Xanthate Degradation (D19)",
+  "ge_id": "2463177645997507271",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/2463177645997507271/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Reagent Chemist",
+  "equation": "1st-Order Hydrolysis Kinetics: C(t) = C_0 * exp(-k*t)",
+  "tables": [
+   "reagent_inventory"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D20",
+  "name": "Acid Mine Drainage ORP",
+  "display_name": "Acid Mine Drainage ORP (D20)",
+  "ge_id": "1126839582103419021",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/1126839582103419021/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "Environmental Superintendent",
+  "equation": "Nernst Equation: E_h = E0 - (RT/nF) * ln(Q)",
+  "tables": [
+   "water_balance_logs"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D21",
+  "name": "Tailings Beach Slope",
+  "display_name": "Tailings Beach Slope (D21)",
+  "ge_id": "5611152752644422239",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/5611152752644422239/session/-",
+  "department": "Mineral Processing/Plant",
+  "persona": "TSF Engineer",
+  "equation": "Non-Newtonian Yield Stress: tau_y = rho * g * h * sin(theta)",
+  "tables": [
+   "tsf_piezometers"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D22",
+  "name": "Transformer Dissolved Gas",
+  "display_name": "Transformer Dissolved Gas (D22)",
+  "ge_id": "17610690989667960583",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17610690989667960583/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "HV Electrician",
+  "equation": "Duval Triangle & DGA Ratio (Acetylene / Hydrogen)",
+  "tables": [
+   "assets"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D23",
+  "name": "Motor Partial Discharge",
+  "display_name": "Motor Partial Discharge (D23)",
+  "ge_id": "5183629188203019270",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/5183629188203019270/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Electrical Engineer",
+  "equation": "High-Frequency Transient Phase-Resolved PD",
+  "tables": [
+   "assets"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D24",
+  "name": "Conveyor Belt Rip Ultra",
+  "display_name": "Conveyor Belt Rip Ultra (D24)",
+  "ge_id": "12470560680853903472",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/12470560680853903472/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Belt Splicer Lead",
+  "equation": "Time-of-Flight Acoustic Wave Attenuation",
+  "tables": [
+   "assets"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D25",
+  "name": "Chute Wear Ultrasonic",
+  "display_name": "Chute Wear Ultrasonic (D25)",
+  "ge_id": "5181698511014105791",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/5181698511014105791/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Boilermaker Lead",
+  "equation": "Ultrasonic Thickness Pulse-Echo Gauge: d = (v * t) / 2",
+  "tables": [
+   "assets"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D26",
+  "name": "Maintenance Work Backlog",
+  "display_name": "Maintenance Work Backlog (D26)",
+  "ge_id": "424629171197778528",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/424629171197778528/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Tom (Maintenance Planner)",
+  "equation": "Critical Path Method (CPM) Schedule Float",
+  "tables": [
+   "erp_work_orders"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D27",
+  "name": "Contractor Idle Fee Audit",
+  "display_name": "Contractor Idle Fee Audit (D27)",
+  "ge_id": "14871181550156206719",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/14871181550156206719/session/-",
+  "department": "Commercial/Finance/Strategy",
+  "persona": "Commercial Manager",
+  "equation": "Standby Hours vs Daily Rate Dispute Validator",
+  "tables": [
+   "vendor_contracts",
+   "fleet_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "D28",
+  "name": "Fuel Bunkering Density",
+  "display_name": "Fuel Bunkering Density (D28)",
+  "ge_id": "8219039806167601700",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/8219039806167601700/session/-",
+  "department": "Commercial/Finance/Strategy",
+  "persona": "Fuel Logistics Officer",
+  "equation": "API Gravity: API = (141.5 / SG) - 131.5",
+  "tables": [
+   "purchase_orders"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "D29",
+  "name": "Grinding Ball Wear Batch",
+  "display_name": "Grinding Ball Wear Batch (D29)",
+  "ge_id": "16177627500456872112",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/16177627500456872112/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Plant Metallurgist",
+  "equation": "Bond Wear Rate: M_ball = 0.16 * (Wi - 7)^0.5",
+  "tables": [
+   "spares_inventory",
+   "plant_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D30",
+  "name": "Lube Oil Cleanliness",
+  "display_name": "Lube Oil Cleanliness (D30)",
+  "ge_id": "3203587165096507461",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/3203587165096507461/session/-",
+  "department": "Asset Integrity/Maintenance",
+  "persona": "Tribologist",
+  "equation": "ISO 4406 Solid Contamination Cleanliness Code",
+  "tables": [
+   "assets",
+   "lube_samples"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D32",
+  "name": "Consignment Stock Logger",
+  "display_name": "Consignment Stock Logger (D32)",
+  "ge_id": "4122039674810283352",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/4122039674810283352/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Warehouse Clerk",
+  "equation": "RFID Tag vs SAP Movement Type 201 Reconciler",
+  "tables": [
+   "spares_inventory"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "D33",
+  "name": "Laytime BIMCO Parser",
+  "display_name": "Laytime BIMCO Parser (D33)",
+  "ge_id": "583739645883463374",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/583739645883463374/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Logistics Officer",
+  "equation": "BIMCO Laytime Standard Statement of Fact Parser",
+  "tables": [
+   "port_vessels"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class A (Cash)"
+ },
+ {
+  "agent_id": "D34",
+  "name": "Reagent Shelf Life",
+  "display_name": "Reagent Shelf Life (D34)",
+  "ge_id": "8228845743322555862",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/8228845743322555862/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Hazmat Technician",
+  "equation": "Arrhenius Reaction: k = A * exp(-E_a / RT)",
+  "tables": [
+   "reagent_inventory"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D35",
+  "name": "Locomotive Brake Curve",
+  "display_name": "Locomotive Brake Curve (D35)",
+  "ge_id": "13394976667368344513",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/13394976667368344513/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Rail Master",
+  "equation": "Braking Distance: d = v^2 / [2g*(mu +- theta)]",
+  "tables": [
+   "rail_schedules"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D36",
+  "name": "Shiploader 3D LiDAR",
+  "display_name": "Shiploader 3D LiDAR (D36)",
+  "ge_id": "17690808582680002326",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/17690808582680002326/session/-",
+  "department": "Supply Chain/Logistics",
+  "persona": "Shiploader Operator",
+  "equation": "3D LiDAR Collision Margin: Distance > 5.0m",
+  "tables": [
+   "port_vessels"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D37",
+  "name": "SAFTE Driver Fatigue",
+  "display_name": "SAFTE Driver Fatigue (D37)",
+  "ge_id": "4130455342070868544",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/4130455342070868544/session/-",
+  "department": "Safety/OHSE/ESG",
+  "persona": "Jack (Mine Safety Lead)",
+  "equation": "SAFTE Score: E(t) = S(t) + C(t) - P(t)",
+  "tables": [
+   "fatigue_monitoring_logs"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D38",
+  "name": "Confined Space Gas",
+  "display_name": "Confined Space Gas (D38)",
+  "ge_id": "10224314405726841486",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/10224314405726841486/session/-",
+  "department": "Safety/OHSE/ESG",
+  "persona": "Industrial Hygienist",
+  "equation": "Gas Limits: LEL < 10%, O2 in [19.5, 23.5]%, H2S < 10ppm",
+  "tables": [
+   "safety_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "D39",
+  "name": "Carbon Scope 1/2 Tracker",
+  "display_name": "Carbon Scope 1/2 Tracker (D39)",
+  "ge_id": "9664629732570460254",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/9664629732570460254/session/-",
+  "department": "Safety/OHSE/ESG",
+  "persona": "Sustainability Lead",
+  "equation": "GHG Protocol: CO2e = sum(Fuel * EF) + (Grid_MWh * EF)",
+  "tables": [
+   "fleet_telemetry",
+   "plant_telemetry"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ },
+ {
+  "agent_id": "D40",
+  "name": "Statutory Permit Guardian",
+  "display_name": "Statutory Permit Guardian (D40)",
+  "ge_id": "12178037606655907260",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/12178037606655907260/session/-",
+  "department": "Safety/OHSE/ESG",
+  "persona": "Legal Counsel & Compliance Officer",
+  "equation": "Regulatory Obligation NLP Entity Matcher & Tenement Lease Auditor",
+  "tables": [
+   "tenement_leases",
+   "safety_permits"
+  ],
+  "pattern": "B_DEEP",
+  "hitl": "",
+  "value_class": "Class C (Risk)"
+ },
+ {
+  "agent_id": "S03-3-VIBRATION",
+  "name": "Blast Vibration Sentinel",
+  "display_name": "Blast Vibration Sentinel (S03-3-VIBRATION)",
+  "ge_id": "9816945852212110694",
+  "url": "https://vertexaisearch.cloud.google.com/home/cid/YOUR_AGENTSPACE_CID/r/agent/9816945852212110694/session/-",
+  "department": "Mine Planning/Operations",
+  "persona": "D&B Engineer",
+  "equation": "B = K_b * d_h * sqrt(rho_e / rho_r)",
+  "tables": [
+   "blast_designs"
+  ],
+  "pattern": "A_SPECIALIST",
+  "hitl": "",
+  "value_class": "Class B (Metric)"
+ }
+]

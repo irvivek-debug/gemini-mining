@@ -1,0 +1,68 @@
+{
+  "captured_at_utc": "2026-08-11T04:34:59.397387+00:00",
+  "note": "ML.EVALUATE on each model AFTER the Task-10b retrain, every query run with use_query_cache=False. Compare against data/models/pre_retrain_metrics.json, which holds the irrecoverable pre-retrain values. The seven are evaluated on their own reserved AUTO_SPLIT; telemetry_alarm_risk_model's split here is entirely pre-ramp - its out-of-sample figure on the held-out degradation period is roc_auc 0.9417 (3259 rows, 291 positives), see the Task 10b report.",
+  "project": "your-gcp-project-id",
+  "dataset": "mining_data",
+  "metrics": {
+    "asset_clustering_model": {
+      "davies_bouldin_index": 0.3320816048845834,
+      "mean_squared_distance": 0.3160245575737691
+    },
+    "downtime_regression_model": {
+      "mean_absolute_error": 28.626165719924096,
+      "mean_squared_error": 1088.5905784078586,
+      "mean_squared_log_error": 0.02191977160857275,
+      "median_absolute_error": 27.431693196304394,
+      "r2_score": 0.45796391718922624,
+      "explained_variance": 0.45798187834583404
+    },
+    "inventory_impact_model": {
+      "mean_absolute_error": 5.549063833617159e-07,
+      "mean_squared_error": 3.7965161622803953e-13,
+      "mean_squared_log_error": 2.5784052150870272e-18,
+      "median_absolute_error": 7.09361358985916e-07,
+      "r2_score": 0.9999999999999998,
+      "explained_variance": 0.9999999999999998
+    },
+    "inventory_impact_model_crusher": {
+      "mean_absolute_error": 4.457768731459824,
+      "mean_squared_error": 25.900779425996642,
+      "mean_squared_log_error": 0.23762119910229668,
+      "median_absolute_error": 4.096759977211084,
+      "r2_score": 0.023475058114796776,
+      "explained_variance": 0.02424888649293333
+    },
+    "inventory_impact_model_mill": {
+      "mean_absolute_error": 4.462759030221104,
+      "mean_squared_error": 25.054705341594854,
+      "mean_squared_log_error": 0.2828167408640701,
+      "median_absolute_error": 4.342256873507553,
+      "r2_score": 0.005893199612565181,
+      "explained_variance": 0.005946901256547954
+    },
+    "inventory_impact_model_pump": {
+      "mean_absolute_error": 4.926765915730792,
+      "mean_squared_error": 31.098580111751847,
+      "mean_squared_log_error": 0.5442769386661442,
+      "median_absolute_error": 5.474332434119507,
+      "r2_score": 0.020489168729247886,
+      "explained_variance": 0.02050096557421932
+    },
+    "safety_model": {
+      "precision": 0.4132716049382716,
+      "recall": 0.39218125960061445,
+      "accuracy": 0.44525547445255476,
+      "f1_score": 0.35154257507198683,
+      "log_loss": 1.0941458595261253,
+      "roc_auc": 0.5397395937395937
+    },
+    "telemetry_alarm_risk_model": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "accuracy": 0.9471759447379114,
+      "f1_score": 0.0,
+      "log_loss": 0.20284767692101138,
+      "roc_auc": 0.6041188811188811
+    }
+  }
+}

@@ -1,0 +1,705 @@
+{
+  "generated_at": "2026-08-18T05:48:49+00:00",
+  "source": "docs/persona-profiles.yaml",
+  "personas": {
+    "P1": {
+      "code": "P1",
+      "title": "Reliability Engineer",
+      "accountable_for": "The Reliability Engineer is accountable for the mechanical health of the mine's fixed and mobile assets \u2014 SAG mills, ball mills, conveyors, crushers, and the haul fleet. The role sits at the intersection of condition monitoring, fault diagnosis, and maintenance input: the engineer decides what is wrong and how urgent it is, so the Maintenance Planner can decide what to do about it.\n",
+      "pain_points": [
+        {
+          "quote": "I need three systems open at once just to answer one question.",
+          "source_line": 266
+        },
+        {
+          "quote": "The alarm went off at 2 a.m. but by the time I reviewed it at six it had cleared \u2014 I can't tell if it was a real fault or a nuisance trip.",
+          "source_line": 266
+        },
+        {
+          "quote": "If that mill goes down it's $145k an hour \u2014 I can't afford to be wrong.",
+          "source_line": 266
+        },
+        {
+          "quote": "Half my day is data wrangling, not engineering.",
+          "source_line": 267
+        }
+      ],
+      "jobs_to_be_done": [
+        "Pull the full frequency-domain signature for an asset and compare it against its historical baseline without opening the historian manually, in order to distinguish a genuine bearing fault from a transient load spike before raising a work order.",
+        "See a thermal drift trend for an asset across the last 7\u201314 days, with deviation from rolling baseline highlighted, so that the decision to schedule immediate work or monitor for another cycle is based on whether the trend is accelerating or stabilising.",
+        "Rank assets by their downstream criticality so the Maintenance Planner receives a defensible priority list rather than an opinion.",
+        "Replay a digital twin simulation run to see what the predicted asset state would have been under a proposed maintenance regime, so that a change can be justified or rejected with evidence rather than intuition."
+      ],
+      "journey": {
+        "title": "Mill Bearing Thermal Event \u2014 Overnight Alarm to Work Order",
+        "source_line": 276,
+        "summary": "The Reliability Engineer arrives at 06:00 and finds a HIGH_TEMP alert on MILL-SAG-01 that cleared at 04:22 but peaked 6\u00b0C above the 30-day rolling baseline. D02 is invoked and returns a trend showing this is the fourth excursion in 14 days with a statistically significant upward slope; D01 corroborates with elevated energy in the outer-race fault frequency band. D05 confirms the downstream blast radius includes three assets including the primary cyclone feed pump. The engineer raises a priority-elevated work order and presents the D05 dependency ranking at the 07:30 planning meeting to argue for an accelerated shutdown slot.\n"
+      },
+      "agents": [
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "S01",
+        "S03"
+      ],
+      "value_branch": "asset_reliability",
+      "agent_count": 8,
+      "hitl_agents": [
+        "S01"
+      ],
+      "method": {
+        "metric": "unplanned repair cost per asset"
+      },
+      "cards": [
+        {
+          "agent_id": "S01",
+          "display_name": "Cascading Failure Impact & Recovery Coordinator",
+          "decision": "What fails next, when to take it, and exactly what the work order should say.",
+          "leaks": [
+            "Blind spot",
+            "Latency"
+          ],
+          "archetype": "Diagnostician",
+          "authority": "L1 \u2014 Recommend",
+          "financial_lines": [
+            {
+              "line": "unplanned repair cost \u2192 C1 cash cost",
+              "evidence_class": "B"
+            }
+          ],
+          "honest_limit": "Data-driven remaining-useful-life estimation needs run-to-failure data, and well-maintained machines are protected from failing by definition \u2014 this starts physics- and rule-based, and earns the data over time.",
+          "metric_impacts": [
+            {
+              "metric": "Unplanned downtime",
+              "direction": "decrease",
+              "low_pct": 30.0,
+              "high_pct": 50.0,
+              "source": "McKinsey / Deloitte, predictive maintenance"
+            }
+          ],
+          "pack": "p1-reliability.yaml",
+          "coverage": {
+            "instrumented": 5,
+            "total": 7
+          }
+        },
+        {
+          "agent_id": "S03",
+          "display_name": "Fleet Reliability & Availability Coordinator",
+          "decision": "Which failures are recoverable, and whether the evidence supports the claim.",
+          "leaks": [
+            "Blind spot",
+            "Latency"
+          ],
+          "archetype": "Negotiator",
+          "authority": "L1 \u2014 Recommend",
+          "financial_lines": [
+            {
+              "line": "warranty and OEM claims recovery \u2192 other income / cost recovery",
+              "evidence_class": "A"
+            }
+          ],
+          "honest_limit": "There is no published data on unclaimed warranty value in heavy industry; the baseline must come from the site's own claims history, and any vendor-quoted figure is unsourceable.",
+          "metric_impacts": [],
+          "pack": "agt13-warranty.yaml",
+          "coverage": {
+            "instrumented": 4,
+            "total": 5
+          }
+        }
+      ]
+    },
+    "P2": {
+      "code": "P2",
+      "title": "Maintenance Planner",
+      "accountable_for": "The Maintenance Planner translates the Reliability Engineer's fault diagnoses into executable work: scheduling technicians, securing parts, coordinating with operations for equipment access windows, and managing the backlog. The role is primarily office-based, highly administrative, and deeply dependent on information from other functions arriving on time and in usable form.\n",
+      "pain_points": [
+        {
+          "quote": "I've got four crews and 80 open orders \u2014 tell me which ones actually need to happen today.",
+          "source_line": 402
+        },
+        {
+          "quote": "The part was supposed to be in stores, the technician showed up and it wasn't there.",
+          "source_line": 402
+        },
+        {
+          "quote": "Operations kept moving the access window and I only found out when my crew was already in PPE.",
+          "source_line": 402
+        },
+        {
+          "quote": "If this order slips one more time and the asset fails, everyone will ask why I didn't escalate it \u2014 but there was no data supporting escalation at the time.",
+          "source_line": 404
+        }
+      ],
+      "jobs_to_be_done": [
+        "Receive a priority-ranked triage of the open work order backlog that accounts for asset criticality, parts availability, and access window, so that the day opens with a defensible execution plan rather than priority calls made from gut feel.",
+        "Understand the risk profile of deferring a work order for one or two weeks \u2014 specifically whether the asset's degradation history suggests deferral is acceptable \u2014 so that a deferral decision can be made and documented properly.",
+        "Identify whether repeat failures on the same asset are caused by an underlying unresolved defect, inadequate repair quality, or wrong maintenance interval, so that the issue is escalated for root-cause investigation rather than another symptomatic repair being scheduled.",
+        "Immediately understand which assets are at risk in a cascading failure, in what sequence, and how long each outage is likely to last, so that the right technician teams and parts are mobilised before the cascade reaches the critical path."
+      ],
+      "journey": {
+        "title": "Cascading Failure \u2014 Conveyor Trip Propagating to Mill Feed",
+        "source_line": 412,
+        "summary": "A radio call mid-morning reports that the primary feed conveyor has tripped and the mill is starved. The Maintenance Planner invokes S01, whose specialists run in parallel: SP1 confirms the anomaly is genuine, SP2 traces the downstream blast radius through asset dependencies, and SP3 forecasts outage duration per affected asset from maintenance logs. The S01-CRITIC flags that the proposed repair sequence assumes a specific part is in stores. A mandatory HITL approval step follows: the coordinator presents a ranked recovery plan and the planner must approve, modify, or reject before any plan is committed to the CMMS.\n"
+      },
+      "agents": [
+        "D07",
+        "D08",
+        "D09",
+        "D10",
+        "S02"
+      ],
+      "value_branch": "maintenance_execution",
+      "agent_count": 5,
+      "hitl_agents": [
+        "D07",
+        "S02"
+      ],
+      "method": {
+        "metric": "maintenance cost per completed work order"
+      },
+      "cards": [
+        {
+          "agent_id": "S02",
+          "display_name": "Planned Shutdown Readiness Coordinator",
+          "decision": "Which work orders are ready for the shutdown window, and whether the parts and lead time on hand actually support committing to it.",
+          "leaks": [
+            "Blind spot",
+            "Latency"
+          ],
+          "archetype": "Diagnostician",
+          "authority": "L1 \u2014 Recommend",
+          "financial_lines": [
+            {
+              "line": "maintenance cost per completed work order \u2192 maintenance cost as % of opex",
+              "evidence_class": "B"
+            }
+          ],
+          "honest_limit": "Work order records carry no planned date or due date field, so schedule compliance against a plan cannot be evidenced from them \u2014 only realised cost against priority and backlog age can be.",
+          "metric_impacts": [
+            {
+              "metric": "Maintenance cost",
+              "direction": "decrease",
+              "low_pct": 18.0,
+              "high_pct": 25.0,
+              "source": "McKinsey"
+            }
+          ],
+          "pack": "p2-planner.yaml",
+          "coverage": {
+            "instrumented": 4,
+            "total": 6
+          }
+        }
+      ]
+    },
+    "P3": {
+      "code": "P3",
+      "title": "HSE Lead",
+      "accountable_for": "The HSE Lead is accountable for safety across the shift: reviewing fatigue flags before crew mobilisation, monitoring radio traffic for emergency signals, tracking incident severity trends, and providing the safety-case opinion whenever a stand-down recommendation is raised. The HSE Lead must approve or decline HITL prompts from D37 and S11; the Shift Supervisor holds operational stand-down authority.\n",
+      "pain_points": [
+        {
+          "quote": "I need to know if that operator is fit to drive a 300-tonne truck right now, not in two hours.",
+          "source_line": 988
+        },
+        {
+          "quote": "The system flagged a stand-down recommendation but I need to sign off on it \u2014 what exactly is it looking at?",
+          "source_line": 988
+        },
+        {
+          "quote": "If this goes to the regulator, I need every data point to be traceable.",
+          "source_line": 988
+        },
+        {
+          "quote": "The fatigue score comes from biometric data I can't fully verify. If I stand someone down and the union grieves it, I need to show the score is defensible \u2014 not just a black box.",
+          "source_line": 989
+        }
+      ],
+      "jobs_to_be_done": [
+        "See a ranked fatigue risk score for each operator at shift start without reading raw biometric numbers, in order to identify who to monitor and which stand-down conversations to have before wheels roll.",
+        "See the trend of an operator's microsleep events over the current and preceding shifts so that an isolated anomaly can be distinguished from a deteriorating pattern that requires intervention.",
+        "Receive a triage summary that flags emergency language or distress signals in radio traffic before manual monitoring would catch them, in order to respond to emerging emergencies earlier.",
+        "Receive a corroborated evidence package \u2014 incident record, operator involvement trace, radio transcript excerpt \u2014 reviewed for internal consistency, so that a defensible root-cause finding can be produced without spending a full day cross-referencing systems manually."
+      ],
+      "journey": {
+        "title": "Operator Fatigue Stand-down at Hour 9 of a 12-Hour Shift",
+        "source_line": 995,
+        "summary": "An operator is six hours into the afternoon shift when D35 flags an elevated fatigue risk score and D36 adds a microsleep trend annotation. S10 is triggered and its three specialists re-score, determine escalation need, and assess shift coverage impact; S10-CRITIC challenges the recommendation before it is surfaced. The HSE Lead reviews aggregate scores and trend indicators (raw biometric values are masked at the application layer) and must assess whether the biometric signal is credible, whether the operator has disclosed a relevant health condition, and whether the enterprise agreement permits a stand-down on this basis. The S10 coordinator then raises an explicit request for the HSE Lead's sign-off; if it is given, the decision passes to the Shift Supervisor, who holds operational stand-down authority.\n"
+      },
+      "agents": [
+        "D35",
+        "D36",
+        "D37",
+        "D38",
+        "D39",
+        "D40",
+        "S05",
+        "S10",
+        "S11"
+      ],
+      "value_branch": "safety",
+      "agent_count": 9,
+      "hitl_agents": [
+        "D37",
+        "S05",
+        "S10",
+        "S11"
+      ],
+      "method": {
+        "metric": "severity-weighted incident exposure"
+      },
+      "cards": [
+        {
+          "agent_id": "S05",
+          "display_name": "Autonomous Haulage Safety Interlock Coordinator",
+          "decision": "Whether the evidence in front of an interlock decision \u2014 proximity history, fatigue signal, and radio traffic \u2014 actually supports it.",
+          "leaks": [
+            "Assurance"
+          ],
+          "archetype": "Diagnostician",
+          "authority": "L1 \u2014 Recommend",
+          "financial_lines": [
+            {
+              "line": "severity-weighted incident exposure \u2192 risk position (avoided loss)",
+              "evidence_class": "C"
+            }
+          ],
+          "honest_limit": "Attributing an incident to a fatigue signal requires both an operator link and sub-day timestamp resolution across the incident and biometric records; where either is missing, the correlation is reported as not instrumented rather than inferred.",
+          "metric_impacts": [],
+          "pack": "p3-hse.yaml",
+          "coverage": {
+            "instrumented": 4,
+            "total": 6
+          }
+        }
+      ]
+    },
+    "P4": {
+      "code": "P4",
+      "title": "Supply Planner / Procurement Lead",
+      "accountable_for": "Two roles sharing one persona code, split at the handoff between inventory policy and sourcing. The Supply Planner owns inventory policy, reorder execution, and the identification of stockout risk; the Procurement Lead owns vendor relationships, bid evaluation, contract management, and spend governance. The seam between them is the escalated expedite request: the Supply Planner identifies the risk, the Procurement Lead acts on the sourcing side.\n",
+      "pain_points": [
+        {
+          "role": "Supply Planner",
+          "quote": "I know we have a stockout risk on the SAG mill liner bolts. I just can't prove it fast enough to get an emergency PO approved before the scheduled reline.",
+          "source_line": 758
+        },
+        {
+          "role": "Supply Planner",
+          "quote": "The ERP tells me what's on hand. It doesn't tell me what work orders need it, and when.",
+          "source_line": 759
+        },
+        {
+          "role": "Supply Planner",
+          "quote": "Every part on a critical asset should have a stocking policy that reflects the asset criticality. Right now they all have the same 30-day ROP regardless of what they go on.",
+          "source_line": 760
+        },
+        {
+          "role": "Procurement Lead",
+          "quote": "I can get you the part. But if you want me to go through a proper evaluation, you have to give me more than two hours.",
+          "source_line": 835
+        },
+        {
+          "role": "Procurement Lead",
+          "quote": "The spend anomaly report comes from finance at month end. By then the overpayment is already on the books.",
+          "source_line": 836
+        },
+        {
+          "role": "Procurement Lead",
+          "quote": "I can't award this to a vendor who only bid 60% of the lines. But I also can't go back to market \u2014 there's no time.",
+          "source_line": 837
+        }
+      ],
+      "jobs_to_be_done": [
+        "Supply Planner: show all parts currently below reorder point mapped to their open work order dependencies, replacing a fragile bespoke SQL query, so that work orders at stockout risk are identified before they fail at execution time.",
+        "Supply Planner: calculate the correct safety stock level and reorder point for each flagged part, accounting for demand variability and lead time uncertainty, so that orders are placed at the right quantity and timing without over-ordering.",
+        "Supply Planner: quantify which open work orders are affected by a stockout, which assets those work orders cover, and what the downstream production impact is, in order to justify emergency sourcing cost to the Procurement Lead.",
+        "Procurement Lead: automatically check whether each bid covers every mandatory RFP line item and flag non-compliant bids before evaluation effort is spent, so that only valid submissions are scored.",
+        "Procurement Lead: apply technical and commercial scoring criteria consistently across all valid bids and produce a defensible award recommendation with an auditable decision trail, replacing the shared spreadsheet that has no version control."
+      ],
+      "journey": {
+        "title": "Morning ROP Alert Triage and Emergency Sourcing Expedite",
+        "source_line": 779,
+        "summary": "The ERP generates its morning ROP alert report with more flags than usual due to a planned shutdown next week and a vendor delivery slipping by ten days. The Supply Planner runs D31 to replace the fragile SQL query, sees all parts below ROP mapped to open work order dependencies sorted by days-of-cover, and validates two rows against the ERP before trusting the output. Rows at risk are escalated to S08, which needs the Supply Planner's sign-off before the work-order impact assessment is shared with the maintenance manager. The Supply Planner then emails the Procurement Lead with the shortlist, attaching the S08 impact summary as justification. The Procurement Lead opens S09 against the expedite context; after the coordinator runs compliance checking, technical scoring, spend anomaly flagging, and critic challenge, a mandatory request for sign-off is raised, locking the award recommendation with a timestamp and identity audit trail before the PO is raised in the ERP.\n"
+      },
+      "agents": [
+        "D27",
+        "D28",
+        "D29",
+        "D30",
+        "D31",
+        "D32",
+        "D33",
+        "D34",
+        "S08",
+        "S09"
+      ],
+      "value_branch": [
+        "supply_chain",
+        "procurement"
+      ],
+      "agent_count": 10,
+      "hitl_agents": [
+        "D30",
+        "S08",
+        "S09"
+      ],
+      "cards": [
+        {
+          "agent_id": "S09",
+          "display_name": "RFP & Bid Award Evaluation Coordinator",
+          "decision": "Whether this transaction matches the terms of its governing contract.",
+          "leaks": [
+            "Coordination"
+          ],
+          "archetype": "Negotiator",
+          "authority": "L1 \u2014 Recommend",
+          "financial_lines": [
+            {
+              "line": "post-signature contract leakage recovered \u2192 C1 cash cost",
+              "evidence_class": "A"
+            }
+          ],
+          "honest_limit": "The widely quoted \"9.2% contract value leakage\" figure is a misattribution: the source study found that good contract management could improve profitability by roughly 9% of annual revenue \u2014 an opportunity figure, not a leakage rate \u2014 and it is not used here.",
+          "metric_impacts": [
+            {
+              "metric": "Contract value recovered",
+              "direction": "increase",
+              "low_pct": 3.0,
+              "high_pct": 5.0,
+              "source": "industry contract-management research"
+            }
+          ],
+          "pack": "agt14-contract-integrity.yaml",
+          "coverage": {
+            "instrumented": 4,
+            "total": 6
+          }
+        }
+      ]
+    },
+    "P5": {
+      "code": "P5",
+      "title": "Mine Geologist",
+      "accountable_for": "The Mine Geologist is accountable for grade estimation, block model validation, and drill coverage planning. The role bridges field observation and production planning: the geologist's grade estimates feed the metallurgist's reagent planning and the mine manager's blast schedule, and grade-to-recovery discrepancies are traced back through the geologist's model.\n",
+      "pain_points": [
+        {
+          "quote": "The block model is only as good as the drill coverage, and we're under-drilled in the eastern limb.",
+          "source_line": 608
+        },
+        {
+          "quote": "I gave the metallurgist a grade of 2.1 g/t; the mill got 1.8. That gap is either dilution or a model error \u2014 I need to know which.",
+          "source_line": 609
+        },
+        {
+          "quote": "I can't reconcile faster than monthly because the data lives in three different systems.",
+          "source_line": 610
+        }
+      ],
+      "jobs_to_be_done": [
+        "See immediately where an assay result deviates from the block model prediction for a drillhole coordinate, in order to catch grade estimation errors before the ore block enters the mining schedule \u2014 replacing a 30\u201345 minute manual CSV comparison.",
+        "Estimate ore dilution for the day's scheduled blast blocks before the morning production meeting, so that the metallurgist receives a feed grade range they can use for reagent planning.",
+        "Score grade confidence using assay density, assay-block variance, and kriging variance so that low-confidence blocks are flagged for additional drilling or scheduling deferral rather than reported as qualitative high/medium/low.",
+        "Trace whether a mill recovery discrepancy sits in assay-to-block estimation, delivered feed grade, or the recovery process itself, in order to defend or revise the geological estimate with evidence."
+      ],
+      "journey": {
+        "title": "Daily Assay Batch Review Before the 07:30 Production Meeting",
+        "source_line": 629,
+        "summary": "The daily assay batch has loaded overnight and the 07:30 production meeting is 75 minutes away. The geologist queries D16 for every drillhole where the returned grade deviates from the block model interpolation beyond a site threshold, receiving row-level data including drillhole ID, spatial coordinates, assay grade, block model estimate, delta, and confidence band. She identifies two blocks in the contact zone with greater than 10% downside deviation, carries the structured table into the production meeting on screen, and may follow up with D17 to estimate the dilution implication before the meeting ends, handing a revised feed grade estimate verbally to the Metallurgist.\n"
+      },
+      "agents": [
+        "D16",
+        "D17",
+        "D18",
+        "D19",
+        "D20",
+        "S06"
+      ],
+      "value_branch": "geology",
+      "agent_count": 6,
+      "hitl_agents": [],
+      "method": {
+        "metric": "contained-metal variance between the block model and realised grade"
+      },
+      "cards": [
+        {
+          "agent_id": "S06",
+          "display_name": "Grade-to-Recovery Reconciliation Coordinator",
+          "decision": "Whether the resource model, the grade-control model, the pit and the mill agree on contained metal \u2014 and if not, which one is wrong.",
+          "leaks": [
+            "Latency",
+            "Variance"
+          ],
+          "archetype": "Diagnostician",
+          "authority": "L1 \u2014 Recommend",
+          "financial_lines": [
+            {
+              "line": "contained-metal variance between block model and realised grade \u2192 reserve confidence",
+              "evidence_class": "B"
+            }
+          ],
+          "honest_limit": "The assay-to-block pairing is a spatial approximation at a declared search radius; the reconciliation is evidence about the paired subset only, and the unpaired population may differ systematically from it.",
+          "metric_impacts": [
+            {
+              "metric": "Mineral recovery",
+              "direction": "increase",
+              "low_pct": 1.0,
+              "high_pct": 3.0,
+              "source": "McKinsey"
+            }
+          ],
+          "pack": "p5-geologist.yaml",
+          "coverage": {
+            "instrumented": 5,
+            "total": 7
+          }
+        }
+      ]
+    },
+    "P6": {
+      "code": "P6",
+      "title": "Metallurgist",
+      "accountable_for": "The Metallurgist is accountable for processing recovery and throughput across the crusher and flotation circuit. The role must determine whether a recovery shortfall originates in feed grade, crusher settings, or flotation reagent dosing \u2014 and must do so within the first hour of shift to have any chance of corrective action in the same window. The Metallurgist is also the HITL approver for crusher setpoint changes before they are applied to the DCS.\n",
+      "pain_points": [
+        {
+          "quote": "If the crusher CSS is 2 mm tight, the mill load goes up and throughput drops. But if I open it too wide, recovery falls. There's no margin in either direction right now.",
+          "source_line": 682
+        },
+        {
+          "quote": "I need to know in the first hour of shift whether last night's recovery was a feed grade problem or a process problem. That determines everything I do for the next 12 hours.",
+          "source_line": 683
+        },
+        {
+          "quote": "The smelter penalises us for arsenic above 0.3%. I only find out if we're over at despatch.",
+          "source_line": 684
+        }
+      ],
+      "jobs_to_be_done": [
+        "See recovery rate variance against target for specific assay windows, trended by hour rather than as an end-of-shift figure, so that a recovery that fell at 02:00 and recovered by 04:00 is distinguishable from one that has been drifting down all night.",
+        "Quantify how sensitive recovery is to the current feed grade versus plan, in order to separate a grade-caused shortfall from a process-caused shortfall without waiting for a full day of data.",
+        "Receive a validated crusher setpoint recommendation with predicted throughput and recovery impact, and formally approve or reject it before the DCS applies it, so that setpoint changes have a documented decision trail.",
+        "See a log of crusher bypass events with timestamps and ore type on feed at the time, in order to determine whether a recovery loss correlates with bypass and escalate appropriately."
+      ],
+      "journey": {
+        "title": "04:00 Lab Assay Arrival and Shift-Start Recovery Diagnosis",
+        "source_line": 703,
+        "summary": "The 04:00 lab assay arrives and the shift metallurgist suspects recovery is running below target before the 06:00 handover. She queries D21 for recovery rate by circuit for the 18:00\u201306:00 window trended by hour against target; if the variance is material, she immediately goes to D22 to understand whether it is grade-driven or process-driven. If a crusher setpoint change is indicated, D25 generates a recommendation and S07 raises a mandatory request for sign-off: the Metallurgist reviews the CSS change, the predicted throughput and recovery impact, and the S07-CRITIC challenge before explicitly approving or refusing, with refusal reasons logged for audit. The DCS does not apply the new setpoint until approval is recorded.\n"
+      },
+      "agents": [
+        "D21",
+        "D22",
+        "D23",
+        "D24",
+        "D25",
+        "D26",
+        "S07"
+      ],
+      "value_branch": "processing",
+      "agent_count": 7,
+      "hitl_agents": [
+        "D25",
+        "S07"
+      ],
+      "method": {
+        "metric": "unit cost per tonne of contained metal"
+      },
+      "cards": [
+        {
+          "agent_id": "S07",
+          "display_name": "Crusher\u2013Mill Throughput Balance Coordinator",
+          "decision": "Whether the crusher setting or feed variability is costing recovered contained metal, and by how much.",
+          "leaks": [
+            "Latency",
+            "Variance"
+          ],
+          "archetype": "Diagnostician",
+          "authority": "L1 \u2014 Recommend",
+          "financial_lines": [
+            {
+              "line": "unit cost per tonne of contained metal \u2192 C1 cash cost",
+              "evidence_class": "B"
+            }
+          ],
+          "honest_limit": "Torque and throughput figures bound the daily mean only; a recommended setting change must still be checked against the instantaneous alarm limit before it is applied.",
+          "metric_impacts": [
+            {
+              "metric": "Throughput",
+              "direction": "increase",
+              "low_pct": 2.0,
+              "high_pct": 5.0,
+              "source": "BCG, mature AI sites in mining & metals"
+            },
+            {
+              "metric": "Throughput",
+              "direction": "increase",
+              "low_pct": 4.0,
+              "high_pct": 8.0,
+              "source": "McKinsey, metals & mining"
+            },
+            {
+              "metric": "Mineral recovery",
+              "direction": "increase",
+              "low_pct": 1.0,
+              "high_pct": 3.0,
+              "source": "McKinsey"
+            }
+          ],
+          "pack": "p6-metallurgist.yaml",
+          "coverage": {
+            "instrumented": 3,
+            "total": 5
+          }
+        }
+      ]
+    },
+    "P7": {
+      "code": "P7",
+      "title": "Mine Controller",
+      "accountable_for": "The Mine Controller manages the real-time movement of the haul fleet: truck assignments, route directions, loading and dumping coordination, and the response to congestion or breakdowns on the haul road network. The role is desk-bound in the control room throughout the shift, monitoring a fleet management system and radio network simultaneously.\n",
+      "pain_points": [
+        {
+          "quote": "I've got eyes on 30 trucks on a screen that updates every 30 seconds \u2014 by the time I see the queue it's already there.",
+          "source_line": 538
+        },
+        {
+          "quote": "The FMS tells me where everyone is; it doesn't tell me where everyone should be.",
+          "source_line": 538
+        },
+        {
+          "quote": "When a truck goes down mid-shift I'm juggling the radio with one hand and the map with the other.",
+          "source_line": 538
+        },
+        {
+          "quote": "If I had five more minutes of warning before that congestion hit I could have rerouted three trucks.",
+          "source_line": 540
+        }
+      ],
+      "jobs_to_be_done": [
+        "Understand whether a truck's cycle time drag is a truck performance issue, a route congestion issue, or an operator behaviour pattern, so that the right action \u2014 re-route, flag for maintenance, or coach the operator \u2014 is taken rather than guessed.",
+        "Identify which route segments are at risk of queuing delays before they actually occur, so that trucks can be pre-emptively redirected rather than congestion being managed reactively after a queue has formed.",
+        "Receive a recommended fleet reassignment when a truck goes unplanned down mid-shift, accounting for operator qualifications, remaining shift hours, truck type compatibility, and current route loads, so that movement rate is maintained with minimal disruption.",
+        "Receive a re-dispatching plan when multiple fleet events occur simultaneously \u2014 breakdown, route closure, operator break \u2014 that can be approved and transmitted in under two minutes, so that the fleet remains coherent under compounded disruption."
+      ],
+      "journey": {
+        "title": "Compound Mid-Shift Disruption \u2014 Truck Breakdown Plus Route Closure",
+        "source_line": 548,
+        "summary": "At 11:40 a.m. a rock slide closes one haul road segment at the same time that Truck 14 reports a hydraulic fault. The controller flags both in the FMS and invokes S04, whose specialists run in parallel: SP1 calculates cycle time variance for all affected routes, SP2 models the congestion pattern that will develop under current routing, SP3 checks operator qualifications and remaining shift hours for a replacement vehicle assignment. S04-CRITIC reviews the plan for feasibility. A mandatory request for the controller's sign-off follows on the FMS workstation; the controller reviews and either approves or modifies specific assignments, after which the approved plan is broadcast to the radio net and logged automatically in the shift report.\n"
+      },
+      "agents": [
+        "D11",
+        "D12",
+        "D13",
+        "D14",
+        "D15",
+        "S04"
+      ],
+      "value_branch": "mine_ops",
+      "agent_count": 6,
+      "hitl_agents": [
+        "D14",
+        "S04"
+      ],
+      "method": {
+        "metric": "haul fleet movement rate"
+      },
+      "cards": [
+        {
+          "agent_id": "S04",
+          "display_name": "Shift Dispatch Re-plan Coordinator",
+          "decision": "Which route or load setpoint best serves the shift's movement-rate objective when two parts of the operation want incompatible things \u2014 a route that is short but congested against one that is long but clear.",
+          "leaks": [
+            "Latency",
+            "Coordination"
+          ],
+          "archetype": "Optimiser",
+          "authority": "L1 \u2014 Recommend",
+          "financial_lines": [
+            {
+              "line": "movement rate lost to route and load mismatch \u2192 C1 cash cost",
+              "evidence_class": "B"
+            }
+          ],
+          "honest_limit": "Congestion is compared against each route's own baseline, not a fleet-wide norm, and no table links a haul cycle to the operator who drove it at usable scale \u2014 operator-behaviour and breakdown-reassignment findings are reported as not instrumented rather than inferred.",
+          "metric_impacts": [],
+          "pack": "p7-mine-controller.yaml",
+          "coverage": {
+            "instrumented": 3,
+            "total": 5
+          }
+        }
+      ]
+    },
+    "P8": {
+      "code": "P8",
+      "title": "Shift Supervisor",
+      "accountable_for": "S12 (Shift Handover & Site Value Briefing) is the convergence agent that sits above the six value branches. Its primary consumers are the Shift Supervisor \u2014 who uses it to receive a structured incoming briefing and to produce an outgoing handover \u2014 and the GM/COO, who consumes a daily roll-up without interacting with individual agents directly. The Shift Supervisor is the highest operational authority on site during their shift and is the HITL approver for S04 (dispatch re-plan) and S05 (AHS safety interlock) outputs.\n",
+      "pain_points": [
+        {
+          "quote": "Give me the short version \u2014 what do I need to decide right now?",
+          "source_line": 1069
+        },
+        {
+          "quote": "I'm not going to stand someone down because an algorithm says so. I need to know why.",
+          "source_line": 1069
+        },
+        {
+          "quote": "The handover brief was good this morning; yesterday's was useless because it missed the crusher event.",
+          "source_line": 1069
+        },
+        {
+          "quote": "If I approve a fatigue stand-down and the union rep asks why, I need to be able to explain the evidence \u2014 and I need to know that evidence wasn't just someone's heart rate reading that the wearable got wrong.",
+          "source_line": 1070
+        }
+      ],
+      "jobs_to_be_done": [
+        "Receive an immediate consolidated alert when an autonomous haulage truck triggers a safety interlock event \u2014 proximity risk, operator fatigue context, radio communications \u2014 in order to decide whether to halt the AHS corridor or allow it to continue, with a decision that must be reached within 60\u201390 seconds.",
+        "Review a fatigue stand-down recommendation with enough contextual detail \u2014 risk score, trend, coverage impact \u2014 to make a defensible decision quickly, without relying on subjective self-reporting by the operator.",
+        "Receive a structured, accurate shift handover briefing that covers asset status, production performance, safety events, and fatigue flags \u2014 generated automatically from shift data \u2014 so that handover time is spent on non-standard items rather than reconstructing what happened from memory.",
+        "Receive a re-dispatched assignment plan when crew or equipment changes mid-shift, optimised for available operators and trucks given current constraints, so that production can be recovered without manually recalculating route and operator combinations under time pressure."
+      ],
+      "journey": {
+        "title": "AHS Interlock Trigger at 07:45 on Day Shift",
+        "source_line": 1076,
+        "summary": "An autonomous haulage truck detects a proximity violation in a shared corridor and S05 fires. The Shift Supervisor has 60\u201390 seconds to decide before the system defaults to a full stop that costs production time. S05-SP1 checks incident history in the zone, SP2 cross-checks biometric fatigue data for involved operators (raw values masked), SP3 scans radio communications for context; S05-CRITIC challenges the combined finding. The coordinator presents a decision brief readable on a rugged tablet in under 30 seconds. The Shift Supervisor chooses: approve halt, override with documented rationale (voice-to- text or preset options for gloved-hand use), or escalate to the HSE Lead. The decision, timestamp, and supervisor identity are recorded, and if a halt is approved the event is logged into safety_incidents for subsequent S11 review.\n"
+      },
+      "agents": [
+        "S12"
+      ],
+      "value_branch": "site_wide",
+      "agent_count": 1,
+      "hitl_agents": [],
+      "method": {
+        "metric": "shift handover risk surface"
+      },
+      "cards": [
+        {
+          "agent_id": "S12",
+          "display_name": "Shift Handover & Site Value Briefing Coordinator",
+          "decision": "What changed since the last shift closed, across production, safety, fatigue and maintenance demand, and whether the incoming supervisor needs to act on it before anything else.",
+          "leaks": [
+            "Blind spot",
+            "Latency"
+          ],
+          "archetype": "Sentinel",
+          "authority": "L1 \u2014 Recommend",
+          "financial_lines": [
+            {
+              "line": "shift handover risk surface narrowed \u2192 risk position (avoided loss)",
+              "evidence_class": "C"
+            }
+          ],
+          "honest_limit": "A period-over-period change is reported only where the underlying table carries a genuine time series; fleet availability and route-level dispatch performance carry no such series today, and are reported as not instrumented rather than inferred from a single snapshot.",
+          "metric_impacts": [],
+          "pack": "p8-shift-supervisor.yaml",
+          "coverage": {
+            "instrumented": 5,
+            "total": 7
+          }
+        }
+      ]
+    }
+  }
+}

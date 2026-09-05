@@ -1,0 +1,8 @@
+# Packages required by the data generator and already installed under
+# ~/.local/pythons/py312.  Recorded here for reproducibility — nothing
+# in this file installs anything; the environment is pre-provisioned.
+numpy>=1.26
+pandas>=2.2
+pytest>=8.0
+google-cloud-bigquery>=3.19
+db-dtypes>=1.2

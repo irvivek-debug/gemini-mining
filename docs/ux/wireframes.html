@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mining Agent Platform — UX Wireframe Options</title>
+<link rel="stylesheet" href="tokens.css">
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">Mining Agent Platform / Phase 2 UX / 52 Entrypoints</span>
+  <nav>
+    <a href="#problem">Problem</a>
+    <a href="#optA">Option A</a>
+    <a href="#optB">Option B</a>
+    <a href="#optC">Option C</a>
+    <a href="#pick">Recommendation</a>
+    <a href="#shared">Deep Screens</a>
+    <a href="#hitl">HITL</a>
+    <a href="#exec">Exec Roll-up</a>
+    <a href="#open">Open Questions</a>
+    <a href="technical-flow.html">Technical Flow &rarr;</a>
+  </nav>
+</div>
+
+<div class="wrap">
+
+<!-- ============================================================ -->
+<section id="problem">
+  <div class="eyebrow">Phase 2 &middot; Screen Selection</div>
+  <h1>Three ways to navigate 52 agents</h1>
+  <p class="lede">
+    100 agents are deployed. 52 of them are callable. The design question is not what a single
+    agent screen looks like, it is <strong>what the operator sees before they know which agent
+    they need</strong>. These are three answers to that question, plus the deep screens that stay
+    the same whichever answer wins.
+  </p>
+
+  <div class="bento" style="margin-top:24px">
+    <div class="card c6">
+      <div class="card-cap">Why a chat box fails here</div>
+      <ul class="tight">
+        <li><strong>It hides the catalog.</strong> A reliability engineer cannot type the name of
+            an agent they do not know exists. 52 entrypoints behind a blinking cursor is a
+            discovery failure, not an interface.</li>
+        <li><strong>It cannot show a swarm.</strong> A Pattern A run has five agents working and
+            one critic disagreeing. A transcript flattens that into one voice, so the operator
+            cannot tell which specialist is blocked or why.</li>
+        <li><strong>It has nowhere to put an approval.</strong> Fourteen entrypoints require a human
+            decision before anything happens. An approval needs a hold, an audit record, and the
+            evidence in view. A message bubble has none of those.</li>
+        <li><strong>It shows an answer without its inputs.</strong> In a plant, a number with no
+            provenance is not actionable.</li>
+      </ul>
+    </div>
+    <div class="card c6">
+      <div class="card-cap">What every option must carry</div>
+      <dl class="kv">
+        <dt>Pattern A</dt><dd>Per-agent state and handoffs. The operator can tell which specialist is blocked and why.</dd>
+        <dt>Pattern B</dt><dd>The computed result and the rows it came from.</dd>
+        <dt>HITL</dt><dd>Hold-to-Confirm plus an audit trail of who approved what and when.</dd>
+        <dt>Device</dt><dd>Drawn from each persona's Journey Scaffolding. Control-room desktop, pit tablet, and plant handheld are all in scope.</dd>
+        <dt>Contrast</dt><dd>7:1 on critical telemetry. State is never carried by color alone.</dd>
+      </dl>
+      <div class="note info" style="margin-top:12px">
+        <strong>Source</strong><br>
+        Agent names, HITL flags and value branches on this page are read from
+        <code>mining_agents/catalog/definitions.py</code>. Nothing here is illustrative filler.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="optA">
+  <div class="eyebrow">Option A</div>
+  <h2>The Persona Cockpit — navigate by who you are</h2>
+  <p class="lede">
+    The application opens on your role. A reliability engineer signs in and lands on reliability
+    work, ranked by what this shift needs. The catalog is filtered to the branch you own, so 52
+    agents become the six or seven that are yours. Everything else is one click away but never in
+    the way.
+  </p>
+
+  <div class="screen" style="margin-top:20px">
+    <div class="screen-chrome">
+      <span>Mining Agent Platform</span>
+      <span class="badge b-ok">BigQuery mining_data online</span>
+      <span class="badge b-info">Shift B &middot; 14:00-22:00</span>
+      <span class="spacer"></span>
+      <span>Signed in: P1 Reliability Engineer</span>
+    </div>
+    <div class="tabstrip" role="tablist">
+      <button role="tab" aria-selected="true">Reliability</button>
+      <button role="tab" aria-selected="false">Maintenance</button>
+      <button role="tab" aria-selected="false">Mine Ops</button>
+      <button role="tab" aria-selected="false">Geology</button>
+      <button role="tab" aria-selected="false">Processing</button>
+      <button role="tab" aria-selected="false">Supply</button>
+      <button role="tab" aria-selected="false">Procurement</button>
+      <button role="tab" aria-selected="false">Safety</button>
+      <button role="tab" aria-selected="false">Handover</button>
+    </div>
+    <div class="screen-body">
+
+      <div class="bento">
+        <div class="card c3">
+          <div class="metric" style="color:var(--critical)">3</div>
+          <div class="metric-sub">Assets in unplanned stop</div>
+        </div>
+        <div class="card c3">
+          <div class="metric" style="color:var(--warning)">11</div>
+          <div class="metric-sub">Degrading signatures</div>
+        </div>
+        <div class="card c3">
+          <div class="metric">$145k<span style="font-size:16px">/hr</span></div>
+          <div class="metric-sub">Mill downtime rate &middot; client figure</div>
+        </div>
+        <div class="card c3">
+          <div class="metric" style="color:var(--fg-muted)">2</div>
+          <div class="metric-sub">Awaiting your approval</div>
+        </div>
+      </div>
+
+      <div class="bento" style="margin-top:16px">
+        <div class="card c8">
+          <div class="card-cap">Your agents &middot; branch: asset reliability</div>
+          <table class="data">
+            <thead><tr><th>ID</th><th>Agent</th><th>Pattern</th><th>Last run</th><th>State</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">S01</td><td>Cascading Failure Impact &amp; Recovery</td><td><span class="badge b-info">A &middot; swarm</span></td><td class="mono">14:22</td><td><span class="badge b-crit">Awaiting approval</span></td></tr>
+              <tr><td class="mono">S03</td><td>Fleet Reliability &amp; Availability</td><td><span class="badge b-info">A &middot; swarm</span></td><td class="mono">06:00</td><td><span class="badge b-ok">Complete</span></td></tr>
+              <tr><td class="mono">D01</td><td>Vibration Signature Diagnostic</td><td><span class="badge b-idle">B &middot; deep</span></td><td class="mono">14:18</td><td><span class="badge b-warn">3 assets flagged</span></td></tr>
+              <tr><td class="mono">D02</td><td>Thermal Drift Diagnostic</td><td><span class="badge b-idle">B &middot; deep</span></td><td class="mono">13:55</td><td><span class="badge b-ok">Nominal</span></td></tr>
+              <tr><td class="mono">D03</td><td>Torque Signature Diagnostic</td><td><span class="badge b-idle">B &middot; deep</span></td><td class="mono">-</td><td><span class="badge b-idle">Idle</span></td></tr>
+              <tr><td class="mono">D04</td><td>Power Draw Efficiency Analyst</td><td><span class="badge b-idle">B &middot; deep</span></td><td class="mono">11:02</td><td><span class="badge b-ok">Complete</span></td></tr>
+              <tr><td class="mono">D05</td><td>Asset Dependency Criticality Ranker</td><td><span class="badge b-idle">B &middot; deep</span></td><td class="mono">-</td><td><span class="badge b-idle">Idle</span></td></tr>
+              <tr><td class="mono">D06</td><td>Digital Twin Simulation Replay Analyst</td><td><span class="badge b-idle">B &middot; deep</span></td><td class="mono">-</td><td><span class="badge b-idle">Idle</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card c4">
+          <div class="card-cap">Shift feed</div>
+          <div class="console">&gt; <span class="crit">14:22</span> PUMP-104A vibration RMS breached band 3
+&gt; <span class="dim">14:22</span> S01 dispatched by rule: critical asset stop
+&gt; <span class="dim">14:23</span> S01-SP2 traced 4 downstream dependencies
+&gt; <span class="warn">14:24</span> S01-CRITIC disputed recovery estimate
+&gt; <span class="crit">14:25</span> Approval requested from you
+&gt; <span class="dim">13:55</span> D02 completed, 0 assets outside band
+&gt; <span class="ok">06:00</span> S03 nightly availability roll-up posted</div>
+          <div class="btn-row" style="margin-top:12px">
+            <button class="btn primary">Open S01</button>
+            <button class="btn">Full catalog</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bento" style="margin-top:16px">
+    <div class="card c4">
+      <div class="card-cap">Strengths</div>
+      <ul class="tight">
+        <li>Discovery is solved by construction. You never see an agent that is not yours.</li>
+        <li>Maps one-to-one onto the nine operator personas, so the Phase 0 work drives the nav directly.</li>
+        <li>Device profile can differ per tab, which matters because the HSE lead is on a handheld and the metallurgist is not.</li>
+      </ul>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Weaknesses</div>
+      <ul class="tight">
+        <li>Weakest executive story. A GM sees nine tabs, not one number.</li>
+        <li>Cross-branch work fights the layout. A stockout that stops a work order spans supply and maintenance.</li>
+        <li>Needs a real role mapping in identity before it is more than a demo affordance.</li>
+      </ul>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Best when</div>
+      <p style="margin:0">The demo audience is the operating team and the buying story is adoption.
+      This is the option that survives contact with a real shift.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="optB">
+  <div class="eyebrow">Option B</div>
+  <h2>The AISC Value Tree — navigate by where the money leaks</h2>
+  <p class="lede">
+    The application opens on the metric the CEO is measured on: all-in sustaining cost per tonne.
+    Six branches hang off it, each branch carries its agents, and you drill from the money down to
+    the specific agent that addresses it. Navigation is a cost decomposition, so every click is
+    already an argument.
+  </p>
+
+  <div class="screen" style="margin-top:20px">
+    <div class="screen-chrome">
+      <span>AISC Explorer</span>
+      <span class="badge b-info">Root metric: AISC per tonne</span>
+      <span class="spacer"></span>
+      <span>Coverage 52 / 52 entrypoints</span>
+    </div>
+    <div class="screen-body">
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-cap">Root</div>
+        <div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap">
+          <div class="metric gap">[CLIENT INPUT REQUIRED]</div>
+          <div style="color:var(--fg-muted);font-size:13px">
+            AISC per tonne, trailing quarter. No baseline has been supplied, so the root renders as
+            an explicit gap rather than an invented number.
+          </div>
+        </div>
+      </div>
+
+      <div class="bento" id="treeGrid"></div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-cap">Drill-down &middot; Branch 1 &rarr; Asset availability</div>
+        <div class="bento">
+          <div class="card c6" style="background:var(--surface-high)">
+            <div class="card-cap">Cost driver</div>
+            <p style="margin:0 0 8px">Unplanned mill stops. The one figure the client has supplied.</p>
+            <div class="metric" style="color:var(--critical)">$145k / hr</div>
+            <div class="metric-sub">Source: client CEO playbook</div>
+            <p style="margin:12px 0 0;color:var(--fg-muted);font-size:13px">
+              Hours lost this quarter: <strong>[CLIENT INPUT REQUIRED]</strong>. Until that is
+              supplied the branch shows a rate, not a total. Multiplying an unknown by a known
+              produces a fabricated number, so the screen refuses to.
+            </p>
+          </div>
+          <div class="card c6" style="background:var(--surface-high)">
+            <div class="card-cap">Agents on this branch &middot; 13</div>
+            <div class="mono" style="font-size:12px;line-height:2">
+              <span class="badge b-info">S01</span> <span class="badge b-info">S02</span>
+              <span class="badge b-info">S03</span>
+              <span class="badge b-idle">D01</span> <span class="badge b-idle">D02</span>
+              <span class="badge b-idle">D03</span> <span class="badge b-idle">D04</span>
+              <span class="badge b-idle">D05</span> <span class="badge b-idle">D06</span>
+              <span class="badge b-idle">D07</span> <span class="badge b-idle">D08</span>
+              <span class="badge b-idle">D09</span> <span class="badge b-idle">D10</span>
+            </div>
+            <div class="legend" style="margin-top:14px">
+              <span><span class="badge b-info">A</span> swarm, 5 agents each</span>
+              <span><span class="badge b-idle">B</span> deep single agent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bento" style="margin-top:16px">
+    <div class="card c4">
+      <div class="card-cap">Strengths</div>
+      <ul class="tight">
+        <li>Strongest executive story. The first screen is a P&amp;L argument, not a tool list.</li>
+        <li>Makes coverage provable on screen: 52 of 52 entrypoints land in exactly one branch.</li>
+        <li>Every agent inherits a reason to exist, which is exactly what the retrofit needed.</li>
+      </ul>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Weaknesses</div>
+      <ul class="tight">
+        <li>The root is empty until the client supplies an AISC baseline and per-branch values.</li>
+        <li>Poor daily ergonomics. A planner does not want to traverse a cost tree at 06:00.</li>
+        <li>Invites invented numbers. That pressure is the reason the gaps are rendered as gaps.</li>
+      </ul>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Best when</div>
+      <p style="margin:0">The room contains the economic buyer. This is the option that gets the
+      programme funded, and the one most at risk of looking hollow without client data.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="optC">
+  <div class="eyebrow">Option C</div>
+  <h2>The Shift Timeline — navigate by when</h2>
+  <p class="lede">
+    The application opens on the operating day. Events land on a timeline as they happen, and each
+    event arrives already carrying the agent that can resolve it. Nobody chooses an agent. The
+    agent is proposed by the event, and the human decides whether to run it, approve it, or
+    dismiss it.
+  </p>
+
+  <div class="screen" style="margin-top:20px">
+    <div class="screen-chrome">
+      <span>Shift Timeline</span>
+      <span class="badge b-info">Shift B &middot; 14:00-22:00</span>
+      <span class="badge b-crit">2 approvals pending</span>
+      <span class="spacer"></span>
+      <span>Filter: all branches</span>
+    </div>
+    <div class="screen-body">
+      <table class="data">
+        <thead>
+          <tr><th style="width:64px">Time</th><th style="width:96px">Branch</th><th>Event</th><th style="width:230px">Proposed agent</th><th style="width:150px">State</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mono">14:25</td><td><span class="badge b-idle">Safety</span></td>
+            <td>Operator OP-2211 crossed microsleep threshold, 3rd event this shift</td>
+            <td class="mono">S10 Fatigue Intervention &amp; Stand-down</td>
+            <td><span class="badge b-crit">Hold to approve</span></td>
+          </tr>
+          <tr>
+            <td class="mono">14:22</td><td><span class="badge b-idle">Reliability</span></td>
+            <td>PUMP-104A vibration RMS outside band, asset stopped</td>
+            <td class="mono">S01 Cascading Failure Impact</td>
+            <td><span class="badge b-crit">Hold to approve</span></td>
+          </tr>
+          <tr>
+            <td class="mono">13:40</td><td><span class="badge b-idle">Supply</span></td>
+            <td>Part SP-4471 fell below reorder point, 2 open work orders depend on it</td>
+            <td class="mono">S08 Stockout-to-Work-Order Impact</td>
+            <td><span class="badge b-warn">Running</span></td>
+          </tr>
+          <tr>
+            <td class="mono">12:15</td><td><span class="badge b-idle">Processing</span></td>
+            <td>Mill recovery drifted 1.8 points below plan for 4 consecutive hours</td>
+            <td class="mono">S07 Crusher-Mill Throughput Balance</td>
+            <td><span class="badge b-ok">Resolved 12:48</span></td>
+          </tr>
+          <tr>
+            <td class="mono">11:02</td><td><span class="badge b-idle">Mine Ops</span></td>
+            <td>Haul route R-07 cycle time up 14% against the last 7 shifts</td>
+            <td class="mono">D12 Route Congestion Analyst</td>
+            <td><span class="badge b-ok">Answered</span></td>
+          </tr>
+          <tr>
+            <td class="mono">06:00</td><td><span class="badge b-idle">Site</span></td>
+            <td>Shift handover</td>
+            <td class="mono">S12 Shift Handover &amp; Site Value Briefing</td>
+            <td><span class="badge b-ok">Posted</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note" style="margin-top:16px">
+        <strong>Unbuilt dependency</strong><br>
+        This option needs an event bus that watches BigQuery and decides which agent an event
+        should propose. None exists today. The 52 agents are request-response services with no
+        trigger layer, so Option C is a larger build than A or B and cannot be demoed from the
+        current deployment without a scripted feed.
+      </div>
+    </div>
+  </div>
+
+  <div class="bento" style="margin-top:16px">
+    <div class="card c4">
+      <div class="card-cap">Strengths</div>
+      <ul class="tight">
+        <li>Closest to how a control room actually works. Nobody browses a catalog mid-shift.</li>
+        <li>Discovery disappears entirely as a problem.</li>
+        <li>Approvals arrive in context with the evidence already attached.</li>
+      </ul>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Weaknesses</div>
+      <ul class="tight">
+        <li>Requires a trigger layer that is not built. Highest cost of the three.</li>
+        <li>Hides the catalog completely. An agent nothing ever triggers is invisible, which makes
+            the 52 look smaller than it is.</li>
+        <li>No executive view at all without adding one.</li>
+      </ul>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Best when</div>
+      <p style="margin:0">The engagement continues past the demo and the customer wants the
+      accelerator to be an operating system rather than a tool rack.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="pick">
+  <div class="eyebrow">Recommendation</div>
+  <h2>Ship A, open on B, keep C on the roadmap</h2>
+
+  <div class="bento">
+    <div class="card c7">
+      <p style="margin-top:0">
+        The three options are not mutually exclusive and the demo needs two audiences served in one
+        session. The recommendation is a single application with two entry surfaces over one shared
+        set of deep screens.
+      </p>
+      <ul class="tight">
+        <li><strong>Option B is the landing screen.</strong> The demo opens on AISC and the six
+            branches, because the economic buyer is in the room for the first ninety seconds. This
+            is the salesmanship surface.</li>
+        <li><strong>Option A is the working application.</strong> One click from any branch drops
+            into the persona cockpit that owns it. This is where the demo spends its time, and it
+            is what a customer forking the accelerator actually runs.</li>
+        <li><strong>Option C is named, not built.</strong> The timeline appears in the roadmap slide
+            as the next increment, with the trigger layer called out as the missing piece. Naming
+            it honestly is worth more than faking it.</li>
+      </ul>
+      <p style="margin-bottom:0">
+        The deep screens below are identical in all three options, which is what makes the hybrid
+        cheap: the navigation model is a shell, and the expensive work is the swarm console, the
+        workbench, and the approval surface.
+      </p>
+    </div>
+    <div class="card c5">
+      <div class="card-cap">Demo path, ninety seconds to first value</div>
+      <div class="console">01  <span class="dim">AISC root</span>  six branches, 52 of 52 covered
+02  <span class="dim">click Branch 1</span>  $145k/hr, 13 agents
+03  <span class="dim">click S01</span>  swarm console, 5 agents live
+04  <span class="warn">critic dissents</span>  recovery estimate disputed
+05  <span class="crit">approval gate</span>  2s hold, audit written
+06  <span class="dim">click D01</span>  workbench, result plus source rows
+07  <span class="dim">click S12</span>  handover, six branches roll up
+08  <span class="ok">exec view</span>  one screen, one narrative</div>
+      <p style="margin:12px 0 0;color:var(--fg-muted);font-size:13px">
+        Step 04 is the moment that sells a swarm. A single agent cannot disagree with itself.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="shared">
+  <div class="eyebrow">Deep Screens &middot; identical in all three options</div>
+  <h2>Screen 1 — Pattern A swarm console</h2>
+  <p class="lede">
+    Phase 2 requires a Pattern A screen to show each agent's state and its handoffs, so the
+    operator can tell which agent is blocked and why. A swarm runs as a coordinator, three
+    specialists and a critic inside one process, and this screen is the only place that structure
+    becomes visible.
+  </p>
+
+  <div class="screen" style="margin-top:20px">
+    <div class="screen-chrome">
+      <span>S01 &middot; Cascading Failure Impact &amp; Recovery</span>
+      <span class="badge b-info">Pattern A</span>
+      <span class="badge b-crit">HITL required</span>
+      <span class="spacer"></span>
+      <span>Trigger: PUMP-104A unplanned stop 14:22</span>
+    </div>
+    <div class="screen-body">
+
+      <div class="bento">
+        <div class="card c12" style="background:var(--surface-high)">
+          <div class="card-cap">Swarm state</div>
+          <div class="bento">
+            <div class="card c12" style="border-color:var(--accent)">
+              <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+                <div>
+                  <div class="mono" style="font-size:10px;color:var(--accent);font-weight:700">COORDINATOR</div>
+                  <h4 style="margin:4px 0 0">S01 Cascading Failure Impact &amp; Recovery</h4>
+                </div>
+                <span class="badge b-warn">Waiting on critic</span>
+              </div>
+            </div>
+
+            <div class="card c4">
+              <div class="mono" style="font-size:10px;color:var(--fg-muted);font-weight:700">S01-SP1</div>
+              <h4 style="margin:4px 0 8px">Telemetry Anomaly Detector</h4>
+              <span class="badge b-ok">Complete &middot; 4.1s</span>
+              <div class="mono" style="font-size:11px;color:var(--fg-muted);margin-top:10px">
+                reads telemetry_stream<br>1,204 rows &middot; 3 metrics
+              </div>
+            </div>
+            <div class="card c4">
+              <div class="mono" style="font-size:10px;color:var(--fg-muted);font-weight:700">S01-SP2</div>
+              <h4 style="margin:4px 0 8px">Dependency Blast-Radius Tracer</h4>
+              <span class="badge b-ok">Complete &middot; 6.7s</span>
+              <div class="mono" style="font-size:11px;color:var(--fg-muted);margin-top:10px">
+                reads asset_dependencies<br>4 downstream assets
+              </div>
+            </div>
+            <div class="card c4">
+              <div class="mono" style="font-size:10px;color:var(--fg-muted);font-weight:700">S01-SP3</div>
+              <h4 style="margin:4px 0 8px">Downtime Duration Forecaster</h4>
+              <span class="badge b-ok">Complete &middot; 5.2s</span>
+              <div class="mono" style="font-size:11px;color:var(--fg-muted);margin-top:10px">
+                reads maintenance_logs<br>17 comparable repairs
+              </div>
+            </div>
+
+            <div class="card c12" style="border-color:var(--warning)">
+              <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+                <div>
+                  <div class="mono" style="font-size:10px;color:var(--warning);font-weight:700">CRITIC</div>
+                  <h4 style="margin:4px 0 0">S01-CRITIC Recovery Plan Critic</h4>
+                </div>
+                <span class="badge b-warn">Dissent raised</span>
+              </div>
+              <p style="margin:10px 0 0;font-size:13.5px">
+                SP3 estimated recovery from 17 comparable repairs, but 11 of those were planned
+                shutdowns. The unplanned subset is 6 records, which is too thin to carry the
+                estimate. Recommend the range widen before this goes to approval.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento" style="margin-top:16px">
+        <div class="card c7">
+          <div class="card-cap">Handoff trace</div>
+          <table class="data">
+            <thead><tr><th>Seq</th><th>From</th><th>To</th><th>Payload</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">1</td><td class="mono">S01</td><td class="mono">SP1</td><td>asset_id, window 24h</td></tr>
+              <tr><td class="mono">2</td><td class="mono">SP1</td><td class="mono">S01</td><td>3 metrics outside band</td></tr>
+              <tr><td class="mono">3</td><td class="mono">S01</td><td class="mono">SP2</td><td>confirmed failure, trace dependents</td></tr>
+              <tr><td class="mono">4</td><td class="mono">SP2</td><td class="mono">S01</td><td>4 downstream assets, 1 critical</td></tr>
+              <tr><td class="mono">5</td><td class="mono">S01</td><td class="mono">SP3</td><td>failure mode, dependent set</td></tr>
+              <tr><td class="mono">6</td><td class="mono">SP3</td><td class="mono">S01</td><td>recovery estimate with range</td></tr>
+              <tr><td class="mono">7</td><td class="mono">S01</td><td class="mono">CRITIC</td><td>draft recovery plan</td></tr>
+              <tr><td class="mono">8</td><td class="mono">CRITIC</td><td class="mono">S01</td><td><span class="badge b-warn">dissent</span> sample too thin</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card c5">
+          <div class="card-cap">Execution trace</div>
+          <div class="console">&gt; <span class="dim">14:22:04</span> S01 session opened
+&gt; <span class="dim">14:22:04</span> SP1 bq_query telemetry_stream
+&gt;   <span class="dim">declared-table check: PASS</span>
+&gt;   <span class="dim">1204 rows, 41.2 MB scanned</span>
+&gt; <span class="ok">14:22:08</span> SP1 complete
+&gt; <span class="dim">14:22:08</span> SP2 graph_traverse asset_dependencies
+&gt;   <span class="dim">depth 3, 4 dependents</span>
+&gt; <span class="ok">14:22:15</span> SP2 complete
+&gt; <span class="dim">14:22:15</span> SP3 bq_query maintenance_logs
+&gt;   <span class="dim">17 rows</span>
+&gt; <span class="ok">14:22:20</span> SP3 complete
+&gt; <span class="warn">14:22:23</span> CRITIC dissent: n=6 unplanned
+&gt; <span class="crit">14:22:25</span> request_approval -> agent_approvals
+&gt;   <span class="crit">BLOCKED pending human decision</span></div>
+        </div>
+      </div>
+
+      <div class="note info" style="margin-top:16px">
+        <strong>Buildability</strong><br>
+        This screen assumes each specialist authors its own events in the ADK response, so the UI
+        can attribute state per agent. That is the open probe. If every event comes back authored
+        by the coordinator, the per-agent columns collapse and this screen degrades to a single
+        progress bar. See Open Questions.
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section>
+  <h2>Screen 2 — Pattern B departmental workbench</h2>
+  <p class="lede">
+    Phase 2 requires a Pattern B screen to show the computed result <em>and its inputs</em>. The
+    layout is therefore split: the answer on the left, the rows it was computed from on the right,
+    and the query that produced them underneath. The operator can audit the number without leaving
+    the screen.
+  </p>
+
+  <div class="screen" style="margin-top:20px">
+    <div class="screen-chrome">
+      <span>D11 &middot; Haul Cycle Time Analyst</span>
+      <span class="badge b-idle">Pattern B</span>
+      <span class="badge b-ok">No approval required</span>
+      <span class="spacer"></span>
+      <span>Persona: Mine Controller &middot; Branch: mine ops</span>
+    </div>
+    <div class="screen-body">
+      <div class="bento">
+        <div class="card c5">
+          <div class="card-cap">Question</div>
+          <p style="margin:0 0 14px">Which haul routes lost the most cycle time this shift, and
+          against what baseline?</p>
+          <div class="card-cap">Answer</div>
+          <p style="margin:0 0 12px;font-size:15px">
+            Route R-07 is the largest loss. Mean cycle time rose to 38.4 minutes against a
+            trailing seven-shift mean of 33.7, a 14 percent increase across 22 completed cycles.
+            R-03 and R-11 are inside normal variation.
+          </p>
+          <dl class="kv">
+            <dt>Rows read</dt><dd class="mono">412</dd>
+            <dt>Tables</dt><dd class="mono">mining_data.haulage_routes</dd>
+            <dt>Model tier</dt><dd class="mono">balanced</dd>
+            <dt>Latency</dt><dd class="mono">7.4s</dd>
+          </dl>
+        </div>
+        <div class="card c7">
+          <div class="card-cap">Inputs &middot; the rows behind the answer</div>
+          <table class="data">
+            <thead><tr><th>Route</th><th class="num">Cycles</th><th class="num">Mean this shift</th><th class="num">7-shift mean</th><th class="num">Delta</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">R-07</td><td class="num">22</td><td class="num">38.4</td><td class="num">33.7</td><td class="num" style="color:var(--critical)">+14.0%</td></tr>
+              <tr><td class="mono">R-03</td><td class="num">31</td><td class="num">27.1</td><td class="num">26.8</td><td class="num" style="color:var(--fg-muted)">+1.1%</td></tr>
+              <tr><td class="mono">R-11</td><td class="num">18</td><td class="num">41.9</td><td class="num">42.6</td><td class="num" style="color:var(--success)">-1.6%</td></tr>
+              <tr><td class="mono">R-02</td><td class="num">27</td><td class="num">30.2</td><td class="num">29.4</td><td class="num" style="color:var(--fg-muted)">+2.7%</td></tr>
+            </tbody>
+          </table>
+          <div class="card-cap" style="margin-top:16px">Query</div>
+          <div class="console">SELECT route_id,
+       COUNT(*) AS cycles,
+       AVG(cycle_minutes) AS mean_minutes
+  FROM `mining_data.haulage_routes`
+ WHERE shift_id = @shift_id
+ GROUP BY route_id
+<span class="dim">-- parameters: shift_id = 'B-2026-08-12'
+-- declared-table check: PASS
+-- referenced: mining_data.haulage_routes</span></div>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:16px">
+        <button class="btn primary">Escalate to S04 dispatch re-plan</button>
+        <button class="btn">Compare D12 route congestion</button>
+        <button class="btn">Add to handover</button>
+      </div>
+      <p style="margin:12px 0 0;color:var(--fg-muted);font-size:13px">
+        Numbers on this screen are wireframe placeholders for layout review. The live agent reads
+        real rows, and the demo runs against real data.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="hitl">
+  <h2>Screen 3 — HITL approval surface</h2>
+  <p class="lede">
+    Fourteen of the 52 entrypoints are marked <code>hitl_required</code>: nine swarms (S01, S02,
+    S04, S05, S07, S08, S09, S10, S11) and five deep agents (D07, D14, D25, D30, D37). Phase 2 makes an approval
+    surface mandatory for every one of them, with Hold-to-Confirm and an audit trail. The rule that
+    shapes this layout is no black-box coercion: the reasoning and the source telemetry are on
+    screen before the human is asked to confirm.
+  </p>
+
+  <div class="screen" style="margin-top:20px">
+    <div class="screen-chrome">
+      <span>Approval &middot; S10 Fatigue Intervention &amp; Stand-down</span>
+      <span class="badge b-crit">Action affects a person</span>
+      <span class="spacer"></span>
+      <span>Requested 14:25 &middot; expires 14:55</span>
+    </div>
+    <div class="screen-body">
+      <div class="bento">
+        <div class="card c7">
+          <div class="card-cap">Proposed action</div>
+          <p style="margin:0 0 12px;font-size:15px">
+            Stand down operator OP-2211 for the remainder of Shift B and reassign HT-114 to the
+            relief pool.
+          </p>
+
+          <div class="card-cap">Why the agents recommend it</div>
+          <ul class="tight">
+            <li><span class="mono">S10-SP1</span> scored fatigue in the top band for this operator
+                across the last two hours.</li>
+            <li><span class="mono">S10-SP2</span> counted three microsleep events since 12:40, with
+                the interval between them shortening.</li>
+            <li><span class="mono">S10-SP3</span> confirmed relief cover is available, so the
+                stand-down does not strand the route.</li>
+            <li><span class="mono">S10-CRITIC</span> raised no dissent.</li>
+          </ul>
+
+          <div class="note" style="margin-top:14px">
+            <strong>Privacy</strong><br>
+            Biometric detail is masked in this view by the same output filter that masks it for the
+            agents. The approver sees the score band and the event count. They do not see raw
+            biometric traces, and the screen says so rather than leaving the absence unexplained.
+          </div>
+        </div>
+
+        <div class="card c5">
+          <div class="card-cap">Decision</div>
+          <p style="margin:0 0 6px;font-size:13.5px;color:var(--fg-muted)">
+            This action removes a named person from duty. Hold the button for two seconds to
+            confirm. Releasing early cancels.
+          </p>
+          <div class="btn-row" style="margin:14px 0">
+            <button class="btn danger" id="holdBtn">
+              <span class="hold-fill" id="holdFill"></span>
+              <span class="lbl" id="holdLbl">Hold to stand down</span>
+            </button>
+            <button class="btn">Refuse</button>
+          </div>
+          <div id="holdResult" class="console" style="display:none"></div>
+
+          <div class="card-cap" style="margin-top:16px">Audit record &middot; live agent_approvals schema</div>
+          <div class="console">approval_id              <span class="dim">APR-&lt;uuid&gt;</span>
+agent_id                 <span class="dim">S10</span>
+action_type              <span class="dim">stand_down_operator</span>
+target_entity            <span class="dim">OP-2211</span>
+decision                 <span class="crit">PENDING -&gt; APPROVED</span>
+approver_principal       <span class="dim">&lt;signed-in identity&gt;</span>
+decided_at               <span class="dim">&lt;server timestamp&gt;</span>
+hold_duration_ms         <span class="dim">2000</span>
+agent_reasoning_snapshot <span class="dim">SP1 band, SP2 count, SP3 cover</span>
+unverified_flags         <span class="dim">[]</span>
+source_tables            <span class="dim">[biometric_fatigue_logs, ...]</span>
+<span class="dim">-- nothing in the codebase writes APPROVED. Only a human does,
+-- and hold_duration_ms is how the record proves the hold happened.</span></div>
+        </div>
+      </div>
+
+      <div class="note info" style="margin-top:16px">
+        <strong>Anti-pattern check</strong><br>
+        Refuse is a plain button of equal weight, not a faint link. The confirm control is safety
+        orange, never green. No destructive step is bundled behind a generic label: reassigning the
+        truck is named in the action text, not hidden inside it.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="exec">
+  <h2>Screen 4 — S12 shift handover and executive roll-up</h2>
+  <p class="lede">
+    S12 is deliberately not one of the six branches. It sits above them as the convergence layer
+    where every branch's day resolves into one narrative, which makes it both the outgoing
+    supervisor's handover and the one screen a GM or CEO would keep open.
+  </p>
+
+  <div class="screen" style="margin-top:20px">
+    <div class="screen-chrome">
+      <span>S12 &middot; Shift Handover &amp; Site Value Briefing</span>
+      <span class="badge b-info">Convergence layer</span>
+      <span class="spacer"></span>
+      <span>Shift B closing 22:00 &middot; audience: Shift Supervisor, GM, CEO</span>
+    </div>
+    <div class="screen-body">
+      <div class="bento">
+        <div class="card c12">
+          <div class="card-cap">Six branches, one narrative</div>
+          <table class="data">
+            <thead><tr><th>Branch</th><th>Headline</th><th>Agents involved</th><th>Carried to next shift</th></tr></thead>
+            <tbody>
+              <tr><td>1 Asset availability</td><td>PUMP-104A stopped 14:22, recovery plan approved with widened range</td><td class="mono">S01 D01 D05</td><td><span class="badge b-crit">Yes</span></td></tr>
+              <tr><td>2 Ore realisation</td><td>Block model variance inside tolerance, no dilution flag</td><td class="mono">D16 D17</td><td><span class="badge b-idle">No</span></td></tr>
+              <tr><td>3 Processing</td><td>Recovery drifted 1.8 points, crusher setpoint change approved 12:48</td><td class="mono">S07 D21 D25</td><td><span class="badge b-warn">Monitor</span></td></tr>
+              <tr><td>4 Haulage</td><td>Route R-07 cycle time up 14 percent, dispatch re-plan pending</td><td class="mono">D11 D12 S04</td><td><span class="badge b-crit">Yes</span></td></tr>
+              <tr><td>5 Materials</td><td>SP-4471 below reorder point, 2 work orders exposed</td><td class="mono">S08 D31</td><td><span class="badge b-crit">Yes</span></td></tr>
+              <tr><td>6 Safety</td><td>One stand-down executed, relief cover held, no incident</td><td class="mono">S10 D35 D36</td><td><span class="badge b-warn">Monitor</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card c8">
+          <div class="card-cap">Executive view &middot; what this shift moved</div>
+          <div class="bento">
+            <div class="card c6" style="background:var(--surface-high)">
+              <div class="metric gap">[CLIENT INPUT REQUIRED]</div>
+              <div class="metric-sub">AISC per tonne, shift contribution</div>
+            </div>
+            <div class="card c6" style="background:var(--surface-high)">
+              <div class="metric">11</div>
+              <div class="metric-sub">Agent-assisted decisions logged</div>
+            </div>
+            <div class="card c6" style="background:var(--surface-high)">
+              <div class="metric">4</div>
+              <div class="metric-sub">Human approvals recorded</div>
+            </div>
+            <div class="card c6" style="background:var(--surface-high)">
+              <div class="metric" style="color:var(--success)">0</div>
+              <div class="metric-sub">Actions taken without a human</div>
+            </div>
+          </div>
+          <div class="note" style="margin-top:14px">
+            <strong>Honest gap</strong><br>
+            The AISC tile stays empty until the client supplies a baseline and per-branch values.
+            The two figures that are real, approvals recorded and autonomous actions taken, are the
+            ones the demo can defend under questioning.
+          </div>
+        </div>
+
+        <div class="card c4">
+          <div class="card-cap">Handover actions</div>
+          <div class="btn-row" style="flex-direction:column;align-items:stretch">
+            <button class="btn primary">Sign and post handover</button>
+            <button class="btn">Export executive brief</button>
+            <button class="btn">Open approval log</button>
+          </div>
+          <p style="margin:14px 0 0;color:var(--fg-muted);font-size:13px">
+            Signing writes an audit record the same way an approval does. A handover nobody signed
+            is not a handover.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="open">
+  <div class="eyebrow">Before Phase 3</div>
+  <h2>Open questions and honest gaps</h2>
+  <div class="bento">
+    <div class="card c6">
+      <div class="card-cap">Unverified</div>
+      <ul class="tight">
+        <li><strong>Per-specialist observability.</strong> The swarm console assumes each specialist
+            authors its own events in the ADK response. The probe that answers this is outstanding.
+            If it fails, Screen 1 needs redesigning around a coordinator-only trace.</li>
+        <li><strong>Role mapping.</strong> Option A assumes identity carries a persona claim.
+            Nothing in the current deployment does that. Domain-wide invoker access was granted, so
+            today every signed-in user can call every agent.</li>
+      </ul>
+    </div>
+    <div class="card c6">
+      <div class="card-cap">Client input required</div>
+      <ul class="tight">
+        <li>AISC per tonne baseline, and per-branch dollar values. Only the $145k/hr mill downtime
+            rate has been supplied.</li>
+        <li>Whether the operation is open pit with an on-site concentrator. The device and stress
+            profiles behind these layouts assume it is.</li>
+        <li>Whether biometric masking as designed satisfies the site's union agreement. The privacy
+            model is a process question, not only a technical one.</li>
+      </ul>
+    </div>
+    <div class="card c12">
+      <div class="card-cap">Not built</div>
+      <p style="margin:0">
+        Option C needs an event bus that watches BigQuery and maps events to agents. No trigger
+        layer exists. The 52 agents are request-response services today. Option C is presented as
+        roadmap for that reason and should not be demoed as if it runs.
+      </p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// Value-tree branch cards, generated from the six branches so the counts cannot drift.
+const BRANCHES = [
+  {n:1, name:"Asset availability &amp; unplanned downtime", apqc:"11.0.3", count:13,
+   ep:"D01-D10, S01, S02, S03", persona:"Reliability Engineer, Maintenance Planner", state:"crit"},
+  {n:2, name:"Ore realisation, grade &amp; dilution vs plan", apqc:"2.0.1", count:6,
+   ep:"D16-D20, S06", persona:"Mine Geologist", state:"ok"},
+  {n:3, name:"Processing recovery &amp; throughput", apqc:"11.0.3", count:7,
+   ep:"D21-D26, S07", persona:"Metallurgist", state:"warn"},
+  {n:4, name:"Haulage productivity &amp; cycle efficiency", apqc:"11.0.1", count:6,
+   ep:"D11-D15, S04", persona:"Mine Controller", state:"crit"},
+  {n:5, name:"Materials &amp; procurement cost leakage", apqc:"4.1.2 / 3.0.1", count:10,
+   ep:"D27-D34, S08, S09", persona:"Supply Planner, Procurement Lead", state:"crit"},
+  {n:6, name:"Safety, fatigue &amp; licence to operate", apqc:"9.1.2", count:10,
+   ep:"D35-D40, S05, S10, S11", persona:"HSE Lead, Shift Supervisor", state:"warn"}
+];
+const LABEL = {crit:"Action required", warn:"Monitor", ok:"Nominal"};
+
+document.getElementById("treeGrid").innerHTML = BRANCHES.map(b => `
+  <div class="card c4">
+    <div style="display:flex;justify-content:space-between;align-items:start;gap:10px">
+      <div class="mono" style="font-size:10px;color:var(--fg-muted);font-weight:700">
+        BRANCH ${b.n} &middot; APQC ${b.apqc}
+      </div>
+      <span class="badge b-${b.state}">${LABEL[b.state]}</span>
+    </div>
+    <h4 style="margin:8px 0 10px">${b.name}</h4>
+    <dl class="kv">
+      <dt>Agents</dt><dd class="mono">${b.count}</dd>
+      <dt>Range</dt><dd class="mono">${b.ep}</dd>
+      <dt>Owners</dt><dd>${b.persona}</dd>
+      <dt>Value</dt><dd style="color:var(--warning)">[CLIENT INPUT REQUIRED]</dd>
+    </dl>
+  </div>`).join("");
+
+// Working Hold-to-Confirm, so the interaction can be evaluated rather than imagined.
+(function () {
+  const btn = document.getElementById("holdBtn");
+  const fill = document.getElementById("holdFill");
+  const lbl = document.getElementById("holdLbl");
+  const out = document.getElementById("holdResult");
+  const HOLD_MS = 2000;
+  let raf = null, start = 0;
+
+  function reset(msg) {
+    cancelAnimationFrame(raf); raf = null;
+    fill.style.width = "0%";
+    lbl.textContent = msg || "Hold to stand down";
+  }
+  function tick() {
+    const pct = Math.min(100, ((performance.now() - start) / HOLD_MS) * 100);
+    fill.style.width = pct + "%";
+    if (pct >= 100) {
+      reset("Confirmed");
+      out.style.display = "block";
+      out.innerHTML = 'UPDATE mining_data.agent_approvals\n' +
+        '  agent_id=S10 action_type=stand_down_operator target_entity=OP-2211\n' +
+        '  decision=APPROVED hold_duration_ms=2000\n' +
+        '  decided_at=' + new Date().toISOString() + '\n' +
+        '<span class="ok">&gt; audit record written, action released to S10</span>';
+      return;
+    }
+    lbl.textContent = "Keep holding " + ((HOLD_MS - (performance.now() - start)) / 1000).toFixed(1) + "s";
+    raf = requestAnimationFrame(tick);
+  }
+  function begin(e) { e.preventDefault(); if (raf) return; start = performance.now(); raf = requestAnimationFrame(tick); }
+  function end() { if (raf) reset("Cancelled, hold not completed"); }
+
+  btn.addEventListener("mousedown", begin);
+  btn.addEventListener("touchstart", begin, {passive:false});
+  ["mouseup","mouseleave","touchend","touchcancel"].forEach(ev => btn.addEventListener(ev, end));
+  btn.addEventListener("keydown", e => { if (e.key === " " || e.key === "Enter") begin(e); });
+  btn.addEventListener("keyup", end);
+})();
+
+// Tabstrip switching, so the persona cockpit reads as an application rather than a picture.
+document.querySelectorAll(".tabstrip").forEach(strip => {
+  strip.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    strip.querySelectorAll("button").forEach(x => x.setAttribute("aria-selected", "false"));
+    b.setAttribute("aria-selected", "true");
+  });
+});
+</script>
+
+</body>
+</html>

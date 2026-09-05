@@ -1,0 +1,7 @@
+{"part_number": "EXP-0001", "part_description": "ANFO Prill 1t bulk bag", "stock_level": 2311, "reorder_point_limit": 269, "lead_time_days": 21, "unit_price_usd": 129.64, "un_class": "1.5D", "magazine": "MAG-01"}
+{"part_number": "EXP-0002", "part_description": "Heavy ANFO 70:30 Emulsion 1t", "stock_level": 1708, "reorder_point_limit": 183, "lead_time_days": 10, "unit_price_usd": 35.54, "un_class": "1.5D", "magazine": "MAG-02"}
+{"part_number": "EXP-0003", "part_description": "Packaged Emulsion 32mm x 400mm", "stock_level": 366, "reorder_point_limit": 565, "lead_time_days": 35, "unit_price_usd": 192.59, "un_class": "1.1D", "magazine": "MAG-01"}
+{"part_number": "EXP-0004", "part_description": "Electronic Detonator 15m", "stock_level": 1568, "reorder_point_limit": 168, "lead_time_days": 21, "unit_price_usd": 22.63, "un_class": "1.1B", "magazine": "MAG-01"}
+{"part_number": "EXP-0005", "part_description": "Non-Electric Shock Tube 4.8m", "stock_level": 467, "reorder_point_limit": 549, "lead_time_days": 35, "unit_price_usd": 11.62, "un_class": "1.4B", "magazine": "MAG-01"}
+{"part_number": "EXP-0006", "part_description": "Cast Booster 400g", "stock_level": 704, "reorder_point_limit": 681, "lead_time_days": 10, "unit_price_usd": 74.81, "un_class": "1.1D", "magazine": "MAG-02"}
+{"part_number": "EXP-0007", "part_description": "Detonating Cord 10g/m", "stock_level": 1431, "reorder_point_limit": 62, "lead_time_days": 35, "unit_price_usd": 141.84, "un_class": "1.1D", "magazine": "MAG-02"}

@@ -1,0 +1,665 @@
+/* Application 2. Composed from tokens.css; no new colour, no new typeface.
+   Everything below either implements a rule from docs/phase-2-ux.md or fixes
+   one of the eight findings its Stage 3 audit raised, and says which. */
+
+/* ---------- rails and two-pane layout ---------- */
+
+/* A1: the three-panel swarm console is unusable on P7's handheld and P3's
+   rugged tablet, so the rail collapses to a full-width strip above the work
+   rather than shrinking beside it. The breakpoint is 1000px, not 760: the rail
+   needs 300px and the work needs 620px before the columns start fighting. */
+.pane { display: grid; grid-template-columns: 320px 1fr; gap: 16px; align-items: start; }
+/* minmax(0, …) rather than 1fr: a 1fr track refuses to shrink below the
+   min-content of what it holds, and what this one holds is BigQuery
+   identifiers. S12 reads mining_data.operator_vehicle_assignments, one
+   unbreakable 40-character token, which held the whole pane 27px wider than a
+   390px screen. The track is allowed to shrink; the identifiers break. */
+@media (max-width: 1000px) { .pane { grid-template-columns: minmax(0, 1fr); } }
+
+.rail { border: 1px solid var(--border); background: var(--surface); }
+.rail-cap {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg-muted);
+  padding: 12px 14px; border-bottom: 1px solid var(--border);
+}
+/* A2: descriptions are inline. Nothing in this suite reveals content on hover,
+   because P3 works in gloves on a tablet and P7 on a handheld, and neither
+   device has a hover state to reveal it with. */
+.rail-row {
+  display: flex; gap: 10px; align-items: center;
+  min-height: 56px; padding: 9px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--fg); text-decoration: none;
+}
+.rail-row:last-child { border-bottom: 0; }
+.rail-row:hover { background: rgba(255,255,255,0.04); }
+.rail-row.on { background: var(--surface-high); box-shadow: inset 2px 0 0 var(--accent); }
+.rail-row:focus-visible { outline: none; box-shadow: inset 0 0 0 1px var(--accent); }
+.rail-id { font-size: 12px; font-weight: 700; color: var(--accent); min-width: 34px; }
+.rail-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.rail-name { font-size: 13.5px; line-height: 1.35; }
+.rail-sub { font-size: 10.5px; color: var(--fg-muted); text-transform: uppercase;
+            letter-spacing: 0.05em; }
+
+/* ---------- runtime band ---------- */
+
+.run-state { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+.run-state > div { flex: 1; min-width: 240px; font-size: 13.5px; }
+
+/* ---------- the connection block ---------- */
+
+/* One block, four frames, and the frame is set by the answer rather than by
+   the shape the block started in. The bug this replaces rendered a green
+   ✓ READY inside the amber dashed absence box on a connected instance, and the
+   CHECKING… placeholder in the same box before any answer existed at all — so
+   the two states the reader most needs told apart were framed identically, and
+   both were framed as the pessimistic one. */
+.nc-block { padding: 14px; border: 1px solid var(--border); background: var(--surface); }
+.nc-block .nc-what { font-size: 14px; margin: 10px 0 8px; color: var(--fg); }
+.nc-block .nc-why { font-size: 13px; margin: 0 0 6px; color: var(--fg-muted); max-width: 76ch; }
+.nc-block .drawer { margin-top: 12px; }
+
+/* Not yet asked, and not established. Neutral is the whole point: an unknown
+   drawn in warning amber has stated the answer before there is one. */
+.nc-checking, .nc-unknown { border-style: dashed; border-color: var(--border); }
+
+/* Connected. A plain card and a badge, not a green panel — the agents being
+   reachable is the ordinary condition of this system, and a screen that
+   celebrates the ordinary teaches its reader to stop reading the frame. */
+.nc-ready { border-color: var(--border); }
+
+/* Dashed, like the telemetry console, and never filled with a status colour:
+   this is an absence, and an absence that looks like a result is the thing
+   this whole application is built not to do. */
+.nc-not-connected {
+  border: 1px dashed var(--warning);
+  background: rgba(217,119,6,0.06);
+}
+
+/* ---------- method blocks ---------- */
+
+.method { border-left: 2px solid var(--accent); padding: 0 0 0 14px; margin: 0 0 18px; }
+.method:last-child { margin-bottom: 0; }
+.method-cap {
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--accent); margin-bottom: 6px;
+}
+/* The formula is the point of the block, so it is set at reading size rather
+   than at the caption size the rest of the mono type uses. */
+.expression { font-size: 14px; color: var(--fg); line-height: 1.5; word-break: break-word; }
+.method-sub { font-size: 11.5px; color: var(--fg-muted); margin-top: 8px; line-height: 1.5; }
+
+/* ---------- input tables ---------- */
+
+/* .tbl base rules (the collapsible shell + 44px touch target + focus ring) now
+   live in apps/shared/app.css so both applications can reach them. The rules
+   below are workspace-specific: the description paragraph, the column list and
+   the per-column plain-language gloss. */
+.tbl-desc { font-size: 13px; margin: 0; padding: 0 12px 10px 12px; max-width: 82ch; }
+.cols { list-style: none; margin: 0; padding: 0 12px 12px; }
+.cols li { padding: 7px 0; border-top: 1px solid var(--border-soft); font-size: 12.5px; }
+.col-meaning { font-size: 12.5px; color: var(--fg-muted); margin-top: 3px; max-width: 84ch;
+               font-family: var(--sans); }
+
+/* Every identifier this suite prints is one token with no spaces — dotted
+   table paths, column names, the qualified references inside a column's
+   description — and several are longer than a 360px screen. They break rather
+   than hold their card open past the edge of the display: a name clipped at
+   the border is a name a reader cannot check against the warehouse. The SQL
+   console is exempt and scrolls instead, because breaking a query line changes
+   what the query appears to say. */
+.mono, .col-meaning { overflow-wrap: anywhere; }
+.console, .console .mono { overflow-wrap: normal; }
+
+/* ---------- the unverified band ---------- */
+
+/* docs/phase-2-ux.md calls this the most important element on the approval
+   sheet, so it is the loudest thing this stylesheet draws: the only 2px border
+   in the suite, on the critical colour, and never collapsed behind a toggle. */
+.unverified { border: 2px solid var(--critical); background: rgba(234,88,12,0.07); padding: 14px; }
+.unverified-cap { display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+                  font-size: 13.5px; margin-bottom: 10px; }
+.unverified ul { list-style: none; margin: 0; padding: 0; }
+.unverified li { padding: 10px 0; border-top: 1px solid rgba(234,88,12,0.28); font-size: 13.5px; }
+.unverified li .dim { font-size: 11.5px; margin-top: 3px; }
+.remedy { font-size: 12.5px; color: var(--fg-muted); margin-top: 5px; }
+
+.cite { font-size: 10.5px; color: var(--fg-dim); text-transform: uppercase;
+        letter-spacing: 0.05em; margin: 12px 0 0; }
+
+/* ---------- swarm stages ---------- */
+
+/* The critic sits downstream of the specialists it audits, never beside them
+   as a fourth peer: docs/phase-2-ux.md is explicit that drawing it as a peer
+   misrepresents what it does, which is to challenge a finding that already
+   exists. So the stages are rows, and the specialists are the only row that
+   fans sideways. */
+.stage { margin-bottom: 12px; }
+.stage-cap {
+  font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em; color: var(--fg-muted);
+  display: flex; gap: 8px; align-items: center; margin-bottom: 8px;
+}
+.stage-cap::after { content: ""; flex: 1; border-top: 1px solid var(--border); }
+.fan { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.node { border: 1px solid var(--border); background: var(--surface); padding: 12px; }
+.node.critic { border-color: var(--warning); }
+.node-id { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); }
+.node-name { font-size: 13.5px; margin: 4px 0 8px; }
+.node-tools { font-family: var(--mono); font-size: 10.5px; color: var(--fg-muted);
+              text-transform: uppercase; letter-spacing: 0.05em; }
+.flow { text-align: center; color: var(--fg-dim); font-size: 14px; line-height: 1; margin: 2px 0 10px; }
+
+/* ---------- execution trace ---------- */
+
+/* A4: the trace body is on-surface #E4E2E1, not the muted variant, because at
+   12px the variant fails 7:1 against the container it sits on. Only the
+   timestamp column keeps the variant, where the smaller contrast is carrying
+   the least. */
+.trace { font-family: var(--mono); font-size: 12px; font-weight: 500; line-height: 1.6;
+         color: var(--fg); }
+.trace .t { color: var(--fg-muted); }
+
+/* ---------- SC-4: the approval sheet ---------- */
+
+.sheet-back {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(9,9,9,0.82);
+  display: flex; align-items: flex-start; justify-content: center;
+  overflow-y: auto; padding: 24px 16px 64px;
+}
+.sheet {
+  width: min(760px, 100%); background: var(--bg);
+  border: 1px solid var(--border);
+}
+.sheet-head {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  padding: 14px 18px; border-bottom: 1px solid var(--border); background: var(--surface);
+}
+.sheet-head h2 { margin: 0; font-size: 19px; }
+.sheet-body { padding: 18px; }
+.sheet-body > * + * { margin-top: 18px; }
+
+/* A3: an 8px minimum gutter between Cancel and the hold control, and the two
+   differ in weight as well as colour — Cancel is text on the surface, confirm
+   is a filled outline. A gloved thumb that misses by 6mm must not land on the
+   destructive one, and a reader who cannot separate the hues must still be
+   able to tell them apart. */
+.sheet-actions { display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+                 padding: 16px 18px; border-top: 1px solid var(--border); background: var(--surface); }
+.sheet-actions .btn.cancel { background: transparent; border-color: var(--border); }
+.hold { min-width: 260px; }
+.hold-hint { font-family: var(--mono); font-size: 10.5px; color: var(--fg-muted);
+             text-transform: uppercase; letter-spacing: 0.06em; flex-basis: 100%; }
+
+table.audit { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+table.audit th, table.audit td { text-align: left; padding: 7px 10px;
+                                 border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+table.audit th { font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+                 letter-spacing: 0.06em; color: var(--fg-muted); white-space: nowrap; }
+table.audit td.v { font-family: var(--mono); font-size: 11.5px; word-break: break-word; }
+/* The type column is the one cell that must never wrap: STRING broken across
+   two lines reads as two values, and this table's whole job is to say exactly
+   what one row contains. */
+table.audit td.t { white-space: nowrap; }
+
+/* On a phone the sheet is 358px wide and this table cannot compress below 448:
+   the first column holds BigQuery column names, which are identifiers, and the
+   type column must not wrap for the reason above. So it scrolls inside the
+   sheet rather than pushing the sheet past the edge of the screen — the same
+   trade tokens.css makes for the data tables, at the same breakpoint. */
+@media (max-width: 820px) {
+  table.audit { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* The .tabstrip anchor variant went with the department switcher it was written
+   for. Every remaining tabstrip on either application is a <button> list, which
+   tokens.css already styles. */
+
+/* ---------- A7: the overhead type scale ---------- */
+
+/* P7 reads this from a control-room overhead display several metres back, where
+   the audit measured 14px body as illegible. The whole config steps up 1.5×
+   rather than one element doing so, because a screen with one large number and
+   ordinary labels is harder to read at distance than a uniformly larger one. */
+.scale-lg { font-size: 21px; }
+.scale-lg .rail-name, .scale-lg .node-name, .scale-lg .tbl-desc { font-size: 20px; }
+.scale-lg .trace, .scale-lg .expression { font-size: 18px; }
+.scale-lg .lede { font-size: 22px; }
+.scale-lg .rail-row { min-height: 72px; }
+.scale-lg .badge { font-size: 13px; }
+
+.scale-note { font-family: var(--mono); font-size: 10.5px; color: var(--fg-muted);
+              text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ---------- cockpit groups ---------- */
+
+.group { border: 1px solid var(--border); background: var(--surface); padding: 14px; }
+.group h3 { margin: 0 0 2px; font-size: 16px; }
+.group .group-sub { font-family: var(--mono); font-size: 10.5px; color: var(--fg-muted);
+                    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+/* 44px on a chip that is 40px of text is deliberate: these are the primary way
+   into all 52 agents and they are tapped, not clicked. */
+.chip {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
+  border: 1px solid var(--border); background: var(--bg);
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  color: var(--fg); text-decoration: none;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.chip.signoff { border-left: 3px solid var(--warning); }
+
+/* ---------- the role page ---------- */
+
+/* Panel on the left, sidecar on the right, and one breakpoint. Below 1000px the
+   sidecar goes underneath rather than shrinking: a chat transcript in a 200px
+   column is not a chat transcript. */
+.role-layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 20px; align-items: start;
+}
+/* minmax(0, 1fr), not 1fr: a bare 1fr floors the track at the item's min-content,
+   and the five-column gap table's min-content is wider than a phone. That pushed
+   the whole page 116px past the viewport at 390px. */
+@media (max-width: 1000px) {
+  .role-layout { grid-template-columns: minmax(0, 1fr); }
+}
+.head { padding: 8px 0 22px; }
+.head h1 { margin-bottom: 6px; }
+/* max-width and min-width are the whole of this rule's mobile behaviour, and
+   they are here rather than behind a breakpoint because the widest role title
+   is data, not a constant: a longer one added to the catalogue moves the point
+   at which this overflows, and a media query would have to be re-measured.
+
+   An inline-flex box is sized by its content, and this one's content is a
+   <select> sized to its longest option at `font: inherit` — 21px under
+   .scale-lg, the overhead type scale P7 reads from across a control room. At
+   390px that made the picker 398px wide and pushed the document 36px past the
+   viewport, so every screen of the page scrolled sideways. Capping the box and
+   letting the select shrink inside it costs the tail of the longest title,
+   which the select still shows in full when opened, and costs no type size:
+   shrinking the text is what this must not do. */
+.role-pick { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
+  max-width: 100%; }
+.role-pick > span { font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-muted); }
+.role-pick select { min-height: 44px; padding: 0 10px; font: inherit; min-width: 0;
+  background: var(--bg); color: var(--fg); border: 1px solid var(--border); }
+.role-pick select:focus-visible { outline: none; box-shadow: 0 0 0 1px var(--accent); }
+
+/* The sidecar is empty until chat.js fills it; it still has to read as a column
+   rather than as a gap, and it sticks so the transcript stays beside the panel
+   the reader is scrolling.
+
+   Its surface is deliberately not the panel's. Every static block on this page
+   -- .card, .rail, .group, .agent-card -- is var(--surface) on var(--border),
+   and the sidecar wore the identical pair, which is the exact defect reported:
+   a live conversation reading as one more content block that happens to carry
+   an input at the bottom. --surface-top is two steps lighter than --surface
+   (#353535 against #1F2020) and the border swaps the neutral --border
+   (#374151) for --accent (#A7CAED) -- the colour this system already reserves
+   for "something is live or in motion" everywhere else it appears (the pill,
+   the reveal underline, INDUSTRY RANGE's badge is the one exception that
+   proves the rule: it is never used for a static fact). Both differences are
+   measured, not eyeballed -- tests/js/chat.test.js pins the two hex pairs
+   apart. */
+.sidecar {
+  border: 1px solid var(--accent); background: var(--surface-top);
+  padding: 14px; min-width: 0;
+}
+
+/* The label a boundary alone cannot carry: what kind of thing this column is,
+   said before any transcript exists to say it for itself. Sits above #runtime
+   and #chat as a third, permanent child of .sidecar, so chat.js mounting or
+   remounting #chat never erases it. */
+.sidecar-tag {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent);
+  margin-bottom: 12px;
+}
+.sidecar-tag::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent); flex: none;
+}
+/* 88px, not 20px: the topbar is sticky at 69px tall, and a sidecar pinned to
+   the viewport top slides underneath it and loses its first line. */
+@media (min-width: 1001px) {
+  .sidecar { position: sticky; top: 88px; }
+}
+
+.pblock { margin-bottom: 26px; }
+.pblock h2 { font-size: 15px; margin: 0 0 8px; }
+.pblock h3 { font-size: 12.5px; color: var(--fg-muted); margin: 16px 0 6px;
+  text-transform: none; font-weight: 600; }
+.pnote { font-size: 13px; color: var(--fg-muted); max-width: 76ch; margin: 0 0 10px; }
+.pcaveat { font-size: 12px; color: var(--fg-muted); max-width: 80ch; margin: 10px 0 0; }
+
+.tbl-plain { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl-plain th { text-align: left; font-weight: 600; font-size: 11.5px;
+  color: var(--fg-muted); border-bottom: 1px solid var(--border); padding: 6px 8px 6px 0; }
+.tbl-plain td { padding: 7px 8px 7px 0; border-bottom: 1px solid var(--border-soft); }
+/* The gap block prints two tables one above the other — the rows this role's
+   agents read, and the rows recorded anyway. Auto layout sizes each to its own
+   longest cell, so the same five headings land in different places and the pair
+   reads as a rendering fault. Fixed columns are only right here; the three-column
+   machine table keeps auto layout, which stops a two-character unit claiming a
+   third of the width. */
+.tbl-gap { table-layout: fixed; }
+.tbl-gap th:nth-child(1) { width: 26%; }
+.tbl-gap th:nth-child(2) { width: 18%; }
+.tbl-gap th:nth-child(3), .tbl-gap th:nth-child(4) { width: 19%; }
+/* Five columns of measurement do not fit a 390px phone, and squeezing them
+   wraps every cell to three lines. The table scrolls sideways instead. */
+@media (max-width: 700px) {
+  .tbl-plain { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    white-space: nowrap; }
+}
+
+.ev { margin-bottom: 14px; }
+.ev-head { margin-top: 14px; }
+.spark { width: 100%; height: 28px; display: block; }
+.ev-range { font-size: 12px; color: var(--fg-muted); margin: 4px 0 0; }
+.ev-caption { font-size: 11.5px; color: var(--fg-muted); margin: 3px 0 0; max-width: 80ch; }
+.share-bar { height: 10px; background: var(--border-soft); }
+.share-bar span { display: block; height: 100%; background: var(--accent); }
+
+.signoffs { list-style: none; margin: 0; padding: 0; }
+.signoffs li { display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  padding: 8px 0; border-top: 1px solid var(--border-soft); font-size: 13px; }
+.signoffs li span { flex: 1; min-width: 200px; }
+.ask { min-height: 44px; padding: 0 14px; font: inherit; cursor: pointer;
+  background: var(--bg); color: var(--fg); border: 1px solid var(--border); }
+.ask:hover { border-color: var(--accent); color: var(--accent); }
+.ask:focus-visible { outline: none; box-shadow: 0 0 0 1px var(--accent); }
+
+/* An ordinary section on the page now, not a collapsed disclosure, so the
+   indent is a list's own hanging indent rather than a box's inner padding. */
+.jobs { margin: 0; padding: 0 0 0 18px; font-size: 13px; }
+.jobs li { padding: 4px 0; max-width: 80ch; }
+
+/* --warn is not a token in this system; --warning is. Naming a variable that
+   does not exist and relying on the fallback would print the wrong colour and
+   look deliberate. */
+.runtime-state { font-size: 12px; padding: 8px 10px; margin-bottom: 12px;
+  border: 1px solid var(--border); color: var(--fg-muted); }
+/* The three class names are connectionCopy()'s three keys, so the state this
+   line describes and the state it is coloured for cannot come apart. Unknown
+   keeps the default border: it is the state of having been told nothing. */
+.runtime-state.ready { border-color: var(--success); color: var(--fg); }
+.runtime-state.not-connected { border-color: var(--warning); }
+.runtime-state.unknown { border-style: dashed; }
+
+/* ---------- the chat sidecar ---------- */
+
+/* .sidecar itself is not re-declared here. Its box, its background and its
+   sticky offset are set above, and that offset is 88px for a reason the topbar
+   height dictates. */
+.chat-head h2 { font-size: 14px; margin: 0 0 6px; }
+.starters { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.starter { min-height: 44px; padding: 8px 12px; text-align: left; font: inherit;
+  cursor: pointer; background: var(--bg); color: var(--fg-muted);
+  border: 1px solid var(--border-soft); }
+.starter:hover, .starter:focus-visible { color: var(--fg); border-color: var(--border); }
+.starter:focus-visible { outline: none; box-shadow: 0 0 0 1px var(--accent); }
+
+/* Capped and scrolled, so a long conversation does not push the composer off
+   the bottom of the column. */
+.transcript { max-height: 55vh; min-height: 0; overflow-y: auto; font-size: 13px; }
+.transcript .you { margin: 12px 0 6px; font-weight: 600; }
+.transcript .you p, .transcript .pick p, .transcript .error p { margin: 0; }
+.transcript .pick { font-size: 12px; color: var(--fg-muted); margin-bottom: 8px; }
+/* An activity line means the same thing wherever a stream runs, so the sidecar
+   and the handover share one set of rules rather than keeping two that drift. */
+.transcript .log, .brief-out .log { margin: 6px 0; }
+.transcript .step, .brief-out .step { font-size: 12px; color: var(--fg-muted);
+  margin: 3px 0; padding-left: 14px; position: relative; }
+.transcript .step::before, .brief-out .step::before { content: "·";
+  position: absolute; left: 2px; }
+.transcript .step.failed, .brief-out .step.failed { color: var(--fg); }
+.transcript .step.failed::before, .brief-out .step.failed::before { content: "×"; }
+/* Stopped is not failed: the reader ended it, and nothing went wrong. */
+.transcript .step.stopped::before { content: "–"; }
+/* The answer is markup now, not a wall of characters. pre-wrap belonged to the
+   version that appended raw text frame by frame; with plainAnswer() rendering
+   headings, lists and code spans, the elements carry the structure and
+   preserved whitespace only adds gaps between them.
+
+   Nothing here outranks the sidecar's own h2 at 14px. An answer that opened a
+   heading larger than the panel it is printed in would read as a second page
+   rather than a reply, so the two levels the renderer emits sit at and just
+   below the body size and are told apart by weight and colour. */
+.transcript .answer { margin: 8px 0 4px; }
+.transcript .answer h3 { font-size: 13px; font-weight: 600; margin: 14px 0 4px; }
+.transcript .answer h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px;
+  color: var(--fg-muted); }
+.transcript .answer p { margin: 6px 0; }
+.transcript .answer ul { margin: 6px 0; padding-left: 18px; }
+.transcript .answer li { margin: 3px 0; }
+/* A column this narrow cannot lay out an identifier the agent quoted without
+   being told it may break one. */
+.transcript .answer code { overflow-wrap: anywhere; }
+/* The drawer an answer files its removed passages into. It is the page's own
+   component and needs no rules beyond keeping an unbroken error string — a
+   BigQuery job id runs to 36 characters — inside a 380px column. */
+.transcript .answer .drawer { margin-top: 12px; }
+.transcript .answer .drawer-body pre { margin: 0; font-size: 11.5px;
+  color: var(--fg-muted); white-space: pre-wrap; overflow-wrap: anywhere; }
+.transcript .error { font-size: 12px; margin: 8px 0; padding: 8px;
+  border: 1px solid var(--warning); }
+
+.composer { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.composer textarea { font: inherit; font-size: 13px; padding: 8px; resize: vertical;
+  background: var(--bg); color: var(--fg); border: 1px solid var(--border); }
+.composer textarea:focus-visible { outline: none; box-shadow: 0 0 0 1px var(--accent); }
+.ask.primary { border-color: var(--accent); color: var(--accent); }
+/* margin-top as well as margin-left: with two or three runners-up these wrap,
+   and a wrapped row with no leading collides with the line above it. The
+   vertical padding is what lets the label wrap: agent names run long, and in a
+   380px column the longest of them takes three lines, which .ask's flat 44px
+   would print outside its own border. */
+.ask.alt { margin: 6px 0 0 8px; padding: 8px 14px; text-align: left; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- SC-5: writing the brief ---------- */
+
+/* The control sits above the sheet because it is what fills the sheet, and the
+   answer lands directly under it rather than a screen further down, where a
+   reader watching for the first line would not see it arrive. */
+.run-brief { margin-top: 16px; }
+.brief-out { font-size: 13px; }
+.brief-out .answer { white-space: pre-wrap; margin: 10px 0 4px; max-width: 80ch; }
+
+/* At desk widths the sidecar is pinned, and a pinned column taller than the
+   viewport hides its own bottom — which is where the Ask button is, the one
+   control this screen exists for. Measured at 1440x900 with three starters and
+   one answer: the button sat 40px below the fold and could not be scrolled to.
+   The column is bounded to the viewport instead and the transcript takes
+   whatever is left over, so the composer is always the last thing in it. */
+@media (min-width: 1001px) {
+  .sidecar { max-height: calc(100vh - 100px); display: flex; flex-direction: column; }
+  .chat { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+  .chat-head, .starters, .composer { flex: none; }
+  .chat .transcript { max-height: none; flex: 1 1 auto; }
+}
+
+/* ---------- the agent card (design doc section 2) ---------- */
+
+/* Shared by persona.html (one card per agent that carries one, beneath the
+   role's governing question) and value.html (AGT-19's card). One block of
+   rules for one renderer -- apps/workspace/agent-card.js -- so the two
+   screens cannot drift into drawing the same field two different ways. */
+.agent-card {
+  border: 1px solid var(--border); background: var(--surface);
+  padding: 16px; margin-bottom: 14px;
+}
+.agent-card + .agent-card { margin-top: 0; }
+.ac-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 8px; }
+.ac-id { font-size: 11px; font-weight: 700; color: var(--accent); }
+.ac-name { font-size: 14.5px; }
+.ac-decision { font-size: 13.5px; color: var(--fg); margin: 0 0 12px; max-width: 74ch; }
+.ac-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  padding: 7px 0; border-top: 1px solid var(--border-soft); font-size: 12.5px; }
+.ac-row:first-of-type { border-top: none; }
+.ac-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.06em; color: var(--fg-muted); min-width: 92px; flex-shrink: 0; }
+/* Declared, never enforced -- said beside the authority value itself, not as
+   a footnote, so a reader who reads only this row still meets the caveat. */
+.ac-caveat { color: var(--fg-dim); font-size: 11.5px; }
+.ac-lines ul { list-style: none; margin: 0; padding: 0; flex: 1; min-width: 0; }
+.ac-lines li { padding: 3px 0; }
+.ac-lines .badge { margin-left: 6px; }
+.ac-coverage-body { flex: 1; min-width: 160px; }
+.ac-coverage-body .share-bar { margin-bottom: 5px; }
+.ac-coverage-label { margin: 0; font-size: 12px; color: var(--fg-muted); }
+/* Not styled as a warning or an error -- a coverage of zero is a stated fact,
+   the same kind of fact a coverage of five-of-seven is, and dressing it in
+   the critical colour would be exactly the "reads as an error" failure this
+   row exists to avoid. Weight is the only signal: it earns the reader's eye
+   without borrowing the vocabulary this system uses for a fault. */
+.ac-coverage-zero { color: var(--fg); font-weight: 500; }
+.ac-limit { font-size: 12px; color: var(--fg-muted); margin: 10px 0 0; max-width: 78ch; }
+.ac-limit .ac-label { display: block; margin-bottom: 3px; }
+
+/* The metric-impact row (design §2, plan 2026-08-18 Task D): the .range-row /
+   .money-range-bar pair are the same component the value screen's evidence
+   band uses (workspace.css, "band 3" rules below), reused rather than
+   redrawn so a reader who has learned to read a range bar once reads it the
+   same way on every screen. .ac-impacts-body only supplies the flex sizing
+   that lets the rows sit beside the "Metric impact" label the way coverage's
+   body already does. */
+.ac-impacts-body { flex: 1; min-width: 200px; }
+.ac-impact-empty { margin: 0; }
+
+/* The cockpit's site-measured marker (cockpit.js): a tick on the same bar as
+   the published range it sits beside, in a second colour so it cannot be
+   read as part of the industry figure it is being compared against -- the
+   bar it decorates, .money-range-bar, is declared in the value-screen block
+   below; this rule is deliberately kept apart from that block because the
+   marker is cockpit-only and the bar itself is not. */
+.money-range-bar .range-marker {
+  position: absolute; top: -3px; bottom: -3px; width: 2px;
+  background: var(--success); opacity: 1; border: none;
+}
+
+/* ---------- the value screen (sales/consulting framing, four bands) ---------- */
+
+/* The addressable-pool treatment, unchanged from the previous draft of this
+   page: a proportion bar between two published percentages, never a currency
+   amount. The .warn / .ok modifiers below are new -- band 4's two-figure
+   comparison reuses this exact bar rather than inventing a second one, so a
+   reader who has learned to read this shape once reads it everywhere on the
+   page. */
+.money-range { margin: 16px 0; }
+.money-range-bar { height: 10px; background: var(--surface-high); border: 1px solid var(--border);
+  position: relative; }
+.money-range-bar > span { position: absolute; top: -1px; bottom: -1px;
+  background: var(--accent); opacity: 0.5; border: 1px solid var(--accent); }
+.money-range-bar.warn > span { background: var(--warning); border-color: var(--warning); }
+.money-range-bar.ok > span { background: var(--success); border-color: var(--success); }
+.money-range-labels { display: flex; justify-content: space-between; margin-top: 8px;
+  font-family: var(--mono); font-size: 11px; color: var(--fg-muted); }
+.money-denominator { display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin: 18px 0 0; padding-top: 14px; border-top: 1px solid var(--border); }
+.money-denominator .ac-label { min-width: 0; }
+
+/* Band 3: one published range per row, the bar positioned at its own low-high
+   span rather than from zero, so the reader sees where the range sits, not
+   just how wide it is. The badge and the citation are two different signals
+   on purpose -- INDUSTRY RANGE says what kind of number this is, the cite
+   line says whose it is -- because a reader stopped by the first is looking
+   for the second next. */
+.range-row { padding: 12px 0; border-top: 1px solid var(--border-soft); }
+.range-row:first-child { border-top: 0; padding-top: 0; }
+.range-row-head { display: flex; justify-content: space-between; align-items: baseline;
+  gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.range-row-label { font-size: 13.5px; }
+.range-row-fig { font-family: var(--mono); font-size: 15px; font-weight: 700;
+  color: var(--fg); font-variant-numeric: tabular-nums; }
+.range-row-foot { display: flex; align-items: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.range-row-foot .cite { margin: 0; }
+
+/* Band 4: the two-figure comparison, same bar component as the money range
+   above, framed as loss (warning) and win (success) rather than as two
+   neutral accents -- the whole point of the pair is that they read as
+   opposites at a glance. */
+.compare-row + .compare-row { margin-top: 14px; }
+.compare-head { display: flex; justify-content: space-between; align-items: baseline;
+  gap: 10px; margin-bottom: 6px; font-size: 13.5px; }
+
+/* Band 2's hinge line. Set apart from every other paragraph on the page --
+   larger type, centred rule, no card chrome -- because the brief is explicit
+   that this sentence is the argument's hinge and has to read like one, not
+   like a caption underneath a table. */
+.hinge { margin: 22px 0 0; padding: 20px 0 0; border-top: 1px solid var(--border);
+  font-family: var(--display); font-size: 21px; font-weight: 700; line-height: 1.35;
+  color: var(--fg); max-width: 62ch; }
+.hinge cite { display: block; margin-top: 12px; font-style: normal;
+  font-family: var(--mono); font-size: 10.5px; font-weight: 400; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--fg-dim); }
+
+/* The one row in the levers table that is not like the other five: the
+   accent rule down the left is the same device the case app uses to mark
+   "somebody else's evidence starts here" (apps/shared/app.css, .data td.bench)
+   -- reused here to mark "this is the row the whole page turns on". */
+tr.lever-gap { box-shadow: inset 2px 0 0 var(--accent); }
+tr.lever-gap td:first-child { font-weight: 700; }
+.badge.gap-badge { color: var(--accent); border-color: var(--accent); background: rgba(167,202,237,0.14); }
+
+/* ---------- print: SC-5 leaves the building on paper ---------- */
+
+/* P8 hands over at shift change and the brief has to survive the walk. Print
+   is not an afterthought here — it is one of the two ways this screen is
+   consumed, so the dark surfaces invert and the chrome that cannot be actioned
+   on paper is removed. */
+@media print {
+  /* The sidecar is a conversation with a live agent. On paper it is a dead
+     text box and a button that cannot be pressed. */
+  .topbar, .btn-row, .no-print, .sidecar { display: none !important; }
+  body { background: #fff; color: #111; font-size: 11pt; }
+  .card, .group, .rail, .tbl { background: #fff; border-color: #999; }
+  .unverified { border-color: #111; background: #fff; }
+  .console, .nc-block { background: #fff; border-color: #999; color: #111; }
+  .badge { border-color: #111 !important; color: #111 !important; background: #fff !important; }
+  a { color: #111; text-decoration: none; }
+  .wrap { max-width: none; padding: 0; }
+  section { margin-bottom: 24px; page-break-inside: avoid; }
+
+  /* The muted greys are tuned for a dark surface and vanish on paper. Secondary
+     text stays secondary — #444 against #111 — rather than being flattened to
+     one weight, because the hierarchy is doing work here too. */
+  .dim, .rail-sub, .node-tools, .method-sub, .method-cap, .col-meaning,
+  .tbl-desc, .cite, .metric-sub, .group-sub, .card-cap, .kv dt, .eyebrow,
+  .scale-note, .hold-hint, .nc-why, .trace .t, .remedy,
+  .stage-cap, blockquote.verbatim cite { color: #444 !important; }
+
+  /* Primary text that carries its own colour on the dark surface: the lede sits
+     at --fg-muted, and the agent ids at --accent, a pale blue that all but
+     disappears on white. Both are load-bearing on paper — the ids are how a
+     supervisor refers to a section when they raise it. */
+  .lede, .nc-what, .rail-id, .node-id, .expression, .metric.gap { color: #111 !important; }
+
+  /* .tbl > summary print rules moved to apps/shared/app.css — they belong with
+     the component, not the application that first needed them on paper. */
+
+  .card, .tbl, .unverified, .nc-block { page-break-inside: avoid; }
+
+  /* The button and the step-by-step log are how the brief got here; the brief
+     is what goes on paper. The beforeprint hook already opens every <details>,
+     so the drawer prints in full. */
+  .run-brief { display: none; }
+  .brief-out .log { display: none; }
+  .brief-out .answer { white-space: pre-wrap; color: #111; }
+
+  /* One drawer that must not. beforeprint opens every collapsed <details> so
+     the tables print in full, and that would carry the connection check's
+     exception onto the supervisor's paper once per section. The written
+     sentences above it print; the exception is for whoever is repairing the
+     connection, at a screen. */
+  .nc-block .drawer { display: none; }
+}

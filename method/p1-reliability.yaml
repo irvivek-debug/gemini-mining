@@ -1,0 +1,120 @@
+# The Reliability Engineer's driver tree. Skeleton only: no resolution prose
+# lives here. Resolution content is retrieved from the document corpus so that
+# a recommendation is the site's own standard rather than ours.
+#
+# `status` says whether a diagnostic exists and nothing else. Whether a driver
+# is evidenced is decided from the rows that diagnostic returns, on the site's
+# own data — a pack that answered that in advance would be a report with a
+# chat interface in front of it.
+metric: unplanned repair cost per asset
+root: failures reaching repair that condition data could have anticipated
+
+drivers:
+  - id: cost_concentration
+    question: Which assets are driving the majority of unplanned repair cost?
+    status: instrumented
+    controllable: false
+    sql: sql/p1/cost_concentration.sql
+    params: {}
+    doc_query: maintenance repair cost work order asset criticality unplanned failure
+    guard: >-
+      Cost share is a proportion of the total record and shifts if the record
+      is filtered before the query runs. Confirm the work order population
+      covers the full reporting period before citing the share; a partial
+      period inflates the share of assets that happened to fail early. Asset
+      cost includes both parts and labour as recorded in the ERP; scope
+      differences between the ERP and the maintenance log mean the two may
+      not reconcile without manual adjustment.
+
+  - id: criticality_load
+    question: Does repair cost fall disproportionately on the most critical assets?
+    status: instrumented
+    controllable: false
+    sql: sql/p1/criticality_load.sql
+    params: {}
+    doc_query: asset criticality rating maintenance priority failure consequence
+    guard: >-
+      Criticality ratings are categorical and site-defined; the boundary
+      between CRITICAL and HIGH reflects a classification decision, not an
+      engineering measurement. A cost concentration in the CRITICAL tier is
+      consistent with both a classification that correctly identifies the
+      highest-consequence assets and a classification that is simply wider
+      than necessary. Report the asset count per tier alongside the cost; a
+      tier with one asset and a large total is a concentration in one machine,
+      not across a tier.
+
+  - id: excursion_rate
+    question: Which assets and metrics show the highest rate of telemetry excursions?
+    status: instrumented
+    controllable: false
+    sql: sql/p1/excursion_rate.sql
+    params:
+      sigma: 2.5
+    doc_query: vibration temperature bearing alarm limit threshold operating boundary
+    guard: >-
+      Each series is normalised to its own mean and standard deviation, so
+      the rate is a measure of statistical unusualness within that series,
+      not a comparison against an engineering alarm threshold. OEM-APEX-P104A-REV4
+      specifies a vibration warning at 8.0 Hz and a critical trip at 12.0 Hz
+      for the slurry pump; OEM-MILL-SAG01 specifies a power draw range of
+      4.0 MW to 4.5 MW for the SAG mill. Whether an excursion that clears the
+      sigma threshold also clears an OEM alarm boundary requires checking the
+      excursion magnitude against the documented limit, which this diagnostic
+      does not do. Report the sigma threshold applied and note that the same
+      threshold produces different absolute counts across series with different
+      variability. A low excursion rate is not on its own sufficient to conclude
+      a series is well behaved: if elevated readings are a persistent majority,
+      the series' own mean shifts upward and its standard deviation widens,
+      which suppresses the computed rate. The series' absolute mean should be
+      reviewed against an OEM reference before drawing that conclusion.
+
+  - id: repair_duration
+    question: Do repair durations differ materially across assets?
+    status: instrumented
+    controllable: false
+    sql: sql/p1/repair_duration.sql
+    params: {}
+    doc_query: bearing replacement lubrication maintenance duration downtime repair schedule
+    guard: >-
+      actual_duration_hours is elapsed time from work order open to close,
+      not wrench time. It includes waiting for parts, access windows, and
+      permit delays. A long elapsed duration does not establish that the
+      repair itself was complex; it may reflect parts availability or shift
+      scheduling. OEM-APEX-P104A-REV4 and OEM-MILL-SAG01 specify replacement
+      parts by SKU; the presence of those parts in inventory at the time of
+      repair cannot be established from this diagnostic alone. Cite the log
+      count alongside the duration statistics; a mean based on fewer than ten
+      logs is indicative and not representative.
+
+  - id: condition_precursors
+    question: Do telemetry excursions on an asset-day predict work orders raised soon after?
+    status: instrumented
+    controllable: false
+    sql: sql/p1/condition_precursors.sql
+    params:
+      sigma: 2.0
+      window_days: 3
+    doc_query: vibration temperature bearing alert monitoring predictive maintenance condition
+    guard: >-
+      This diagnostic compares the work order rate on asset-days that carried
+      a telemetry excursion against the rate on days that did not. A
+      meaningful separation between bands is required before recommending
+      condition-based intervention; state the separation between the excursion
+      and normal bands in the result. If the bands do not separate, that is a
+      finding about this data and must be reported as such; a flat result does
+      not license the inference that condition monitoring is ineffective at the
+      site — it establishes only that this data does not demonstrate a
+      separation. Do not recommend condition-based intervention when the bands
+      do not separate. The window of @window_days and sigma threshold are
+      instrumentation choices; changing them to manufacture a signal is not
+      warranted.
+
+  - id: availability
+    question: What is the overall asset availability and how does it vary by asset class?
+    status: not_instrumented
+    controllable: false
+
+  - id: mtbf
+    question: What is the mean time between failures per asset, and is it trending?
+    status: not_instrumented
+    controllable: false

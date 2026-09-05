@@ -1,0 +1,18 @@
+metric: unit cost per tonne of contained metal
+root: contained metal lost to tailings
+drivers:
+  - id: liberation
+    question: Is the crusher setting costing recovery?
+    status: instrumented
+    controllable: true
+    compare: outcome_decile
+    sql: sql/p6/liberation.sql
+    params:
+      tight_max: 117
+      wide_min: 123
+    doc_query: crusher gap size aperture torque limit
+    guard: throughput neutrality and torque headroom
+  - id: reagent_regime
+    question: Is the reagent regime costing recovery?
+    status: not_instrumented
+    controllable: false

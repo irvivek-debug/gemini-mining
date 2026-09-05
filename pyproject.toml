@@ -1,0 +1,7 @@
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib"
+# Both suites, or a bare `pytest` silently skips the 437 Phase 4 data tests.
+testpaths = ["tests", "data/generator/tests", "data/models/tests"]
+markers = [
+  "integration: needs live BigQuery; excluded with -m 'not integration'",
+]

@@ -1,0 +1,162 @@
+{
+  "root": "All-in Sustaining Cost (AISC) per tonne",
+  "root_source": "docs/personas-and-value-tree.md section 1",
+  "branches": [
+    {
+      "title": "Asset availability and unplanned downtime",
+      "apqc": "11.0.3",
+      "branches": [
+        "asset_reliability",
+        "maintenance_execution"
+      ],
+      "mechanism": "Detect the fault before it stops the mill, and rank what to fix by what fails behind it rather than by who asked loudest.",
+      "anchored": true,
+      "code": "B1",
+      "agents": [
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "D07",
+        "D08",
+        "D09",
+        "D10",
+        "S01",
+        "S02",
+        "S03"
+      ],
+      "count": 13,
+      "personas": [
+        "P1",
+        "P2"
+      ]
+    },
+    {
+      "title": "Ore realisation \u2014 grade and dilution against plan",
+      "apqc": "2.0.1",
+      "branches": [
+        "geology"
+      ],
+      "mechanism": "Reconcile what the block model promised against what the mill received, so dilution is caught in the pit rather than in the month-end variance.",
+      "anchored": false,
+      "code": "B2",
+      "agents": [
+        "D16",
+        "D17",
+        "D18",
+        "D19",
+        "D20",
+        "S06"
+      ],
+      "count": 6,
+      "personas": [
+        "P5"
+      ]
+    },
+    {
+      "title": "Processing recovery and throughput",
+      "apqc": "11.0.3",
+      "branches": [
+        "processing"
+      ],
+      "mechanism": "Hold recovery against feed variability by moving the plant set points on evidence rather than on the last shift's habit.",
+      "anchored": false,
+      "code": "B3",
+      "agents": [
+        "D21",
+        "D22",
+        "D23",
+        "D24",
+        "D25",
+        "D26",
+        "S07"
+      ],
+      "count": 7,
+      "personas": [
+        "P6"
+      ]
+    },
+    {
+      "title": "Haulage productivity and cycle efficiency",
+      "apqc": "11.0.1",
+      "branches": [
+        "mine_ops"
+      ],
+      "mechanism": "Find the queue, the detour and the idling truck while the shift is still running and the dispatch can still change.",
+      "anchored": false,
+      "code": "B4",
+      "agents": [
+        "D11",
+        "D12",
+        "D13",
+        "D14",
+        "D15",
+        "S04"
+      ],
+      "count": 6,
+      "personas": [
+        "P7"
+      ]
+    },
+    {
+      "title": "Materials and procurement cost leakage",
+      "apqc": "4.1.2 / 3.0.1",
+      "branches": [
+        "supply_chain",
+        "procurement"
+      ],
+      "mechanism": "Know a part will not be on the shelf before the crew is standing at the store, and buy it on a contract someone checked.",
+      "anchored": false,
+      "code": "B5",
+      "agents": [
+        "D27",
+        "D28",
+        "D29",
+        "D30",
+        "D31",
+        "D32",
+        "D33",
+        "D34",
+        "S08",
+        "S09"
+      ],
+      "count": 10,
+      "personas": [
+        "P4"
+      ]
+    },
+    {
+      "title": "Safety, fatigue and licence to operate",
+      "apqc": "9.1.2",
+      "branches": [
+        "safety"
+      ],
+      "mechanism": "Connect the fatigue signal to the operator, the vehicle and the incident, so the intervention lands before the incident does.",
+      "anchored": false,
+      "code": "B6",
+      "agents": [
+        "D35",
+        "D36",
+        "D37",
+        "D38",
+        "D39",
+        "D40",
+        "S05",
+        "S10",
+        "S11"
+      ],
+      "count": 9,
+      "personas": [
+        "P3"
+      ]
+    }
+  ],
+  "convergence": {
+    "agents": [
+      "S12"
+    ],
+    "note": "S12 is deliberately not a branch. It sits above the six as the layer where every branch's day resolves into one narrative, which is also the CEO and GM surface."
+  }
+}

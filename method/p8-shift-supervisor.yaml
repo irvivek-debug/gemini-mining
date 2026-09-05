@@ -1,0 +1,151 @@
+# The Shift Supervisor's driver tree. Skeleton only: no resolution prose
+# lives here. Resolution content is retrieved from the document corpus so
+# that a recommendation is the site's own standard rather than ours.
+#
+# `status` says whether a diagnostic exists and nothing else. Whether a
+# driver is evidenced is decided from the rows that diagnostic returns, on
+# the site's own data — a pack that answered that in advance would be a
+# report with a chat interface in front of it.
+#
+# P8 is a SENTINEL, not a Diagnostician: its job is noticing what changed and
+# whether it matters now, not root-causing why. That is a genuinely different
+# shape of driver tree, not a smaller Diagnostician one. Every driver below
+# asks the same question in the same form — "did this domain move materially
+# between the prior reporting period and the one just closed" — across the
+# five domains a shift handover has to cover, rather than branching deeper
+# into any one domain's causes. None of the five instrumented drivers below
+# carries `compare: setting_band`: a Sentinel is not banding a controllable
+# setting the way p6-metallurgist.yaml or p7-mine-controller.yaml do — it is
+# reporting whether a period-over-period delta exists at all, which
+# `pack.py`'s COMPARISONS whitelist has no vocabulary for and none of these
+# drivers need it to.
+#
+# The two reporting periods (`recent_start`..`recent_end` and
+# `prior_start`..`prior_end`) are 14-day windows ending 2026-06-16, the last
+# day the daily-cadence tables carry. Both windows sit inside the existing
+# 2026-01-01..2026-06-17 data window.
+#
+# fleet_availability_shift_delta and dispatch_performance_shift_delta stay
+# not_instrumented for a measured reason each:
+# - fleet_vehicles is a single snapshot (every row's last_telemetry_sync is
+#   the same instant), so no fleet-availability trend exists to compare
+#   period-over-period.
+# - haulage_routes carries no timestamp column at all — it is ten static,
+#   pre-aggregated rows, not an operating record — so no dispatch-performance
+#   trend exists to compare either.
+metric: shift handover risk surface
+root: material change since the last handover going unnoticed
+
+drivers:
+  - id: fatigue_signal_shift_delta
+    question: Has the fatigue-alert rate moved materially between the two most recent reporting periods?
+    status: instrumented
+    controllable: false
+    sql: sql/p8/fatigue_signal_shift_delta.sql
+    params:
+      recent_start: "2026-06-03"
+      recent_end: "2026-06-16"
+      prior_start: "2026-05-20"
+      prior_end: "2026-06-02"
+    doc_query: OPS-FMS-001 biometric alert sleep deficit fatigue exposure stand-down
+    guard: >-
+      alert_count is a count of biometric alerts against the monitoring
+      threshold, not a measurement of an operator's actual fitness for duty —
+      OPS-FMS-001 clause 3.2 is explicit that an alert is an exposure
+      indicator, not evidence of impairment. log_count and distinct_operators
+      must be reported alongside alert_count for each period: a change in
+      alert_count with an unchanged log_count and distinct_operators
+      indicates a rate change; a change in any of the three together may
+      instead reflect a change in monitoring coverage.
+
+  - id: safety_signal_shift_delta
+    question: Has the incident count or severity mix moved between the two most recent reporting periods?
+    status: instrumented
+    controllable: false
+    sql: sql/p8/safety_signal_shift_delta.sql
+    params:
+      recent_start: "2026-06-03"
+      recent_end: "2026-06-16"
+      prior_start: "2026-05-20"
+      prior_end: "2026-06-02"
+    doc_query: OPS-FMS-001 safety incident severity classification exposure indicator
+    guard: >-
+      Safety incident counts at this operation's scale are bounded within any
+      14-day window, so a single incident can shift a period's count or
+      severity mix materially. incident_count must be reported for every
+      (period, severity_level) cell the finding cites, including cells the
+      query returns with a small count — a period-over-period change read off
+      a small cell cannot be distinguished from ordinary variation without
+      the count stated beside it.
+
+  - id: radio_emergency_shift_delta
+    question: Has emergency-flagged radio traffic or transcript sentiment moved between the two most recent reporting periods?
+    status: instrumented
+    controllable: false
+    sql: sql/p8/radio_emergency_shift_delta.sql
+    params:
+      recent_start: "2026-06-03"
+      recent_end: "2026-06-16"
+      prior_start: "2026-05-20"
+      prior_end: "2026-06-02"
+    doc_query: OPS-FMS-001 radio emergency alert control room supervisor response
+    guard: >-
+      emergency_count is the count of transmissions the transcription
+      system's emergency_keyword_flag marked, not a human assessment of
+      distress, and mean_sentiment_score is a statistical summary of recorded
+      language, not a direct measurement of operator state. transmission_count
+      must be reported alongside emergency_count for each period: a change in
+      emergency_count against a stable transmission_count is a different
+      finding from both moving together.
+
+  - id: maintenance_demand_shift_delta
+    question: Has new maintenance demand — work order volume, priority mix, or cost — moved between the two most recent reporting periods?
+    status: instrumented
+    controllable: false
+    sql: sql/p8/maintenance_demand_shift_delta.sql
+    params:
+      recent_start: "2026-06-03"
+      recent_end: "2026-06-16"
+      prior_start: "2026-05-20"
+      prior_end: "2026-06-02"
+      high_priority_values: ["HIGH", "CRITICAL"]
+    doc_query: maintenance work order priority backlog demand shift handover
+    guard: >-
+      work_order_count and high_priority_count are counts of work orders
+      CREATED within each period (erp_work_orders carries no closed or
+      resolved timestamp), so this measures new demand entering the backlog,
+      not the size of the backlog itself or how quickly it was cleared.
+      total_repair_cost_usd sums the repair_cost field on those same created
+      work orders; report work_order_count beside it, since a cost change
+      driven by one large work order reads differently from one driven by
+      volume.
+
+  - id: production_output_shift_delta
+    question: Has concentrator recovery or crusher feed rate moved between the two most recent reporting periods?
+    status: instrumented
+    controllable: false
+    sql: sql/p8/production_output_shift_delta.sql
+    params:
+      recent_start: "2026-06-03"
+      recent_end: "2026-06-16"
+      prior_start: "2026-05-20"
+      prior_end: "2026-06-02"
+    doc_query: concentrator recovery crusher feed rate shift production summary
+    guard: >-
+      Both series are daily readings — one per day per asset — so each
+      period's reading_count is bounded by the number of days in that period,
+      and a period with fewer readings than its window carries a data gap
+      that must be reported, not silently averaged over. A period-over-period
+      difference in mean_value that is smaller than the day-to-day variation
+      normally seen in this series is not distinguishable from ordinary
+      variation without the underlying daily figures being checked directly.
+
+  - id: fleet_availability_shift_delta
+    question: Has haul fleet availability or operational-status mix moved between the two most recent reporting periods?
+    status: not_instrumented
+    controllable: false
+
+  - id: dispatch_performance_shift_delta
+    question: Has route-level dispatch performance moved between the two most recent reporting periods?
+    status: not_instrumented
+    controllable: false

@@ -1,0 +1,410 @@
+{
+ "AGT-19": [
+  "Pit 4 copper price projection drops 15% from $4.20/lb to $3.57/lb. With mining cost $3.10/t, milling cost $14.50/t, and 89.5% recovery, calculate dynamic Kenneth Lane cut-off grade sensitivity.",
+  "Under this lower copper price scenario, rank 3 CapEx deferral candidates ($22M truck fleet replacement, $14M tailings lift, $8M crusher bypass) using Second-Order Stochastic Dominance (SSD)."
+ ],
+ "ROC-01": [
+  "Pit Alpha is delivering hard ore with Bond Work Index 16.8 kWh/t. SAG Mill #1 power draw is 14.8 MW while Primary Crusher-03 has 25% surplus capacity. Arbitrate throughput balancing.",
+  "Crusher apron feeder speed spikes 15% above target. Evaluate whether to bypass secondary screening or throttle feed rate to prevent surge bin overflow."
+ ],
+ "S01-COORDINATOR": [
+  "Synthesize Section 104N drillhole assays into Ordinary Kriging 3D block model.",
+  "Variogram nugget ratio > 0.45 detected in Sector 3. Recommend infill drilling spacing."
+ ],
+ "S01-1-LITHOLOGY": [
+  "Classify drill core tray #482 rock quality and fracture frequency.",
+  "RQD = 78.4% calculated; flags fault contact boundary."
+ ],
+ "S01-2-GEOSTAT": [
+  "Compute estimation variance for copper block grades at Section 104N.",
+  "Ordinary Kriging variance = 0.042; flags high confidence block."
+ ],
+ "S01-3-STRUCTURAL": [
+  "Analyze strike and dip planes on Section 104N fault envelope.",
+  "Stereonet polar plot identifies major shear zone dipping 62 deg NW."
+ ],
+ "S01-R-CRITIC": [
+  "Audit duplicate core sample assay variance against JORC Code standards.",
+  "Flags CRM standard drift > 3 sigma; mandates re-assay audit before resource sign-off."
+ ],
+ "S02-COORDINATOR": [
+  "Optimize Phase 3 pushback extraction sequence with 48 deg overall slope.",
+  "Generates 12-month extraction schedule preserving 1.30 Factor of Safety."
+ ],
+ "S02-1-GEOTECH": [
+  "Calculate Bishop simplified Factor of Safety on 48 deg pit wall.",
+  "FoS = 1.38 calculated; confirms wall stability under dry conditions."
+ ],
+ "S02-2-SCHEDULE": [
+  "Sequence shovel assignments to balance 1.8 Mt/month ore extraction.",
+  "Schedules Shovel 04 and Shovel 07 with zero haulage bottlenecks."
+ ],
+ "S02-3-DUMP": [
+  "Model North Dump toe containment volume and runout angle of repose.",
+  "Confirms dump capacity for 4.2 Mt waste with 34 deg repose slope."
+ ],
+ "S02-R-CRITIC": [
+  "Audit spatial compliance between monthly extraction and long-term model.",
+  "Flags 4.8% ore under-haul in Bench 12; requests re-leveling."
+ ],
+ "S03-COORDINATOR": [
+  "Optimize burden and powder factor for hard granodiorite ($UCS=160 MPa$).",
+  "Calculates burden B=6.2m, spacing S=7.1m, powder factor 0.78 kg/m3."
+ ],
+ "S03-1-GEOMETRY": [
+  "Design 180-hole staggered pattern for 15m production bench.",
+  "Staggered 6.2x7.1m pattern generated with 1.8m sub-drill."
+ ],
+ "S03-2-EXPLOSIVE": [
+  "Calculate bulk emulsion VOD and shock energy partitioning.",
+  "Bulk emulsion 70/30 VOD = 5,400 m/s; explosive energy = 3.6 MJ/kg."
+ ],
+ "S03-3-VIBRATION": [
+  "Predict PPV vibration at primary crusher 450m from blast.",
+  "Scaled distance PPV = 8.4 mm/s (< 15.0 mm/s limit)."
+ ],
+ "S03-R-CRITIC": [
+  "Enforce 500m blast exclusion perimeter and lightning warning gate.",
+  "Vetoes blast trigger on lightning detection within 10km radar."
+ ],
+ "S04-COORDINATOR": [
+  "Reassign haul trucks to eliminate 3-truck queue at Shovel 04.",
+  "Reassigns Trucks #104 and #108 to Shovel 07; reduces wait time by 82%."
+ ],
+ "S04-1-SHOVEL": [
+  "Calculate pass match factor for PC8000 shovel loading CAT 797F.",
+  "Match factor = 0.94; 4-pass loading verified in 2.2 minutes."
+ ],
+ "S04-2-ROUTE": [
+  "Compute shortest path travel time on Pit Alpha south ramp.",
+  "Dijkstra routing cuts empty cycle time by 48 seconds per trip."
+ ],
+ "S04-3-PAYLOAD": [
+  "Audit 10/10/20 payload distribution across 42 haul cycles.",
+  "Mean payload = 238t; flags 1 truck at 254t exceeding 110% target."
+ ],
+ "S04-R-CRITIC": [
+  "Check operator shift hours and SAFTE circadian fatigue index.",
+  "Flags Operator #82 at hour 14 with fatigue score 63.5%; mandates driver swap."
+ ],
+ "S05-COORDINATOR": [
+  "Crusher-03 mantle wear is at 78%; eddy-current sensor flags tramp iron.",
+  "Triggers emergency feed halt advisory and stages SAP PM work order."
+ ],
+ "S05-1-CSS": [
+  "Based on the crusher telemetry data, what hydraulic pressure setpoint does your governing method indicate for a closed-side setting of 135mm? Report the figures from the data and cite the table you read.",
+  "CSS setpoint 135mm computed with hydraulic pressure 18.2 MPa."
+ ],
+ "S05-2-FEED": [
+  "Regulate apron feeder PID loop for choke feeding conditions.",
+  "PID setpoint 84% speed maintains optimal rock column bed."
+ ],
+ "S05-3-WEAR": [
+  "Predict remaining liner life on Hardox 500 concave plates.",
+  "RUL = 14 days remaining life; flags replacement at next shutdown."
+ ],
+ "S05-R-CRITIC": [
+  "Enforce auto-hold on uncrushable steel tooth detection in cavity.",
+  "Triggers auto-hold on tramp metal detection; requires Dual-Key HMAC MFA."
+ ],
+ "S06-COORDINATOR": [
+  "SAG Mill #2 power spikes to 14.8 MW, toe acoustic noise dampened.",
+  "Diagnoses slurry pooling; recommends water addition to 1,250 m3/h."
+ ],
+ "S06-1-SAG": [
+  "Analyze 1/3-octave acoustic sensor array on SAG mill shell.",
+  "Acoustic signal shows toe angle dampened by 34%; confirms pooling."
+ ],
+ "S06-2-BALL": [
+  "Calculate daily grinding media ball charge replenishment for 3,800 tph.",
+  "Daily ball addition = 14.2 tonnes of 60mm forged steel balls."
+ ],
+ "S06-3-CYCLONE": [
+  "Model cut size d50c on 12-cyclone cluster operating at 110 kPa.",
+  "d50c = 74 microns; circulating load calculated at 285%."
+ ],
+ "S06-R-CRITIC": [
+  "Check cyclone feed density and trunnion bearing lubrication.",
+  "Vetoes feed rate increase when solids % exceeds 76.5% threshold."
+ ],
+ "S07-COORDINATOR": [
+  "Optimize PAX collector dosing for 0.72% Cu ore to maximize recovery.",
+  "Calculates PAX dosage 38 g/t, predicting +1.8% Cu recovery gain."
+ ],
+ "S07-1-REAGENT": [
+  "Calculate frother MIBC addition rate for 1.4 cm/s air velocity.",
+  "MIBC dosage = 18 g/t; bubble Sauter diameter d32 = 1.2mm."
+ ],
+ "S07-2-AIR": [
+  "Regulate superficial gas velocity Jg across rougher bank.",
+  "Jg = 1.4 cm/s maintained; froth lip depth set to 85mm."
+ ],
+ "S07-3-GRADE": [
+  "Model cleaner bank separation efficiency for 28% Cu concentrate.",
+  "Cleaner recovery = 94.2%; concentrate grade = 28.4% Cu."
+ ],
+ "S07-R-CRITIC": [
+  "Check concentrate arsenic and bismuth penalty thresholds.",
+  "Flags concentrate As at 0.28% (> 0.25% cap); adjusts cleaner pH to 11.2."
+ ],
+ "S08-COORDINATOR": [
+  "Dam 2 piezometer reports pore pressure rise of 0.38m/week after rain.",
+  "Evaluates FoS drop to 1.28 (P0 Safety Trigger); ramps decant pumps."
+ ],
+ "S08-1-WATER": [
+  "Balance decant return water and evaporation pond volume.",
+  "Decant return flow = 1,450 m3/h; pond volume 2.1 Mm3."
+ ],
+ "S08-2-PORE": [
+  "Model Terzaghi 1D consolidation under Dam 2 embankment.",
+  "Excess pore pressure dissipation rate = 0.04 m/week."
+ ],
+ "S08-3-THICK": [
+  "Regulate flocculant dosing for 65% solids underflow.",
+  "Flocculant dosage = 24 g/t; thickener torque = 42% safe."
+ ],
+ "S08-R-CRITIC": [
+  "Audit GISTM compliance and critical state soil mechanics.",
+  "Flags slope alarm when piezometric rise > 0.35m/wk; triggers P0 hold."
+ ],
+ "S09-COORDINATOR": [
+  "SAG Mill pinion bearing vibration reaches 4.8 mm/s RMS at 1480 RPM.",
+  "Classifies ISO 10816-3 Zone C, RUL = 96h; stages SAP PM work pack."
+ ],
+ "S09-1-VIBRATION": [
+  "Parse 10-1000Hz vibration spectrum for bearing defect harmonics.",
+  "Identifies 2x BPFI bearing defect peak at 1480 RPM (4.8 mm/s)."
+ ],
+ "S09-2-TRIBOLOGY": [
+  "Evaluate Karl Fischer moisture and PQ particle quantifier index.",
+  "PQ index = 180, moisture = 450 ppm; flags bearing micro-spalling."
+ ],
+ "S09-3-THERMAL": [
+  "Analyze thermal gradient across pinion bearing housing.",
+  "Housing temp = 78 deg C (delta T = 34 deg C over ambient)."
+ ],
+ "S09-R-CRITIC": [
+  "Enforce Dual-Key HMAC MFA prior to staging SAP PM work pack.",
+  "Enforces Dual-Key cryptographic MFA before staging SAP PM01 work order."
+ ],
+ "S10-COORDINATOR": [
+  "Audit contractor haulage invoice #INV-8839 against signed MSA rate card.",
+  "Detects $480,000 indexation overcharge; stages Class A credit note."
+ ],
+ "S10-1-CONTRACT": [
+  "Fuzzy-match line items against signed Master Service Agreement.",
+  "100% line items matched; identifies unauthorized standby surcharges."
+ ],
+ "S10-2-ESCALATE": [
+  "Compute labor and diesel escalation delta against PPI indices.",
+  "Indexation delta = 4.8% (> 4.5% threshold); computes $480k variance."
+ ],
+ "S10-3-WARRANTY": [
+  "Audit SAG liner premature failure against 8,000-hour MTBF warranty.",
+  "Liner failed at 5,200 hours; files $340,000 prorated OEM warranty claim."
+ ],
+ "S10-R-CRITIC": [
+  "Enforce FCPA compliance gate on sole-source supplier requisitions.",
+  "Flags single-source spend > $100k; mandates competitive 3-bid audit."
+ ],
+ "S11-COORDINATOR": [
+  "Hydraulic cylinder stock is 0 with 8-week supplier lead time.",
+  "Calculates $336k/day stockout exposure; triggers expedited freight."
+ ],
+ "S11-1-STOCK": [
+  "Calculate safety stock buffer for high-criticality bearings.",
+  "Safety stock = 4 units; reorder point set at 6 units."
+ ],
+ "S11-2-LEADTIME": [
+  "Model Gamma distribution supplier lead-time variability.",
+  "Mean lead time = 56 days (std dev = 8.4 days)."
+ ],
+ "S11-3-HOLDING": [
+  "Analyze working capital carrying cost on $45M MRO warehouse.",
+  "Identifies $3.8M slow-moving spares for vendor consignment swap."
+ ],
+ "S11-R-CRITIC": [
+  "Flag non-moving spares (>365 days) for inventory buyback.",
+  "Flags $1.2M dead inventory for supplier return/scrap write-down."
+ ],
+ "S12-COORDINATOR": [
+  "Vessel 'MV Cape Osprey' arrives in 48h for 160,000t loading.",
+  "Optimizes 4 train rakes; eliminates $240k vessel demurrage."
+ ],
+ "S12-1-RAIL": [
+  "Optimize train rake cycle time across 400km heavy-haul rail corridor.",
+  "Train cycle time = 18.4 hours; diesel burn reduced by 6.2%."
+ ],
+ "S12-2-BLEND": [
+  "Formulate LP blend model for 28.0% Cu export specification.",
+  "Blends Stockpile 1 (26.2% Cu) and Stockpile 3 (30.4% Cu) to 28.0%."
+ ],
+ "S12-3-BERTH": [
+  "Compute BIMCO laytime Statement of Fact deductions.",
+  "Laytime used = 42.5 hours (< 48.0h allowed); demurrage = $0.00."
+ ],
+ "S12-R-CRITIC": [
+  "Enforce IMSBC Transportable Moisture Limit (TML < 9.2%).",
+  "Vetoes vessel loading if concentrate moisture exceeds 9.2% TML cap."
+ ],
+ "D01": [
+  "Calculate RQD on drill core tray #104 with lengths [12, 18, 8, 22, 14, 5, 25]cm on 120cm run.",
+  "Stress test Core Image Segmenter with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D02": [
+  "Extract sericite vs illite crystallinity ratio from 2200nm SWIR spectral reflection.",
+  "Stress test Hyperspectral Mineral Mapper with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D03": [
+  "Audit drill spacing confidence for 25x25m vs 50x50m drill grids.",
+  "Stress test JORC Classification Auditor with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D04": [
+  "Calculate CJ detonation pressure for emulsion with density 1.18 g/cm3 and VOD 5400 m/s.",
+  "Stress test Blast Wave Front Simulator with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D05": [
+  "Compute maximum flyrock travel distance for 45 deg ejection angle at v0=42 m/s.",
+  "Stress test Flyrock Trajectory Predictor with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D06": [
+  "Fit Rosin-Rammler muckpile curve for xc=120mm and uniformity index n=1.15.",
+  "Stress test In-Situ Fragment Analyzer with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D07": [
+  "Calculate Fukuzono inverse velocity failure time for 14 mm/day bench creep.",
+  "Stress test Radar Slope Displacement Sentinel with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D08": [
+  "Compute microseismic b-value for 120 seismic events on North Pit fault.",
+  "Stress test Borehole Seismicity Sentinel with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D09": [
+  "Calculate discharge rate for 12 horizontal drain holes with k=1e-5 m/s.",
+  "Stress test Bench Drainage Permeability with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D10": [
+  "Calculate rimpull requirement for CAT 797F (550t GMW) on 8% ramp with 3% rolling resistance.",
+  "Stress test Haul Road Rolling Resistance with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D11": [
+  "Calculate diesel consumption intensity (L/t-km) for 4.2km haul cycle.",
+  "Stress test Fleet Fuel Burn Sentinel with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D12": [
+  "Calculate tire TKPH for 238t payload at 24 km/h average cycle speed.",
+  "Stress test Tire TKPH Telemetry Agent with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D13": [
+  "Scan Shovel #04 dipper bucket camera feed for missing ground engaging tool tooth.",
+  "Stress test Shovel GET Tooth Sentinel with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D14": [
+  "Analyze SAG mill acoustic FFT power spectrum at 1200-2400 Hz.",
+  "Stress test Acoustic Grinding Sound with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D15": [
+  "Calculate aperture blinding percentage on SAG discharge trommel.",
+  "Stress test Trommel Screen Blinding with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D16": [
+  "Calculate available Net Positive Suction Head for slurry pump #3 at 65% solids.",
+  "Stress test Slurry Pump Cavitation Sentinel with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D17": [
+  "Regulate sump level PID speed for 3,800 tph feed slurry surge.",
+  "Stress test Sump Anti-Surge Sentinel with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D18": [
+  "Measure Sauter mean bubble diameter d32 on rougher flotation cell #4.",
+  "Stress test Froth Bubble Sizing/Color with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D19": [
+  "Calculate potassium amyl xanthate (PAX) potency after 72 hours storage at 32 deg C.",
+  "Stress test Xanthate Hydrolysis Kinetics with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D20": [
+  "Calculate hydrated lime Ca(OH)2 dosage to neutralize pit sump pH from 3.2 to 7.5.",
+  "Stress test Acid Mine Drainage ORP with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D21": [
+  "Predict beach slope angle for thickened tailings with yield stress 65 Pa.",
+  "Stress test Tailings Beach Slope Model with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D22": [
+  "Plot Duval Triangle 1 coordinates for Main Substation transformer oil.",
+  "Stress test Transformer Duval Triangle with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D23": [
+  "Analyze stator winding partial discharge for 15 MW SAG mill synchronous motor.",
+  "Stress test Motor Partial Discharge with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D24": [
+  "Monitor ultrasonic sensor array on 4km overland coarse ore conveyor CV-01.",
+  "Stress test Conveyor Belt Rip Ultra with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D25": [
+  "Measure remaining Hardox 500 liner thickness on Crusher discharge chute.",
+  "Stress test Chute Wear Ultrasonic with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D26": [
+  "Calculate schedule float for SAG mill liner replacement critical path.",
+  "Stress test Maintenance CPM Float with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D27": [
+  "Audit 48 hours standby claim for contractor dozer fleet against FMS GPS movement.",
+  "Stress test Contractor Idle Fee Disputer with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D28": [
+  "Calculate temperature-corrected diesel fuel volume for 120,000L bunkering at 34 deg C.",
+  "Stress test Fuel Bunkering Density with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D29": [
+  "Calculate daily grinding ball consumption rate for Wi=14.2 kWh/t ore.",
+  "Stress test Bond Ball Wear Batch with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D30": [
+  "Parse particle count data for SAG mill pinion lube oil reservoir.",
+  "Stress test Lube Oil ISO 4406 Cleanliness with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D31": [
+  "Scan monthly accounts payable ledger for duplicate vendor invoice submissions.",
+  "Stress test Duplicate Invoice Matcher with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D32": [
+  "Reconcile warehouse RFID scan against SAP goods issue for 12 pump seals.",
+  "Stress test Consignment Stock SAP Logger with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D33": [
+  "Parse port laytime statement for 'MV Bulk Pioneer' under rain interruptions.",
+  "Stress test Laytime BIMCO Parser with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D34": [
+  "Model shelf life degradation of sodium isopropyl xanthate (SIPX) at 38 deg C.",
+  "Stress test Reagent Shelf Life Model with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D35": [
+  "Calculate stopping distance for 12,000t loaded ore train at 60 km/h on 0.5% grade.",
+  "Stress test Train Kinetic Braking Distance with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D36": [
+  "Monitor shiploader boom LiDAR sensor distance from vessel hatch coaming.",
+  "Stress test Shiploader LiDAR Anti-Collision with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D37": [
+  "Calculate SAFTE bio-mathematical fatigue score for operator on 4th night shift.",
+  "Stress test SAFTE Circadian Fatigue Model with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D38": [
+  "Evaluate multi-gas monitor telemetry inside SAG mill during liner inspection.",
+  "Stress test Confined Space Multi-Gas with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D39": [
+  "Calculate monthly carbon intensity per tonne of copper cathode produced.",
+  "Stress test Scope 1/2 Carbon Tracker with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ],
+ "D40": [
+  "Audit statutory environmental water discharge permit expiry timelines.",
+  "Stress test Statutory Permit Guardian with an input anomaly 25% beyond operating envelope. Assert boundary validation."
+ ]
+}

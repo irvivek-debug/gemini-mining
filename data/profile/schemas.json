@@ -1,0 +1,1451 @@
+{
+ "tables": [
+  "asset_dependencies",
+  "assets",
+  "bid_parts_edge",
+  "biometric_fatigue_logs",
+  "capital_options",
+  "contained_metal_price_deck",
+  "contract_transactions",
+  "contracts",
+  "crusher_states",
+  "drill_assay_logs",
+  "drill_holes",
+  "erp_work_orders",
+  "fatigue_logs_node",
+  "fleet_vehicles",
+  "geological_block_models",
+  "haulage_routes",
+  "incident_involvements",
+  "inventory_levels",
+  "invoices",
+  "maintenance_logs",
+  "metallurgical_recovery",
+  "ontology_concepts",
+  "ontology_triples",
+  "operator_vehicle_assignments",
+  "operators_node",
+  "plan_assumptions",
+  "plan_scenarios",
+  "plan_versions",
+  "procurement_bids",
+  "radio_communications",
+  "rebate_claims",
+  "rfp_items",
+  "safety_incidents",
+  "simulation_runs",
+  "telemetry_stream",
+  "unstructured_docs_metadata",
+  "warranty_claims",
+  "warranty_entitlements",
+  "work_order_parts_edge"
+ ],
+ "schemas": {
+  "asset_dependencies": {
+   "num_rows": 3,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "impact_score",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "dependency_type",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "target_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "source_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "assets": {
+   "num_rows": 5,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "current_state",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "location_gis",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "physics_parameters",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "criticality_rating",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "asset_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "installation_date",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "asset_type",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "asset_name",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "bid_parts_edge": {
+   "num_rows": 25,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "edge_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "bid_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "part_number",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "biometric_fatigue_logs": {
+   "num_rows": 3340,
+   "type": "TABLE",
+   "partitioning": "timestamp",
+   "partition_type": "DAY",
+   "clustering": [
+    "operator_id"
+   ],
+   "columns": [
+    {
+     "name": "sleep_deficit_hours",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "microsleep_events_detected",
+     "type": "INTEGER",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "fatigue_alert_triggered",
+     "type": "BOOLEAN",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "timestamp",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "heart_rate_bpm",
+     "type": "INTEGER",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "operator_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "crusher_states": {
+   "num_rows": 167,
+   "type": "TABLE",
+   "partitioning": "timestamp",
+   "partition_type": "DAY",
+   "clustering": null,
+   "columns": [
+    {
+     "name": "bypass_valve_open",
+     "type": "BOOLEAN",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "feed_rate_tph",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "gap_size_setting_mm",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "rotational_torque_nm",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "asset_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "timestamp",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "drill_assay_logs": {
+   "num_rows": 295,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "logged_at",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "gold_grade_gpt",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "depth_end_meters",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "depth_start_meters",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "copper_grade_pct",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "geology_code",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "drill_hole_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "drill_holes": {
+   "num_rows": 30,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "azimuth_degrees",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "dip_degrees",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "total_depth_meters",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "collar_elevation",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "collar_easting",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "collar_northing",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "drill_hole_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "erp_work_orders": {
+   "num_rows": 500,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "created_at",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "repair_cost",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "description",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "work_order_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "priority",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "status",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "asset_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "fatigue_logs_node": {
+   "num_rows": 3340,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "log_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "timestamp",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "operator_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "heart_rate_bpm",
+     "type": "INTEGER",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "sleep_deficit_hours",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "microsleep_events_detected",
+     "type": "INTEGER",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "fatigue_alert_triggered",
+     "type": "BOOLEAN",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "fleet_vehicles": {
+   "num_rows": 15,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "gps_location",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "current_payload_tons",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "operational_status",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "last_telemetry_sync",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "payload_capacity_tons",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "model",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "vehicle_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "geological_block_models": {
+   "num_rows": 1000,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "gold_grade_gpt_est",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "copper_grade_pct_est",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "specific_gravity",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "lithology_type",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "centroid_z",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "centroid_y",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "centroid_x",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "block_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "haulage_routes": {
+   "num_rows": 10,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "average_cycle_time_mins",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "source_location",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "congestion_factor",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "distance_meters",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "destination_location",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "route_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "incident_involvements": {
+   "num_rows": 5,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "involvement_id",
+     "type": "STRING",
+     "mode": "REQUIRED"
+    },
+    {
+     "name": "incident_id",
+     "type": "STRING",
+     "mode": "REQUIRED"
+    },
+    {
+     "name": "vehicle_id",
+     "type": "STRING",
+     "mode": "REQUIRED"
+    },
+    {
+     "name": "operator_id",
+     "type": "STRING",
+     "mode": "REQUIRED"
+    }
+   ]
+  },
+  "inventory_levels": {
+   "num_rows": 103,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "lead_time_days",
+     "type": "INTEGER",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "part_description",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "reorder_point_limit",
+     "type": "INTEGER",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "stock_level",
+     "type": "INTEGER",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "unit_price_usd",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "part_number",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "maintenance_logs": {
+   "num_rows": 152,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "parts_replaced",
+     "type": "STRING",
+     "mode": "REPEATED"
+    },
+    {
+     "name": "log_entry_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "actual_duration_hours",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "asset_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "technician_notes",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "work_order_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "metallurgical_recovery": {
+   "num_rows": 167,
+   "type": "TABLE",
+   "partitioning": "timestamp",
+   "partition_type": "DAY",
+   "clustering": null,
+   "columns": [
+    {
+     "name": "concentrate_grade_pct",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "recovery_rate_pct",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "tailings_grade_pct",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "feed_grade_pct",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "concentrator_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "timestamp",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "ontology_concepts": {
+   "num_rows": 25,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "concept_name",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "concept_type",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "ontology_triples": {
+   "num_rows": 23,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "object",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "subject",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "confidence_score",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "predicate",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "triple_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "operator_vehicle_assignments": {
+   "num_rows": 5,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "assignment_id",
+     "type": "STRING",
+     "mode": "REQUIRED"
+    },
+    {
+     "name": "operator_id",
+     "type": "STRING",
+     "mode": "REQUIRED"
+    },
+    {
+     "name": "vehicle_id",
+     "type": "STRING",
+     "mode": "REQUIRED"
+    },
+    {
+     "name": "shift_date",
+     "type": "DATE",
+     "mode": "REQUIRED"
+    },
+    {
+     "name": "shift_type",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "operators_node": {
+   "num_rows": 20,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "operator_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "operator_role",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "procurement_bids": {
+   "num_rows": 300,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "technical_rating_score",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "compliance_checked",
+     "type": "BOOLEAN",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "rfp_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "proposed_cost",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "bid_status",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "vendor_name",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "bid_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "radio_communications": {
+   "num_rows": 573,
+   "type": "TABLE",
+   "partitioning": "timestamp",
+   "partition_type": "DAY",
+   "clustering": null,
+   "columns": [
+    {
+     "name": "emergency_keyword_flag",
+     "type": "BOOLEAN",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "audio_gcs_path",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "sentiment_score",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "channel_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "transcript",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "timestamp",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "rfp_items": {
+   "num_rows": 3,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "rfp_id",
+     "type": "STRING",
+     "mode": "REQUIRED"
+    },
+    {
+     "name": "part_number",
+     "type": "STRING",
+     "mode": "REQUIRED"
+    }
+   ]
+  },
+  "safety_incidents": {
+   "num_rows": 60,
+   "type": "TABLE",
+   "partitioning": "timestamp",
+   "partition_type": "DAY",
+   "clustering": null,
+   "columns": [
+    {
+     "name": "investigation_status",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "root_cause",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "description",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "gps_location",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "location_description",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "severity_level",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "timestamp",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "incident_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "simulation_runs": {
+   "num_rows": 150,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "projected_cooling_curve",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "asset_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "recalculated_parameters",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "nba_executed",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "timestamp",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "run_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "telemetry_stream": {
+   "num_rows": 10020,
+   "type": "TABLE",
+   "partitioning": "timestamp",
+   "partition_type": "DAY",
+   "clustering": [
+    "asset_id",
+    "metric_name"
+   ],
+   "columns": [
+    {
+     "name": "metric_name",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "metric_value",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "asset_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "timestamp",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "unstructured_docs_metadata": {
+   "num_rows": 50,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "chunk_count",
+     "type": "INTEGER",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "last_updated",
+     "type": "TIMESTAMP",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "category",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "file_path",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "title",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "doc_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "work_order_parts_edge": {
+   "num_rows": 186,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "edge_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "work_order_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "part_number",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "contracts": {
+   "num_rows": 10,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "contract_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "vendor_name",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "part_number",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "agreed_unit_price",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "effective_from",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "effective_to",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "bid_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "rebate_schedule",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "contract_transactions": {
+   "num_rows": 164,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "transaction_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "contract_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "vendor_name",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "part_number",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "paid_unit_price",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "transaction_date",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "rebate_claims": {
+   "num_rows": 6,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "claim_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "contract_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "period",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "amount_claimed",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "amount_entitled",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "invoices": {
+   "num_rows": 175,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "invoice_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "vendor_name",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "invoice_number",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "amount",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "payment_date",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "warranty_entitlements": {
+   "num_rows": 10,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "entitlement_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "asset_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "oem_vendor",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "component",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "coverage_start",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "coverage_end",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "source_clause",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "warranty_claims": {
+   "num_rows": 30,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "claim_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "entitlement_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "work_order_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "filed_date",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "status",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "amount_claimed",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "plan_versions": {
+   "num_rows": 6,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "plan_version_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "published_date",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "next_review_date",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "plan_assumptions": {
+   "num_rows": 42,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "assumption_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "plan_version_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "metric_name",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "assumed_value",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "effective_date",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "superseded_date",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "plan_scenarios": {
+   "num_rows": 12,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "scenario_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "plan_version_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "assumption_delta",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "reversal_trigger",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "reversal_cost",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "capital_options": {
+   "num_rows": 24,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "option_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "plan_version_id",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "description",
+     "type": "STRING",
+     "mode": "NULLABLE"
+    }
+   ]
+  },
+  "contained_metal_price_deck": {
+   "num_rows": 61,
+   "type": "TABLE",
+   "partitioning": null,
+   "partition_type": null,
+   "clustering": null,
+   "columns": [
+    {
+     "name": "price_date",
+     "type": "DATE",
+     "mode": "NULLABLE"
+    },
+    {
+     "name": "contained_metal_price_usd_per_tonne",
+     "type": "FLOAT",
+     "mode": "NULLABLE"
+    }
+   ]
+  }
+ }
+}

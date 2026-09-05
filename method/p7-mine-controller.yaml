@@ -1,0 +1,102 @@
+# The Mine Controller's driver tree. Skeleton only: no resolution prose lives
+# here. Resolution content is retrieved from the document corpus so that a
+# recommendation is the site's own standard rather than ours.
+#
+# `status` says whether a diagnostic exists and nothing else. Whether a driver
+# is evidenced is decided from the rows that diagnostic returns, on the site's
+# own data — a pack that answered that in advance would be a report with a
+# chat interface in front of it.
+#
+# P7 is an OPTIMISER, not a Diagnostician: it recommends the setpoint or plan
+# that best serves a stated objective, and arbitrates when two parts of the
+# operation want incompatible things (a route that is short but congested
+# against one that is long but clear; a truck loaded light to keep moving
+# against one loaded to rated capacity). The driver tree below keeps the same
+# shape the Diagnostician packs use — question / status / sql / guard — but
+# each instrumented driver here evaluates a controllable dispatch choice
+# against the objective, rather than tracing a root cause backward from a
+# symptom. `compare: setting_band` on congestion_cycle_time is the same
+# mechanism p6-metallurgist.yaml uses for the crusher gap: bands of a
+# controllable choice, not percentiles of an outcome.
+#
+# `haulage_routes` (ten static rows, no timestamp) and
+# `operator_vehicle_assignments` (five rows, a single shift-date one day past
+# the work-order window) carry no time series at the grain any of these
+# questions need. `haul_cycle_log` (data/generator/haulage.py) was built to
+# close that gap for the three drivers below it supports; the two drivers it
+# does NOT support — operator attribution and breakdown/reassignment history —
+# stay not_instrumented because no table, old or new, carries that join at
+# usable scale. See haulage.py's module docstring for the measured detail.
+metric: haul fleet movement rate
+root: movement rate lost to route and load decisions made without the trade-off in view
+
+drivers:
+  - id: congestion_cycle_time
+    question: Does the congestion on a route cost cycle time by more than the route's own baseline would predict, and does the deficit persist across bands?
+    status: instrumented
+    controllable: true
+    compare: setting_band
+    sql: sql/p7/congestion_cycle_time.sql
+    params:
+      tight_max: 0.92
+      wide_min: 1.08
+    doc_query: haul route dispatch congestion cycle time standard operating procedure
+    guard: >-
+      congestion_ratio bands each recorded half against that ROUTE'S OWN
+      baseline congestion_factor, not a fleet-wide congestion level — a route
+      is congested relative to itself, not to a different route with a
+      different geometry. mean_cycle_time_ratio is likewise each half's cycle
+      time against that same route's own baseline, so the comparison never
+      mixes a naturally long route with a naturally short one. Report
+      mean_trip_count alongside any cycle-time finding: a wide band that also
+      shows fewer completed trips means the congestion cost movement rate
+      directly, not merely average speed, and a recommendation to reroute
+      around it must be checked against where the diverted trucks would then
+      queue instead.
+
+  - id: queue_buildup_leading_indicator
+    question: Does elevated congestion earlier in the day predict a cycle-time increase later in the day on the same route?
+    status: instrumented
+    controllable: false
+    sql: sql/p7/queue_buildup_leading_indicator.sql
+    params:
+      am_congestion_ratio_high_min: 1.08
+      am_hour: 0
+      pm_hour: 12
+    doc_query: haul route congestion early warning queue formation dispatch
+    guard: >-
+      This pairs each route-day's AM half to its own PM half, so it can only
+      speak to same-day, same-route persistence — it is not evidence that
+      congestion on one route predicts congestion on a different route, and
+      it is not evidence about any time-of-day resolution finer than the two
+      halves this table carries. Report route_days for both the am_high and
+      am_normal bands beside the finding: a leading-indicator recommendation
+      to pre-emptively reroute is only as strong as the number of route-days
+      the am_high band actually rests on.
+
+  - id: payload_utilization
+    question: Are trucks on this route running below the fleet's own rated capacity, and does that cost movement rate?
+    status: instrumented
+    controllable: true
+    sql: sql/p7/payload_utilization.sql
+    params: {}
+    doc_query: haul truck payload target loading procedure rated capacity
+    guard: >-
+      mean_utilization_pct is each route's mean logged payload against the
+      FLEET-WIDE average rated capacity taken from fleet_vehicles, not
+      against any single truck model's own capacity — a route served
+      disproportionately by the fleet's larger or smaller trucks will show a
+      utilization figure that partly reflects truck mix rather than loading
+      discipline alone. Report halves (the row count behind each route's
+      mean) beside the finding, and check truck mix on the route before
+      recommending a loading-target change.
+
+  - id: operator_behaviour_variance
+    question: Does haul cycle time vary systematically by which operator is assigned to a truck, controlling for route?
+    status: not_instrumented
+    controllable: false
+
+  - id: breakdown_reassignment_effectiveness
+    question: When a truck goes unplanned down mid-shift, what does the record show about how the reassignment that followed performed?
+    status: not_instrumented
+    controllable: true

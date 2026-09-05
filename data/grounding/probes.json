@@ -1,0 +1,1672 @@
+[
+ {
+  "agent_id": "AGT-19",
+  "question": "Query mining_data.geological_block_models directly and report two exact figures: the total row count, and the AVG of gold_grade_gpt_est to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gold_grade_gpt_est),4) AS avg_val FROM `your-gcp-project-id.mining_data.geological_block_models`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "geological_block_models"
+  ],
+  "derived": [
+   [
+    "average of gold_grade_gpt_est",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D01",
+  "question": "Query mining_data.drill_holes directly and report two exact figures: the total row count, and the AVG of azimuth_degrees to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(azimuth_degrees),4) AS avg_val FROM `your-gcp-project-id.mining_data.drill_holes`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "drill_holes"
+  ],
+  "derived": [
+   [
+    "average of azimuth_degrees",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D02",
+  "question": "Query mining_data.drill_holes directly and report two exact figures: the total row count, and the AVG of azimuth_degrees to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(azimuth_degrees),4) AS avg_val FROM `your-gcp-project-id.mining_data.drill_holes`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "drill_holes"
+  ],
+  "derived": [
+   [
+    "average of azimuth_degrees",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D03",
+  "question": "Query mining_data.drill_holes directly and report two exact figures: the total row count, and the AVG of azimuth_degrees to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(azimuth_degrees),4) AS avg_val FROM `your-gcp-project-id.mining_data.drill_holes`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "drill_holes"
+  ],
+  "derived": [
+   [
+    "average of azimuth_degrees",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D04",
+  "question": "Query mining_data.blast_designs directly and report two exact figures: the total row count, and the AVG of burden_m to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(burden_m),4) AS avg_val FROM `your-gcp-project-id.mining_data.blast_designs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "blast_designs"
+  ],
+  "derived": [
+   [
+    "average of burden_m",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D05",
+  "question": "Query mining_data.blast_designs directly and report two exact figures: the total row count, and the AVG of burden_m to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(burden_m),4) AS avg_val FROM `your-gcp-project-id.mining_data.blast_designs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "blast_designs"
+  ],
+  "derived": [
+   [
+    "average of burden_m",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D06",
+  "question": "Query mining_data.blast_designs directly and report two exact figures: the total row count, and the AVG of burden_m to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(burden_m),4) AS avg_val FROM `your-gcp-project-id.mining_data.blast_designs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "blast_designs"
+  ],
+  "derived": [
+   [
+    "average of burden_m",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D07",
+  "question": "Query mining_data.geotech_sensors directly and report two exact figures: the total row count, and the AVG of displacement_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(displacement_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.geotech_sensors`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "geotech_sensors"
+  ],
+  "derived": [
+   [
+    "average of displacement_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D08",
+  "question": "Query mining_data.geotech_sensors directly and report two exact figures: the total row count, and the AVG of displacement_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(displacement_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.geotech_sensors`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "geotech_sensors"
+  ],
+  "derived": [
+   [
+    "average of displacement_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D09",
+  "question": "Query mining_data.pit_designs directly and report two exact figures: the total row count, and the AVG of centroid_x to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(centroid_x),4) AS avg_val FROM `your-gcp-project-id.mining_data.pit_designs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "pit_designs"
+  ],
+  "derived": [
+   [
+    "average of centroid_x",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D10",
+  "question": "Query mining_data.fleet_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.fleet_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fleet_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D11",
+  "question": "Query mining_data.fleet_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.fleet_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fleet_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D12",
+  "question": "Query mining_data.fleet_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.fleet_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fleet_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D13",
+  "question": "Query mining_data.fleet_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.fleet_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fleet_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D14",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D15",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D16",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D17",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D18",
+  "question": "Query mining_data.flotation_assays directly and report two exact figures: the total row count, and the AVG of feed_grade_pct to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(feed_grade_pct),4) AS avg_val FROM `your-gcp-project-id.mining_data.flotation_assays`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "flotation_assays"
+  ],
+  "derived": [
+   [
+    "average of feed_grade_pct",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D19",
+  "question": "Query mining_data.reagent_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.reagent_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "reagent_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D20",
+  "question": "Query mining_data.water_balance_logs directly and report two exact figures: the total row count, and the AVG of inflow_m3 to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(inflow_m3),4) AS avg_val FROM `your-gcp-project-id.mining_data.water_balance_logs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "water_balance_logs"
+  ],
+  "derived": [
+   [
+    "average of inflow_m3",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D21",
+  "question": "Query mining_data.tsf_piezometers directly and report two exact figures: the total row count, and the AVG of pore_pressure_kpa to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(pore_pressure_kpa),4) AS avg_val FROM `your-gcp-project-id.mining_data.tsf_piezometers`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "tsf_piezometers"
+  ],
+  "derived": [
+   [
+    "average of pore_pressure_kpa",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D22",
+  "question": "Query mining_data.assets directly and report one exact figure: the total row count. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n FROM `your-gcp-project-id.mining_data.assets`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "assets"
+  ],
+  "derived": []
+ },
+ {
+  "agent_id": "D23",
+  "question": "Query mining_data.assets directly and report one exact figure: the total row count. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n FROM `your-gcp-project-id.mining_data.assets`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "assets"
+  ],
+  "derived": []
+ },
+ {
+  "agent_id": "D24",
+  "question": "Query mining_data.assets directly and report one exact figure: the total row count. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n FROM `your-gcp-project-id.mining_data.assets`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "assets"
+  ],
+  "derived": []
+ },
+ {
+  "agent_id": "D25",
+  "question": "Query mining_data.assets directly and report one exact figure: the total row count. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n FROM `your-gcp-project-id.mining_data.assets`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "assets"
+  ],
+  "derived": []
+ },
+ {
+  "agent_id": "D26",
+  "question": "Query mining_data.erp_work_orders directly and report two exact figures: the total row count, and the AVG of repair_cost to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(repair_cost),4) AS avg_val FROM `your-gcp-project-id.mining_data.erp_work_orders`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "erp_work_orders"
+  ],
+  "derived": [
+   [
+    "average of repair_cost",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D27",
+  "question": "Query mining_data.vendor_contracts directly and report two exact figures: the total row count, and the AVG of agreed_unit_price to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(agreed_unit_price),4) AS avg_val FROM `your-gcp-project-id.mining_data.vendor_contracts`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "vendor_contracts"
+  ],
+  "derived": [
+   [
+    "average of agreed_unit_price",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D28",
+  "question": "Query mining_data.purchase_orders directly and report two exact figures: the total row count, and the AVG of quoted_lead_time_days to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(quoted_lead_time_days),4) AS avg_val FROM `your-gcp-project-id.mining_data.purchase_orders`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "purchase_orders"
+  ],
+  "derived": [
+   [
+    "average of quoted_lead_time_days",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D29",
+  "question": "Query mining_data.spares_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.spares_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "spares_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D30",
+  "question": "Query mining_data.lube_samples directly and report two exact figures: the total row count, and the AVG of iron_ppm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(iron_ppm),4) AS avg_val FROM `your-gcp-project-id.mining_data.lube_samples`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "lube_samples"
+  ],
+  "derived": [
+   [
+    "average of iron_ppm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D32",
+  "question": "Query mining_data.spares_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.spares_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "spares_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D33",
+  "question": "Query mining_data.port_vessels directly and report two exact figures: the total row count, and the AVG of loaded_tonnes to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(loaded_tonnes),4) AS avg_val FROM `your-gcp-project-id.mining_data.port_vessels`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "port_vessels"
+  ],
+  "derived": [
+   [
+    "average of loaded_tonnes",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D34",
+  "question": "Query mining_data.reagent_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.reagent_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "reagent_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D35",
+  "question": "Query mining_data.rail_schedules directly and report two exact figures: the total row count, and the AVG of wagons to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(wagons),4) AS avg_val FROM `your-gcp-project-id.mining_data.rail_schedules`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "rail_schedules"
+  ],
+  "derived": [
+   [
+    "average of wagons",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D36",
+  "question": "Query mining_data.port_vessels directly and report two exact figures: the total row count, and the AVG of loaded_tonnes to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(loaded_tonnes),4) AS avg_val FROM `your-gcp-project-id.mining_data.port_vessels`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "port_vessels"
+  ],
+  "derived": [
+   [
+    "average of loaded_tonnes",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D37",
+  "question": "Query mining_data.fatigue_monitoring_logs directly and report two exact figures: the total row count, and the AVG of heart_rate_bpm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(heart_rate_bpm),4) AS avg_val FROM `your-gcp-project-id.mining_data.fatigue_monitoring_logs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fatigue_monitoring_logs"
+  ],
+  "derived": [
+   [
+    "average of heart_rate_bpm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D38",
+  "question": "Query mining_data.safety_telemetry directly and report one exact figure: the total row count. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n FROM `your-gcp-project-id.mining_data.safety_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "safety_telemetry"
+  ],
+  "derived": []
+ },
+ {
+  "agent_id": "D39",
+  "question": "Query mining_data.fleet_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.fleet_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fleet_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "D40",
+  "question": "Query mining_data.tenement_leases directly and report two exact figures: the total row count, and the AVG of area_hectares to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(area_hectares),4) AS avg_val FROM `your-gcp-project-id.mining_data.tenement_leases`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "tenement_leases"
+  ],
+  "derived": [
+   [
+    "average of area_hectares",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S01-1-LITHOLOGY",
+  "question": "Query mining_data.drill_holes directly and report two exact figures: the total row count, and the AVG of azimuth_degrees to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(azimuth_degrees),4) AS avg_val FROM `your-gcp-project-id.mining_data.drill_holes`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "drill_holes"
+  ],
+  "derived": [
+   [
+    "average of azimuth_degrees",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S01-2-GEOSTAT",
+  "question": "Query mining_data.assay_logs directly and report two exact figures: the total row count, and the AVG of depth_start_meters to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(depth_start_meters),4) AS avg_val FROM `your-gcp-project-id.mining_data.assay_logs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "assay_logs"
+  ],
+  "derived": [
+   [
+    "average of depth_start_meters",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S01-3-STRUCTURAL",
+  "question": "Query mining_data.geological_block_models directly and report two exact figures: the total row count, and the AVG of gold_grade_gpt_est to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gold_grade_gpt_est),4) AS avg_val FROM `your-gcp-project-id.mining_data.geological_block_models`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "geological_block_models"
+  ],
+  "derived": [
+   [
+    "average of gold_grade_gpt_est",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S01-COORDINATOR",
+  "question": "Query mining_data.drill_holes directly and report two exact figures: the total row count, and the AVG of azimuth_degrees to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(azimuth_degrees),4) AS avg_val FROM `your-gcp-project-id.mining_data.drill_holes`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "drill_holes"
+  ],
+  "derived": [
+   [
+    "average of azimuth_degrees",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S01-R-CRITIC",
+  "question": "Query mining_data.assay_logs directly and report two exact figures: the total row count, and the AVG of depth_start_meters to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(depth_start_meters),4) AS avg_val FROM `your-gcp-project-id.mining_data.assay_logs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "assay_logs"
+  ],
+  "derived": [
+   [
+    "average of depth_start_meters",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S02-1-GEOTECH",
+  "question": "Query mining_data.geotech_sensors directly and report two exact figures: the total row count, and the AVG of displacement_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(displacement_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.geotech_sensors`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "geotech_sensors"
+  ],
+  "derived": [
+   [
+    "average of displacement_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S02-2-SCHEDULE",
+  "question": "Query mining_data.mine_production_schedule directly and report two exact figures: the total row count, and the AVG of assumed_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(assumed_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.mine_production_schedule`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "mine_production_schedule"
+  ],
+  "derived": [
+   [
+    "average of assumed_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S02-3-DUMP",
+  "question": "Query mining_data.pit_designs directly and report two exact figures: the total row count, and the AVG of centroid_x to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(centroid_x),4) AS avg_val FROM `your-gcp-project-id.mining_data.pit_designs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "pit_designs"
+  ],
+  "derived": [
+   [
+    "average of centroid_x",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S02-COORDINATOR",
+  "question": "Query mining_data.mine_production_schedule directly and report two exact figures: the total row count, and the AVG of assumed_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(assumed_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.mine_production_schedule`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "mine_production_schedule"
+  ],
+  "derived": [
+   [
+    "average of assumed_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S02-R-CRITIC",
+  "question": "Query mining_data.survey_scans directly and report two exact figures: the total row count, and the AVG of point_count to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(point_count),4) AS avg_val FROM `your-gcp-project-id.mining_data.survey_scans`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "survey_scans"
+  ],
+  "derived": [
+   [
+    "average of point_count",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S03-1-GEOMETRY",
+  "question": "Query mining_data.blast_designs directly and report two exact figures: the total row count, and the AVG of burden_m to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(burden_m),4) AS avg_val FROM `your-gcp-project-id.mining_data.blast_designs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "blast_designs"
+  ],
+  "derived": [
+   [
+    "average of burden_m",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S03-2-EXPLOSIVE",
+  "question": "Query mining_data.explosives_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.explosives_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "explosives_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S03-3-VIBRATION",
+  "question": "Query mining_data.vibration_monitors directly and report two exact figures: the total row count, and the AVG of vibration_hz to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(vibration_hz),4) AS avg_val FROM `your-gcp-project-id.mining_data.vibration_monitors`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "vibration_monitors"
+  ],
+  "derived": [
+   [
+    "average of vibration_hz",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S03-COORDINATOR",
+  "question": "Query mining_data.blast_designs directly and report two exact figures: the total row count, and the AVG of burden_m to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(burden_m),4) AS avg_val FROM `your-gcp-project-id.mining_data.blast_designs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "blast_designs"
+  ],
+  "derived": [
+   [
+    "average of burden_m",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S03-R-CRITIC",
+  "question": "Query mining_data.blast_designs directly and report two exact figures: the total row count, and the AVG of burden_m to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(burden_m),4) AS avg_val FROM `your-gcp-project-id.mining_data.blast_designs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "blast_designs"
+  ],
+  "derived": [
+   [
+    "average of burden_m",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S04-1-SHOVEL",
+  "question": "Query mining_data.fleet_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.fleet_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fleet_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S04-2-ROUTE",
+  "question": "Query mining_data.dispatch_routes directly and report two exact figures: the total row count, and the AVG of distance_meters to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(distance_meters),4) AS avg_val FROM `your-gcp-project-id.mining_data.dispatch_routes`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "dispatch_routes"
+  ],
+  "derived": [
+   [
+    "average of distance_meters",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S04-3-PAYLOAD",
+  "question": "Query mining_data.fleet_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.fleet_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fleet_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S04-COORDINATOR",
+  "question": "Query mining_data.fleet_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.fleet_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fleet_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S04-R-CRITIC",
+  "question": "Query mining_data.fleet_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.fleet_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "fleet_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S05-1-CSS",
+  "question": "Query mining_data.crusher_telemetry directly and report two exact figures: the total row count, and the AVG of gap_size_setting_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gap_size_setting_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.crusher_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "crusher_telemetry"
+  ],
+  "derived": [
+   [
+    "average of gap_size_setting_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S05-2-FEED",
+  "question": "Query mining_data.crusher_telemetry directly and report two exact figures: the total row count, and the AVG of gap_size_setting_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gap_size_setting_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.crusher_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "crusher_telemetry"
+  ],
+  "derived": [
+   [
+    "average of gap_size_setting_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S05-3-WEAR",
+  "question": "Query mining_data.crusher_telemetry directly and report two exact figures: the total row count, and the AVG of gap_size_setting_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gap_size_setting_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.crusher_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "crusher_telemetry"
+  ],
+  "derived": [
+   [
+    "average of gap_size_setting_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S05-COORDINATOR",
+  "question": "Query mining_data.crusher_telemetry directly and report two exact figures: the total row count, and the AVG of gap_size_setting_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gap_size_setting_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.crusher_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "crusher_telemetry"
+  ],
+  "derived": [
+   [
+    "average of gap_size_setting_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S05-R-CRITIC",
+  "question": "Query mining_data.crusher_telemetry directly and report two exact figures: the total row count, and the AVG of gap_size_setting_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gap_size_setting_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.crusher_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "crusher_telemetry"
+  ],
+  "derived": [
+   [
+    "average of gap_size_setting_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S06-1-SAG",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S06-2-BALL",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S06-3-CYCLONE",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S06-COORDINATOR",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S06-R-CRITIC",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S07-1-REAGENT",
+  "question": "Query mining_data.reagent_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.reagent_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "reagent_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S07-2-AIR",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S07-3-GRADE",
+  "question": "Query mining_data.flotation_assays directly and report two exact figures: the total row count, and the AVG of feed_grade_pct to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(feed_grade_pct),4) AS avg_val FROM `your-gcp-project-id.mining_data.flotation_assays`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "flotation_assays"
+  ],
+  "derived": [
+   [
+    "average of feed_grade_pct",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S07-COORDINATOR",
+  "question": "Query mining_data.flotation_assays directly and report two exact figures: the total row count, and the AVG of feed_grade_pct to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(feed_grade_pct),4) AS avg_val FROM `your-gcp-project-id.mining_data.flotation_assays`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "flotation_assays"
+  ],
+  "derived": [
+   [
+    "average of feed_grade_pct",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S07-R-CRITIC",
+  "question": "Query mining_data.flotation_assays directly and report two exact figures: the total row count, and the AVG of feed_grade_pct to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(feed_grade_pct),4) AS avg_val FROM `your-gcp-project-id.mining_data.flotation_assays`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "flotation_assays"
+  ],
+  "derived": [
+   [
+    "average of feed_grade_pct",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S08-1-WATER",
+  "question": "Query mining_data.water_balance_logs directly and report two exact figures: the total row count, and the AVG of inflow_m3 to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(inflow_m3),4) AS avg_val FROM `your-gcp-project-id.mining_data.water_balance_logs`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "water_balance_logs"
+  ],
+  "derived": [
+   [
+    "average of inflow_m3",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S08-2-PORE",
+  "question": "Query mining_data.tsf_piezometers directly and report two exact figures: the total row count, and the AVG of pore_pressure_kpa to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(pore_pressure_kpa),4) AS avg_val FROM `your-gcp-project-id.mining_data.tsf_piezometers`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "tsf_piezometers"
+  ],
+  "derived": [
+   [
+    "average of pore_pressure_kpa",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S08-3-THICK",
+  "question": "Query mining_data.plant_telemetry directly and report two exact figures: the total row count, and the AVG of metric_value to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(metric_value),4) AS avg_val FROM `your-gcp-project-id.mining_data.plant_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "plant_telemetry"
+  ],
+  "derived": [
+   [
+    "average of metric_value",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S08-COORDINATOR",
+  "question": "Query mining_data.tsf_piezometers directly and report two exact figures: the total row count, and the AVG of pore_pressure_kpa to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(pore_pressure_kpa),4) AS avg_val FROM `your-gcp-project-id.mining_data.tsf_piezometers`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "tsf_piezometers"
+  ],
+  "derived": [
+   [
+    "average of pore_pressure_kpa",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S08-R-CRITIC",
+  "question": "Query mining_data.tsf_piezometers directly and report two exact figures: the total row count, and the AVG of pore_pressure_kpa to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(pore_pressure_kpa),4) AS avg_val FROM `your-gcp-project-id.mining_data.tsf_piezometers`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "tsf_piezometers"
+  ],
+  "derived": [
+   [
+    "average of pore_pressure_kpa",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S09-1-VIBRATION",
+  "question": "Query mining_data.crusher_telemetry directly and report two exact figures: the total row count, and the AVG of gap_size_setting_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gap_size_setting_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.crusher_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "crusher_telemetry"
+  ],
+  "derived": [
+   [
+    "average of gap_size_setting_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S09-2-TRIBOLOGY",
+  "question": "Query mining_data.lube_samples directly and report two exact figures: the total row count, and the AVG of iron_ppm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(iron_ppm),4) AS avg_val FROM `your-gcp-project-id.mining_data.lube_samples`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "lube_samples"
+  ],
+  "derived": [
+   [
+    "average of iron_ppm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S09-3-THERMAL",
+  "question": "Query mining_data.crusher_telemetry directly and report two exact figures: the total row count, and the AVG of gap_size_setting_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gap_size_setting_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.crusher_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "crusher_telemetry"
+  ],
+  "derived": [
+   [
+    "average of gap_size_setting_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S09-COORDINATOR",
+  "question": "Query mining_data.crusher_telemetry directly and report two exact figures: the total row count, and the AVG of gap_size_setting_mm to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(gap_size_setting_mm),4) AS avg_val FROM `your-gcp-project-id.mining_data.crusher_telemetry`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "crusher_telemetry"
+  ],
+  "derived": [
+   [
+    "average of gap_size_setting_mm",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S09-R-CRITIC",
+  "question": "Query mining_data.erp_work_orders directly and report two exact figures: the total row count, and the AVG of repair_cost to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(repair_cost),4) AS avg_val FROM `your-gcp-project-id.mining_data.erp_work_orders`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "erp_work_orders"
+  ],
+  "derived": [
+   [
+    "average of repair_cost",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S10-1-CONTRACT",
+  "question": "Query mining_data.vendor_contracts directly and report two exact figures: the total row count, and the AVG of agreed_unit_price to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(agreed_unit_price),4) AS avg_val FROM `your-gcp-project-id.mining_data.vendor_contracts`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "vendor_contracts"
+  ],
+  "derived": [
+   [
+    "average of agreed_unit_price",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S10-2-ESCALATE",
+  "question": "Query mining_data.vendor_contracts directly and report two exact figures: the total row count, and the AVG of agreed_unit_price to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(agreed_unit_price),4) AS avg_val FROM `your-gcp-project-id.mining_data.vendor_contracts`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "vendor_contracts"
+  ],
+  "derived": [
+   [
+    "average of agreed_unit_price",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S10-3-WARRANTY",
+  "question": "Query mining_data.vendor_contracts directly and report two exact figures: the total row count, and the AVG of agreed_unit_price to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(agreed_unit_price),4) AS avg_val FROM `your-gcp-project-id.mining_data.vendor_contracts`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "vendor_contracts"
+  ],
+  "derived": [
+   [
+    "average of agreed_unit_price",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S10-COORDINATOR",
+  "question": "Query mining_data.vendor_contracts directly and report two exact figures: the total row count, and the AVG of agreed_unit_price to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(agreed_unit_price),4) AS avg_val FROM `your-gcp-project-id.mining_data.vendor_contracts`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "vendor_contracts"
+  ],
+  "derived": [
+   [
+    "average of agreed_unit_price",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S10-R-CRITIC",
+  "question": "Query mining_data.vendor_contracts directly and report two exact figures: the total row count, and the AVG of agreed_unit_price to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(agreed_unit_price),4) AS avg_val FROM `your-gcp-project-id.mining_data.vendor_contracts`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "vendor_contracts"
+  ],
+  "derived": [
+   [
+    "average of agreed_unit_price",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S11-1-STOCK",
+  "question": "Query mining_data.spares_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.spares_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "spares_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S11-2-LEADTIME",
+  "question": "Query mining_data.purchase_orders directly and report two exact figures: the total row count, and the AVG of quoted_lead_time_days to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(quoted_lead_time_days),4) AS avg_val FROM `your-gcp-project-id.mining_data.purchase_orders`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "purchase_orders"
+  ],
+  "derived": [
+   [
+    "average of quoted_lead_time_days",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S11-3-HOLDING",
+  "question": "Query mining_data.spares_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.spares_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "spares_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S11-COORDINATOR",
+  "question": "Query mining_data.spares_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.spares_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "spares_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S11-R-CRITIC",
+  "question": "Query mining_data.spares_inventory directly and report two exact figures: the total row count, and the AVG of stock_level to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(stock_level),4) AS avg_val FROM `your-gcp-project-id.mining_data.spares_inventory`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "spares_inventory"
+  ],
+  "derived": [
+   [
+    "average of stock_level",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S12-1-RAIL",
+  "question": "Query mining_data.rail_schedules directly and report two exact figures: the total row count, and the AVG of wagons to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(wagons),4) AS avg_val FROM `your-gcp-project-id.mining_data.rail_schedules`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "rail_schedules"
+  ],
+  "derived": [
+   [
+    "average of wagons",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S12-2-BLEND",
+  "question": "Query mining_data.stockpiles directly and report two exact figures: the total row count, and the AVG of tonnes to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(tonnes),4) AS avg_val FROM `your-gcp-project-id.mining_data.stockpiles`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "stockpiles"
+  ],
+  "derived": [
+   [
+    "average of tonnes",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S12-3-BERTH",
+  "question": "Query mining_data.port_vessels directly and report two exact figures: the total row count, and the AVG of loaded_tonnes to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(loaded_tonnes),4) AS avg_val FROM `your-gcp-project-id.mining_data.port_vessels`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "port_vessels"
+  ],
+  "derived": [
+   [
+    "average of loaded_tonnes",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S12-COORDINATOR",
+  "question": "Query mining_data.rail_schedules directly and report two exact figures: the total row count, and the AVG of wagons to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(wagons),4) AS avg_val FROM `your-gcp-project-id.mining_data.rail_schedules`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "rail_schedules"
+  ],
+  "derived": [
+   [
+    "average of wagons",
+    "avg_val",
+    2.0
+   ]
+  ]
+ },
+ {
+  "agent_id": "S12-R-CRITIC",
+  "question": "Query mining_data.port_vessels directly and report two exact figures: the total row count, and the AVG of loaded_tonnes to four decimal places. State the fully-qualified table you read. Do not estimate \u2014 if you cannot run the query, say so.",
+  "truth_sql": "SELECT COUNT(*) AS n, ROUND(AVG(loaded_tonnes),4) AS avg_val FROM `your-gcp-project-id.mining_data.port_vessels`",
+  "truth_key": "n",
+  "tolerance_pct": 0.5,
+  "must_name": [
+   "port_vessels"
+  ],
+  "derived": [
+   [
+    "average of loaded_tonnes",
+    "avg_val",
+    2.0
+   ]
+  ]
+ }
+]

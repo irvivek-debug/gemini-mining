@@ -1,0 +1,91 @@
+{
+  "generated_at": "2026-08-18T05:48:50+00:00",
+  "mill_downtime_usd_per_hour": 145000,
+  "mill_downtime_source": "docs/personas-and-value-tree.md",
+  "note": "This is the only monetary figure this repository establishes. Every other magnitude renders as [CLIENT INPUT REQUIRED].",
+  "site": [
+    {
+      "label": "Assets under management",
+      "value": 5,
+      "unit": "assets",
+      "source": "data/profile/stats.json"
+    },
+    {
+      "label": "Telemetry readings",
+      "value": 25946,
+      "unit": "readings",
+      "source": "data/generated/telemetry_stream.parquet"
+    },
+    {
+      "label": "Distinct telemetry metrics",
+      "value": 12,
+      "unit": "metrics",
+      "source": "data/generated/telemetry_stream.parquet"
+    },
+    {
+      "label": "Work orders",
+      "value": 500,
+      "unit": "orders",
+      "source": "data/generated/erp_work_orders.parquet"
+    },
+    {
+      "label": "Parts held in inventory",
+      "value": 105,
+      "unit": "SKUs",
+      "source": "data/generated/inventory_levels.parquet"
+    },
+    {
+      "label": "Parts at or below reorder point",
+      "value": 17,
+      "unit": "SKUs",
+      "source": "data/generated/inventory_levels.parquet"
+    },
+    {
+      "label": "Operators monitored for fatigue",
+      "value": 20,
+      "unit": "operators",
+      "source": "data/generated/fatigue_logs_node.parquet"
+    },
+    {
+      "label": "Fatigue readings",
+      "value": 3340,
+      "unit": "readings",
+      "source": "data/generated/fatigue_logs_node.parquet"
+    },
+    {
+      "label": "Maintenance log entries",
+      "value": 152,
+      "unit": "entries",
+      "source": "data/generated/maintenance_logs.parquet"
+    },
+    {
+      "label": "Geological block model cells",
+      "value": 1000,
+      "unit": "blocks",
+      "source": "data/generated/geological_block_models.parquet"
+    },
+    {
+      "label": "Drill assay intervals",
+      "value": 295,
+      "unit": "intervals",
+      "source": "data/generated/drill_assay_logs.parquet"
+    },
+    {
+      "label": "Metallurgical recovery records",
+      "value": 167,
+      "unit": "records",
+      "source": "data/generated/metallurgical_recovery.parquet"
+    }
+  ],
+  "window": {
+    "from": "2026-01-01 00:00:00+00:00",
+    "to": "2026-06-16 22:00:00+00:00",
+    "source": "data/generated/telemetry_stream.parquet"
+  },
+  "not_locally_derivable": [
+    {
+      "figure": "Fleet vehicle count",
+      "why": "data/profile/stats.json keeps a three-row sample of fleet_vehicles, not the table. Only the 5 vehicles carrying an operator assignment are known locally. BigQuery settles it."
+    }
+  ]
+}

@@ -1,0 +1,542 @@
+# External research benchmarks
+#
+# Third-party figures shown on the value screens. These are the ONLY external
+# numbers permitted on any screen. Nothing here may be added from memory: every
+# entry was read from the publisher's own page, and an entry that cannot be
+# confirmed against its primary source belongs in `excluded` at the bottom of
+# this file rather than in `benchmarks`.
+#
+# Why a file and not prose in the markup: a claim printed beside a CEO's own
+# operating data has to be traceable to a document without anyone reading
+# JavaScript to find out where it came from. The build fails if an entry is
+# missing a title, publisher, year or url.
+#
+# `figure` is quoted exactly as published. `scope` exists so the screen cannot
+# quietly widen a claim — several of these are narrower than they first read.
+#
+# `pool` names the value pool this benchmark speaks to, where one applies. A
+# benchmark with no pool is context for the whole case rather than evidence for
+# one mechanism.
+#
+# `uplift` is the machine-readable form of the numbers already inside `figure`,
+# so a screen can render a range without a human retyping it into JavaScript.
+# The build refuses to emit an uplift whose bounds do not appear in the quoted
+# text — in digits or in English words — which is what stops a bound drifting
+# away from the sentence it was taken from. Where several entries in one pool
+# carry the same `metric`, the screen merges them into a single published range,
+# so the `metric` strings must match exactly. `metric` is written to read as a
+# phrase after the number: "2–5% higher throughput".
+#
+# The order of entries within a pool matters: the first uplift of the first
+# entry is what the pool card leads with.
+#
+# Last full re-verification: 2026-08-13. Every url below was fetched and the
+# quoted text read on the publisher's own page on that date. Several entries
+# that survived earlier passes were retired at that re-verification because the
+# publisher has since revised the finding — see `superseded` in `excluded`.
+
+benchmarks:
+  # ---------------------------------------------------------------- condition
+  # Why the gap exists at all, and why a chief executive should not assume it
+  # has already been closed by the last programme.
+
+  - id: pwc_ai_fitness
+    theme: condition
+    headline: "Mining scores lowest of any sector on AI fitness"
+    figure: >-
+      mining had the lowest score of any sector on our AI fitness index... the
+      most AI-fit companies, the study showed, enjoy an AI-driven performance
+      boost that's 7.2 times higher... Indeed, in PwC's 29th Global CEO Survey,
+      40% of mining CEOs said their company's technology performance was below
+      expectations.
+    title: "Mine 2026: Ambition to action"
+    publisher: PwC
+    year: 2026
+    url: https://www.pwc.com/gx/en/industries/energy-utilities-resources/publications/mine.html
+    scope: >-
+      Mining-specific, and the 40% is mining chief executives assessing their
+      own technology performance rather than an outside verdict. Printed
+      deliberately: a case that only carries upside reads as a brochure, and
+      this is the figure a sceptical chief executive already has in mind before
+      the meeting starts.
+
+  - id: labour_productivity
+    theme: condition
+    headline: "Output per worker has fallen since 2020"
+    figure: >-
+      Output per worker in the mining industry has fallen since 2020... 39% of
+      mining employers expect an inability to attract talent will hinder their
+      transformations.
+    title: "Mine 2026: Ambition to action"
+    publisher: PwC
+    year: 2026
+    url: https://www.pwc.com/gx/en/industries/energy-utilities-resources/publications/mine.html
+    scope: >-
+      Industry-wide labour productivity. Used to establish that the gap is a
+      condition of the industry rather than a failing of one operator. Replaces
+      the 2015 MPI decline figure, which McKinsey's own later work restates
+      differently — see `superseded` below.
+
+  - id: grade_decline
+    theme: condition
+    # The headline stays off the metal even though the quote beneath it cannot,
+    # because the headline is set in display type and is what a reader takes
+    # away at a glance. The finding is about head grades falling, which is true
+    # of the industry and not of one commodity.
+    headline: "Head grades down ~40% in three decades"
+    figure: >-
+      Average copper grades have fallen by roughly 40% since 1991, increasing
+      the value of stable throughput and consistent recovery.
+    title: "2026 Mining and Metals Industry Outlook"
+    publisher: Deloitte
+    year: 2026
+    url: https://www.deloitte.com/us/en/insights/industry/mining-metals/mining-and-metals-industry-outlook.html
+    scope: >-
+      Long-run head grade decline. Names one metal because the publisher does;
+      the point it carries is commodity-neutral — as grade falls, the value of
+      each recovered point rises. This is the reason the recovery argument gets
+      more valuable over time, not less.
+
+  - id: data_unused
+    theme: condition
+    headline: "Miners use less than 1% of the data their equipment produces"
+    figure: "miners use less than 1 percent of the information collected from their equipment"
+    aside: >-
+      average overall equipment effectiveness of 27 percent for underground
+      mining and 39 percent for open-pit, against 88 percent for upstream oil
+      and gas
+    title: "How digital innovation can improve mining productivity"
+    publisher: McKinsey & Company
+    year: 2015
+    url: https://www.mckinsey.com/industries/metals-and-mining/our-insights/how-digital-innovation-can-improve-mining-productivity
+    scope: >-
+      2015 vintage; the OEE contrast is the durable part of the finding. Kept
+      because it is the clearest published statement of the specific condition
+      this engagement addresses: the telemetry is already being collected.
+
+  - id: ai_value_gap
+    theme: condition
+    headline: "60% of companies get hardly any material value from AI"
+    figure: >-
+      5% of firms worldwide are in this camp, while 35% are scaling AI... But
+      60% companies are reaping hardly any material value
+    title: "The Widening AI Value Gap"
+    publisher: Boston Consulting Group
+    year: 2025
+    url: https://www.bcg.com/publications/2025/are-you-generating-value-from-ai-the-widening-gap
+    scope: >-
+      Cross-industry, not mining. Quoted verbatim including the publisher's own
+      grammatical slip. Printed as the counterweight to every uplift figure on
+      these screens.
+
+  # ---------------------------------------------------------------------- gap
+  # That the distance between an ordinary day and a good day is real, is
+  # measurable across operators, and is not explained by new plant.
+
+  - id: quartile_gap
+    theme: gap
+    headline: "Top-quartile sites run 6% higher truck availability than average"
+    figure: >-
+      companies with scores in the top quartile of the OHI had truck
+      availability that was 8 percent higher than companies in the bottom
+      quartile, and 6 percent higher than average OHI performers
+    aside: >-
+      that 8 percent difference could translate into a production increase of
+      around 5 percent, or a decrease in operations costs of about 2 percent
+    title: "The missing link in mining-company productivity: People"
+    publisher: McKinsey & Company
+    year: 2018
+    url: https://www.mckinsey.com/capabilities/operations/our-insights/the-missing-link-in-mining-company-productivity
+    scope: >-
+      Cross-mine benchmark linking Organizational Health Index quartile to
+      physical equipment performance. The gap is attributed to operational
+      discipline and accountability, not to technology.
+
+  - id: discipline_gap
+    theme: gap
+    pool: B1
+    headline: "16% higher effective equipment use, on discipline alone"
+    figure: >-
+      top quartile results in 'Accountability' and 'Operational discipline'
+      achieved 16 percent higher UEE than those in the bottom quartile
+    title: "The missing link in mining-company productivity: People"
+    publisher: McKinsey & Company
+    year: 2018
+    url: https://www.mckinsey.com/capabilities/operations/our-insights/the-missing-link-in-mining-company-productivity
+    scope: >-
+      Utilisation of Equipment Effectiveness, quartile to quartile. Named here
+      because consistency of practice, not new plant, is what moves it.
+    uplift:
+      - metric: "higher effective equipment use"
+        low: 16
+        high: 16
+        unit: "%"
+
+  - id: guidance_miss
+    theme: gap
+    pool: B2
+    headline: "Producers came in 2.4% under their own 12-month forecast"
+    figure: >-
+      In the past five years, top mining companies have missed production
+      targets, meaning they have missed out on $64 billion in revenue and have
+      typically performed 2.4% worse than forecasted by themselves 12 months
+      earlier. In the same five-year period, 60% of mines reported results at or
+      below the lower half of the guidance range.
+    aside: >-
+      the missed production volumes amount to 213 million tons
+    title: "The mining industry's $64 billion blind spot"
+    publisher: Accenture
+    year: 2025
+    url: https://www.accenture.com/us-en/blogs/mining-industry-64-billion-dollar-blind-spot
+    scope: >-
+      Public production announcements from major producers, 2020-2024. This is
+      guidance against actual, NOT block model against mill reconciliation —
+      the two are different measurements and the screen must not conflate them.
+      The measure is asymmetric by construction: it counts shortfalls and
+      excludes overproduction.
+    uplift:
+      - metric: "production lost against the operator's own guidance"
+        low: 2.4
+        high: 2.4
+        unit: "%"
+
+  # -------------------------------------------------------------------- prize
+  # What closing the gap has been worth elsewhere. Every figure here is
+  # somebody else's site, and the screens say so.
+
+  - id: mature_ai_uplift
+    theme: prize
+    pool: B3
+    headline: "2–5% throughput, 2–4pp margin, from mature applications"
+    figure: >-
+      Sites report throughput improvements of 2% to 5%, margin improvements of
+      2 to 4 percentage points, and reductions in unplanned downtime
+    title: "The AI-Powered Mining and Metals Company"
+    publisher: Boston Consulting Group
+    year: 2026
+    url: https://www.bcg.com/publications/2026/the-ai-powered-mining-and-metals-company
+    scope: >-
+      "Mature applications" in the publisher's own words — traditional machine
+      learning, setpoint optimisation, digital twins, computer-vision safety.
+      This is the conservative end of the published range and the most recent
+      of the throughput figures, which is why it anchors the low side.
+    uplift:
+      - metric: "higher throughput"
+        low: 2
+        high: 5
+        unit: "%"
+
+  - id: throughput_100_assets
+    theme: prize
+    pool: B3
+    headline: "8–10% throughput, recovery up 1–3 percentage points"
+    figure: >-
+      potential to achieve 8 to 10 percent in throughput improvement as well as
+      an uptick of one to three percentage points in recovery
+    aside: >-
+      alongside 8 to 10 percent throughput improvement, observed across more
+      than 100 assets across industries and commodities globally
+    title: "Advancing metals and mining in Southeast Asia with digital and analytics"
+    publisher: McKinsey & Company
+    year: 2023
+    url: https://www.mckinsey.com/industries/metals-and-mining/our-insights/advancing-metals-and-mining-in-southeast-asia-with-digital-and-analytics
+    scope: >-
+      Observed across a stated base of 100+ assets, which makes this the best
+      evidenced of the throughput figures and the reason it sets the middle of
+      the range rather than the top.
+    uplift:
+      - metric: "higher throughput"
+        low: 8
+        high: 10
+        unit: "%"
+      - metric: "recovery"
+        low: 1
+        high: 3
+        unit: "pts"
+
+  - id: concentrator_uplift
+    theme: prize
+    pool: B3
+    headline: "10–15% throughput, 2–4pp recovery at one concentrator"
+    figure: >-
+      the plant improved throughput by a range of 10 to 15 percent, and copper
+      recovery in a range of two to four percentage points
+    title: "OptimusAI"
+    publisher: McKinsey & Company
+    year: 2026
+    url: https://www.mckinsey.com/industries/metals-and-mining/how-we-help-clients/optimusai
+    scope: >-
+      A single concentrator, on the publisher's own capability page. It is the
+      top of the published range and it is not an industry benchmark — one
+      plant is one plant. Printed because it bounds the range honestly at both
+      ends, and labelled as a single site wherever it appears. The page carries
+      no publication date; the year below records when it was read, and is not
+      a claim about when the work was done.
+    uplift:
+      - metric: "higher throughput"
+        low: 10
+        high: 15
+        unit: "%"
+      - metric: "recovery"
+        low: 2
+        high: 4
+        unit: "pts"
+
+  - id: haulage_ahs
+    theme: prize
+    pool: B4
+    headline: "20% productivity improvement from autonomous haulage"
+    figure: >-
+      miners using autonomous haulage technology have reported a 20 percent
+      improvement in productivity
+    title: "Behind the mining productivity upswing: Technology-enabled transformation"
+    publisher: McKinsey & Company
+    year: 2018
+    url: https://www.mckinsey.com/industries/metals-and-mining/our-insights/behind-the-mining-productivity-upswing-technology-enabled-transformation
+    scope: >-
+      Reported by Western Australian operators running autonomous haulage
+      fleets. It is a fleet-automation figure, not a decision-support one —
+      quoted as the ceiling of what fleet productivity work has returned, not
+      as what this estate claims.
+    uplift:
+      - metric: "higher fleet productivity"
+        low: 20
+        high: 20
+        unit: "%"
+
+  - id: unit_cost_reduction
+    theme: prize
+    pool: B5
+    headline: "Outperformers cut unit costs 3–6% a year, compounding"
+    figure: >-
+      reduced unit costs by an average compound annual rate of 3 to 6 percent
+    title: "Mining for operational excellence"
+    publisher: McKinsey & Company
+    year: 2025
+    url: https://www.mckinsey.com/capabilities/operations/our-insights/mining-for-operational-excellence
+    scope: >-
+      Operational-excellence outperformers against their own baseline, compound
+      annual. Cost per unit of output, which spans procurement, consumables and
+      maintenance rather than any single line.
+    uplift:
+      - metric: "lower unit cost, every year"
+        low: 3
+        high: 6
+        unit: "%"
+
+  - id: procurement
+    theme: prize
+    pool: B5
+    headline: "Procurement productivity up to 50%"
+    figure: "improved their procurement productivity by up to 50%"
+    title: "Racing Toward a Digital Future in Metals and Mining"
+    publisher: Boston Consulting Group
+    year: 2021
+    url: https://www.bcg.com/publications/2021/adopting-a-digital-strategy-in-the-metals-and-mining-industry
+    scope: >-
+      Upper end of a range observed among digitally mature metals and mining
+      companies; quoted as a ceiling, not a typical result. The same
+      publication's digital-maturity finding has since been revised by BCG and
+      is no longer printed — see `superseded`.
+    uplift:
+      - metric: "higher procurement productivity, at the ceiling"
+        low: 50
+        high: 50
+        unit: "%"
+
+  - id: opex_production_safety
+    theme: prize
+    pool: B6
+    headline: "1–16% production uplift, 5–23% fewer safety incidents"
+    figure: >-
+      with uplifts in production ranging from 1 to 16 percent and a reduction
+      of safety incidents by 5 to 23 percent per annum
+    aside: >-
+      a near-eradication of risk, with incidents per million hours reducing by
+      half
+    title: "How mining companies reach the operational excellence gold standard"
+    publisher: McKinsey & Company
+    year: 2022
+    url: https://www.mckinsey.com/capabilities/operations/our-insights/how-mining-companies-reach-the-operational-excellence-gold-standard
+    scope: >-
+      Self-selected operators who adopted an operational-excellence programme
+      built on Shingo principles. The width of the production range is the
+      finding: the same discipline returns 1 percent at one site and 16 at
+      another. The aside is a single unnamed miner, not the cohort.
+    uplift:
+      - metric: "fewer safety incidents, every year"
+        low: 5
+        high: 23
+        unit: "%"
+      - metric: "higher production"
+        low: 1
+        high: 16
+        unit: "%"
+
+  - id: icmm_safety
+    theme: prize
+    pool: B6
+    headline: "39 fatalities across ICMM's 26 members in 2025"
+    figure: >-
+      ICMM's 26 members recorded 39 fatalities in 2025. This compares to 43
+      fatalities in 2024, 35 in 2023, 33 in 2022, and 45 in 2021.
+    aside: >-
+      Our members reported 6,183 total recordable injuries (TRIs) in 2025; this
+      is the lowest number recorded since ICMM began collecting member safety
+      performance data in 2008.
+    title: "Safety Performance: Benchmarking progress of ICMM company members in 2025"
+    publisher: ICMM
+    year: 2026
+    url: https://www.icmm.com/en-gb/research/health-safety/benchmarking-2025-safety-data
+    scope: >-
+      26 member companies, roughly a third of the industry and among its best
+      operators, so this is a floor rather than an average. The fatality count
+      has not trended down over five years while recordable injuries have,
+      which is the point: severity and frequency are not the same problem.
+      The publisher's page also states a percentage against a different hazard
+      set and denominator; only the counts above are printed.
+
+  - id: icmm_hazards
+    theme: prize
+    pool: B6
+    headline: "Four hazards account for 87% of fatalities"
+    figure: >-
+      'Fall of ground' and 'mobile equipment' were the most frequently recorded
+      hazards in 2025, with 10 fatalities attributed to each.
+    aside: >-
+      Together, these four hazards were responsible for 34 fatalities,
+      representing 87% of the total recorded in 2025
+    title: "Safety Performance: Benchmarking progress of ICMM company members in 2025"
+    publisher: ICMM
+    year: 2026
+    url: https://www.icmm.com/en-gb/research/health-safety/benchmarking-2025-safety-data
+    scope: >-
+      Concentration, not rate. Named here because a concentrated hazard profile
+      is what makes continuous monitoring worth doing at all: four categories,
+      not a diffuse long tail.
+
+# Figures that were found but could NOT be confirmed against a primary source,
+# or that the publisher has since revised. They are recorded so that nobody
+# rediscovers them in a search result and adds them back believing they are
+# new. Do not print any of these.
+excluded:
+  - figure: "20% EBITDA uplift / $3 return per $1 spent on AI"
+    attributed_to: McKinsey & Company
+    reason: >-
+      Appears only in press coverage of remarks, with no named publication.
+      Also not mining-specific. Note that McKinsey's own OptimusAI page
+      publishes 4-5% EBITDA uplift for processing-plant productivity, which is
+      an order of magnitude below the circulating figure.
+  - figure: "42% EBITDA increase over a three-year programme"
+    attributed_to: "Boston Consulting Group, The Mining Productivity Imperative"
+    reason: >-
+      Search snippet only. Re-checked 2026-08-13 against BCG's January 2026
+      flagship mining publication; the figure does not appear there either.
+  - figure: "$370 billion per year / 17 percent of the cost base"
+    attributed_to: "McKinsey, Performing under pressure: Implementing innovation in mining"
+    reason: >-
+      WITHDRAWN BY PUBLISHER. The article page now reads "The article you are
+      looking for is being revised and will be republished in due course." The
+      companion claim that mining productivity has decreased by half comes from
+      the same withdrawn piece. Not citable in any form until republished.
+  - figure: "$425bn of value to the mining and metals industry over ten years"
+    attributed_to: "World Economic Forum, Digital Transformation Initiative, 2017"
+    reason: >-
+      Rejected twice. The WEF-hosted PDF 302-redirects to a landing page and
+      the live 2017 publication page links only to a cross-industry summary.
+      The full text is reachable only through third-party mirrors.
+  - figure: "90% reduction in haulage cost per tonne / 82.5% reduction in human workload"
+    attributed_to: "World Economic Forum, Global Lighthouse / MINDS cohort, 2026"
+    reason: >-
+      Single self-reported vendor deployment. Lighthouse figures are
+      operator-supplied and survivorship-biased by the award's own design — a
+      cohort of sites selected for having succeeded. The 2025 cohort's "53%
+      boost in labour productivity" spans all sectors, not mining.
+  - figure: "Any Deloitte figure from Tracking the Trends"
+    attributed_to: Deloitte
+    reason: >-
+      The Tracking the Trends PDFs are primary sources but exceed the 10MB
+      fetch limit and could not be read. Deloitte Insights HTML articles ARE
+      reachable — the 2026 outlook grade-decline figure above was read that
+      way. Route future Deloitte work through Insights HTML, not the flagship
+      PDFs.
+  - figure: "15% to 30% cost reduction / 10% to 25% EBITDA uplift"
+    attributed_to: Bain & Company
+    reason: >-
+      bain.com returns HTTP 403 behind Cloudflare to both automated fetch and a
+      real browser session. No Bain figure has ever been confirmed.
+  - figure: "12–25% throughput improvement, 10–20% capex savings"
+    attributed_to: "McKinsey MineLens"
+    reason: >-
+      Not present on the current product page, which publishes only a 15-25%
+      site cost reduction. The snippet reflects a superseded version of the
+      page.
+  - figure: "85,000 metric tons of ore per day; recovery rose by one percentage point"
+    attributed_to: "McKinsey / Freeport-McMoRan, Bagdad"
+    reason: >-
+      Snippet-level; the specific page carrying it was not reached. The
+      Freeport case study that WAS read publishes 5-10% production uplift, but
+      its $350M-$500M EBITDA and 200M lb figures are projections from scaling
+      the approach across the portfolio, not measured single-site results.
+  - figure: "Gen AI cut fleet fuel consumption by up to 10 percent"
+    attributed_to: "McKinsey, Global Materials Perspective 2025"
+    reason: >-
+      The 10 percent figure IS in the primary source, but attributed there to
+      "Traditional AI models" — not generative AI. The circulating snippet
+      misattributes it. Rejected as quoted; the correctly attributed version
+      was not adopted because fuel consumption is not a mechanism any agent in
+      this estate addresses.
+  - figure: "Zhengzhou Coal Mining Machinery Group productivity figures"
+    attributed_to: World Economic Forum
+    reason: >-
+      A trap. The case carries a Mining & Metals tag and strong numbers, but
+      the site is a hydraulic-support manufacturing plant, not a mine. Nothing
+      in it transfers to an operating pit or concentrator.
+  - figure: "Fatality prevention benchmarks"
+    attributed_to: Minerals Council of Australia
+    reason: Figures are gated behind a member portal.
+  - figure: "Ore loss and dilution quantification"
+    attributed_to: CSIRO
+    reason: >-
+      CSIRO describes ore loss and dilution qualitatively. No published figure
+      to quote. Searched specifically because pool B2 has no external
+      benchmark; none was found anywhere, which is itself reported on screen.
+
+# Entries that were printed on earlier versions of these screens and have since
+# been retired because the publisher revised the finding. Recorded separately
+# from `excluded` because these were legitimately sourced at the time — the
+# distinction matters if anyone reviews an older screenshot.
+superseded:
+  - figure: "Mining is 30–40% less digitally mature than comparable industries"
+    attributed_to: "Boston Consulting Group, 2021"
+    reason: >-
+      BCG's January 2026 flagship revises its own position: mining "has gone
+      from near the bottom to the middle of the pack, according to BCG's Build
+      for the Future research." Printing the 2021 gap alongside the 2026
+      publication would misrepresent the publisher.
+  - figure: "Mining productivity declined 3.5 percent per year / 28 percent less efficient"
+    attributed_to: "McKinsey & Company, 2015"
+    reason: >-
+      McKinsey's 2022 operational-excellence work restates the same period
+      differently — "the ten largest companies in the mining industry have seen
+      only marginal growth of around 1 percent" against manufacturing at 15 and
+      business services at 25 percent over 25 years. Marginal growth and a 28
+      percent decline cannot both be printed. Replaced by the PwC 2026 labour
+      productivity figure, which is current and unambiguous.
+  - figure: "4–8% throughput, 1–3pp recovery"
+    attributed_to: "McKinsey & Company, 2018"
+    reason: >-
+      Superseded within the throughput range by three more recent and better
+      scoped sources: BCG 2026 at 2-5%, McKinsey 2023 at 8-10% across 100+
+      assets, and McKinsey's OptimusAI concentrator at 10-15%. The 2018
+      figure's "5 to 10 percent productivity, roughly equivalent to opening a
+      new mine without the capital cost" aside was rhetorically useful and is
+      deliberately not carried forward — it is the kind of line that makes a
+      deck read as a brochure.
+  - figure: "Only ~5% of companies get a tenth of their EBIT from gen AI"
+    attributed_to: "McKinsey & Company, 2025"
+    reason: >-
+      Replaced by BCG's "60% companies are reaping hardly any material value",
+      which measures the same scepticism from the majority side rather than the
+      exceptional side and is the more recent survey. Both are cross-industry;
+      printing two versions of one finding pads the evidence base.

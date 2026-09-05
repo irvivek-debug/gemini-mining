@@ -1,0 +1,166 @@
+# AGT-14 Procurement & Contract Integrity's driver tree (Negotiator).
+# Skeleton only: no resolution prose lives here. Resolution content is
+# retrieved from the document corpus so that a recommendation is the
+# customer's own standard rather than ours.
+#
+# `status` says whether a diagnostic exists and nothing else. Four drivers
+# below are instrumented now that `contracts`, `contract_transactions`,
+# `rebate_claims` and `invoices` are populated.
+#
+# bid_to_contract_terms stays not_instrumented even though `contracts` now
+# carries a bid_id column joining back to `procurement_bids`: every contract
+# in this build resolves that join to exactly one bid, so the join itself is
+# not the missing piece. What is still missing is a per-part price
+# breakdown on the bid side — procurement_bids.proposed_cost is a single
+# figure for the whole RFP the bid answered, while contracts.agreed_unit_price
+# is per part_number, and `rfp_items` names which parts an RFP covered
+# without pricing them individually. Comparing an aggregate bid figure
+# against a per-part contract price is not the same measurement the
+# question asks for, so this driver is left declared rather than answering
+# a different question under the original one's name.
+#
+# clause_attribution is now instrumented. It was blocked because `contracts`
+# carried a single agreed_unit_price and a rebate_schedule and no structured
+# clause identifiers, so nothing could name the obligation a breach violated.
+# `contract_clauses` now carries clause_id, clause_type, clause_text and
+# recoverable_basis for all ten agreements, extracted from the vendor
+# agreements under gs://mining-knowledge-base/vendor-contracts/ — which are
+# themselves generated from these contract rows, so a clause quotes the price
+# its own contract agreed. See scripts/generate_contract_corpus.py.
+#
+# Its total reconciles exactly with price_variance's leakage_usd (2979.93 on
+# this build, difference 0.00), which is the check that the attribution did not
+# invent or drop a breach on its way through the clause join.
+metric: recovered value from post-signature contract leakage
+root: transactions raised against terms nobody has read
+
+drivers:
+  - id: price_variance
+    question: >-
+      Does the unit price actually paid on a transaction match the
+      agreed_unit_price in the contract it settles against, and how much of
+      the gap is money paid above what was agreed?
+    status: instrumented
+    controllable: true
+    sql: sql/agt14/price_variance.sql
+    params: {}
+    doc_query: contract agreed unit price variance overpayment vendor part
+    guard: >-
+      leakage_usd sums only the positive gap between paid_unit_price and
+      agreed_unit_price on transactions that join to a contract; a
+      transaction with no contract_id is invisible to this driver entirely
+      and is reported instead by contract_coverage. above_agreed_count and
+      transaction_count must be read together — a mean_variance_usd computed
+      over a small transaction_count for one contract carries more variance
+      than the same figure computed over a larger one, and the row does not
+      say which situation it is without both counts stated beside it.
+
+  - id: contract_coverage
+    question: >-
+      Was a given contract_transactions row raised against a contract_id
+      that exists in `contracts`, and if so, did the transaction's own date
+      fall inside that contract's effective_from/effective_to window?
+    status: instrumented
+    controllable: true
+    sql: sql/agt14/contract_coverage.sql
+    params: {}
+    doc_query: contract coverage transaction no contract effective window
+    guard: >-
+      no_contract counts a NULL contract_id on the transaction itself;
+      unknown_contract would count a non-NULL contract_id with no matching
+      row in contracts, which is a different failure (a dangling reference)
+      from a transaction that was simply never tagged. Neither bucket
+      establishes that the underlying purchase was improper — only that the
+      transaction cannot be checked against a contract's terms by this
+      query. Report transaction_count for every coverage_state bucket
+      returned, including one holding zero rows, so an absent bucket reads
+      as zero rather than as unmeasured.
+
+  - id: bid_to_contract_terms
+    question: >-
+      Does the price and scope written into the signed contract match the
+      terms of the bid that won the RFP? `contracts.bid_id` now joins to
+      `procurement_bids` (bid_id, vendor_name, proposed_cost,
+      technical_rating_score), but `procurement_bids.proposed_cost` is a
+      single figure for the whole RFP the bid answered, not broken out by
+      part_number the way `contracts.agreed_unit_price` is. `rfp_items`
+      (rfp_id, part_number) names which parts an RFP covered without
+      pricing them individually, so no table in this build ties a bid's
+      price to the one part a given contract governs.
+    status: not_instrumented
+    controllable: true
+
+  - id: rebate_entitlement
+    question: >-
+      For each filed rebate claim, does amount_claimed match
+      amount_entitled, and what is the unclaimed gap?
+    status: instrumented
+    controllable: true
+    sql: sql/agt14/rebate_entitlement.sql
+    params: {}
+    doc_query: contract rebate volume tier entitlement claimed invoiced
+    guard: >-
+      amount_entitled is read directly from rebate_claims; this driver does
+      not independently recompute the tier a contract's rebate_schedule
+      entitles the site to from contract_transactions volume, so a gap
+      reported here reflects a difference between what the claim states was
+      owed and what was actually invoiced, not an independent audit of
+      whether amount_entitled itself was calculated correctly. Report the
+      number of claims a total is drawn from beside the total itself; a
+      rebate-claims corpus of this kind is bounded, and a sum built from a
+      small count of claims carries more variance than the same sum built
+      from a larger one.
+
+  - id: duplicate_payment
+    question: >-
+      Do two invoices to the same vendor, for the same amount, land within
+      @fuzzy_days of each other — either under the identical invoice_number
+      or under two different ones?
+    status: instrumented
+    controllable: true
+    sql: sql/agt14/duplicate_payment.sql
+    params:
+      fuzzy_days: 3
+    doc_query: duplicate invoice payment vendor amount resubmission
+    guard: >-
+      A pair matching on vendor, amount and a close payment_date is a
+      candidate for review, not a confirmed duplicate payment; two
+      legitimate invoices for the same recurring amount to the same vendor
+      close in time would also match this shape. fuzzy_duplicate pairs
+      (matching vendor, amount and date, but two different invoice_number
+      values) require the underlying documents to be checked before either
+      is treated as erroneous. Report pair_count beside amount_at_risk_usd
+      for both match_type values; the count is what distinguishes an
+      isolated pair from a pattern.
+
+  - id: clause_attribution
+    question: >-
+      When a transaction breaches its contract, which specific clause was
+      breached and what is the recoverable amount tied to that clause?
+    status: instrumented
+    controllable: true
+    sql: sql/agt14/clause_attribution.sql
+    params:
+      clause_type: PRICE
+    doc_query: contract clause price agreed unit price recoverable overpayment
+    guard: >-
+      This driver attributes ONE kind of breach: a unit price paid above the
+      one the contract fixed, attributed to that contract's PRICE clause. It is
+      the only breach `contract_transactions` can evidence, because that table
+      records what was paid per unit and nothing else. A rebate never claimed,
+      a duplicate payment and a late delivery each breach a different clause
+      and are measured by rebate_entitlement, duplicate_payment and the
+      purchase-order lead-time data respectively; the absence of those clause
+      types from this driver's output is a statement about what this query
+      tested, not a finding that those clauses were honoured. recoverable_usd
+      is the arithmetic gap between paid and agreed price summed over
+      breaching transactions, not a legal opinion on recoverability: clause 7
+      of each agreement makes an overcharge recoverable, but whether it is
+      recovered depends on the audit window and the notice provisions in the
+      same document, which this query does not read. Report
+      breaching_transaction_count beside recoverable_usd — a total drawn from
+      one transaction carries more variance than the same total drawn from
+      several, and the row does not say which it is without both. The clause
+      text itself is not in this result; clause_id and source_uri are, so the
+      wording an agent quotes must come from retrieving the document rather
+      than from paraphrasing this row.

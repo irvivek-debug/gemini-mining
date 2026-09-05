@@ -1,0 +1,516 @@
+{
+ "_note": "Calibration profile of mining_data BEFORE regeneration. Captured 2026-08-10.",
+ "telemetry_by_asset_metric": [
+  {
+   "asset_id": "CRUSHER-03",
+   "metric_name": "feed_rate_tph",
+   "n": 2004,
+   "mean": 1152.9081,
+   "sd": 86.3909,
+   "mn": 1000.07,
+   "mx": 1299.9,
+   "t0": "2026-01-01 00:00:00+00",
+   "t1": "2026-06-16 22:00:00+00",
+   "n_ts": 2004
+  },
+  {
+   "asset_id": "CRUSHER-03",
+   "metric_name": "rotational_torque_nm",
+   "n": 2004,
+   "mean": 3905.502,
+   "sd": 227.9645,
+   "mn": 3500.07,
+   "mx": 4299.99,
+   "t0": "2026-01-01 00:00:00+00",
+   "t1": "2026-06-16 22:00:00+00",
+   "n_ts": 2004
+  },
+  {
+   "asset_id": "MILL-01",
+   "metric_name": "power_draw_mw",
+   "n": 2004,
+   "mean": 4.0863,
+   "sd": 0.3442,
+   "mn": 3.5,
+   "mx": 4.7,
+   "t0": "2026-01-01 00:00:00+00",
+   "t1": "2026-06-16 22:00:00+00",
+   "n_ts": 2004
+  },
+  {
+   "asset_id": "PUMP-104A",
+   "metric_name": "temperature_c",
+   "n": 2004,
+   "mean": 70.4051,
+   "sd": 4.096,
+   "mn": 65.0,
+   "mx": 99.57,
+   "t0": "2026-01-01 00:00:00+00",
+   "t1": "2026-06-16 22:00:00+00",
+   "n_ts": 2004
+  },
+  {
+   "asset_id": "PUMP-104A",
+   "metric_name": "vibration_hz",
+   "n": 2004,
+   "mean": 5.1208,
+   "sd": 1.1125,
+   "mn": 4.0,
+   "mx": 13.87,
+   "t0": "2026-01-01 00:00:00+00",
+   "t1": "2026-06-16 22:00:00+00",
+   "n_ts": 2004
+  }
+ ],
+ "metallurgy": [
+  {
+   "n": 167,
+   "conc": "CONC-01",
+   "f_mean": 1.1121,
+   "f_sd": 0.1771,
+   "f_min": 0.8,
+   "f_max": 1.4,
+   "c_mean": 27.5795,
+   "c_sd": 1.4948,
+   "c_min": 25.05,
+   "c_max": 29.98,
+   "t_mean": 0.0689,
+   "t_sd": 0.0171,
+   "t_min": 0.04,
+   "t_max": 0.1,
+   "r_mean": 92.2094,
+   "r_sd": 2.3674,
+   "r_min": 88.03,
+   "r_max": 95.95,
+   "t0": "2026-01-01 00:00:00+00",
+   "t1": "2026-06-16 00:00:00+00"
+  }
+ ],
+ "crusher_states": [
+  {
+   "n": 167,
+   "asset": "CRUSHER-03",
+   "gap_mean": 120.15,
+   "gap_sd": 4.049,
+   "gap_min": 115.0,
+   "gap_max": 125.0,
+   "fr_mean": 1119.945,
+   "fr_sd": 103.322,
+   "fr_min": 950.27,
+   "fr_max": 1296.89,
+   "tq_mean": 4078.832,
+   "tq_sd": 165.71,
+   "bypass_true": 1,
+   "t0": "2026-01-01 00:00:00+00",
+   "t1": "2026-06-16 00:00:00+00"
+  }
+ ],
+ "workorders_by_priority": [
+  {
+   "priority": "CRITICAL",
+   "n": 101,
+   "cost_mean": 6160.47,
+   "cost_sd": 3474.79,
+   "cost_min": 326.28,
+   "cost_max": 12100.86,
+   "cost_total": 622207.28
+  },
+  {
+   "priority": "HIGH",
+   "n": 128,
+   "cost_mean": 5574.73,
+   "cost_sd": 3439.01,
+   "cost_min": 334.67,
+   "cost_max": 12123.3,
+   "cost_total": 713565.83
+  },
+  {
+   "priority": "LOW",
+   "n": 140,
+   "cost_mean": 6381.81,
+   "cost_sd": 3415.68,
+   "cost_min": 291.11,
+   "cost_max": 11958.71,
+   "cost_total": 893453.0
+  },
+  {
+   "priority": "MEDIUM",
+   "n": 131,
+   "cost_mean": 5940.07,
+   "cost_sd": 3111.27,
+   "cost_min": 356.75,
+   "cost_max": 11958.14,
+   "cost_total": 778148.78
+  }
+ ],
+ "workorders_by_status": [
+  {
+   "status": "COMPLETED",
+   "n": 152
+  },
+  {
+   "status": "IN_PROGRESS",
+   "n": 127
+  },
+  {
+   "status": "OPEN",
+   "n": 117
+  },
+  {
+   "status": "CANCELLED",
+   "n": 104
+  }
+ ],
+ "workorders_by_asset": [
+  {
+   "asset_id": "MILL-01",
+   "n": 110
+  },
+  {
+   "asset_id": "CRUSHER-03",
+   "n": 109
+  },
+  {
+   "asset_id": "PUMP-104A",
+   "n": 100
+  },
+  {
+   "asset_id": "TRUCK-08",
+   "n": 93
+  },
+  {
+   "asset_id": "CONVEYOR-02",
+   "n": 88
+  }
+ ],
+ "workorders_total": [
+  {
+   "n": 500,
+   "total_spend": 3007374.89,
+   "t0": "2026-01-01 00:00:00+00",
+   "t1": "2026-06-17 00:00:00+00"
+  }
+ ],
+ "maintenance": [
+  {
+   "n": 152,
+   "dur_mean": 9.944,
+   "dur_sd": 5.226,
+   "dur_min": 1.0,
+   "dur_max": 19.0,
+   "wos": 152,
+   "parts_per_log": 1.224
+  }
+ ],
+ "fatigue": [
+  {
+   "n": 3340,
+   "ops": 20,
+   "sd_mean": 2.131,
+   "sd_sd": 1.359,
+   "sd_min": 0.0,
+   "sd_max": 8.0,
+   "hr_mean": 71.67,
+   "hr_sd": 7.35,
+   "hr_min": 50,
+   "hr_max": 84,
+   "ms_mean": 0.076,
+   "ms_max": 4,
+   "alerts": 98,
+   "t0": "2026-01-01 00:00:00+00",
+   "t1": "2026-06-16 00:00:00+00"
+  }
+ ],
+ "inventory": [
+  {
+   "n": 103,
+   "below_rop": 15,
+   "price_mean": 1817.94,
+   "price_min": 18.66,
+   "price_max": 3501.74,
+   "lt_mean": 15.31,
+   "lt_min": 2,
+   "lt_max": 30,
+   "stock_mean": 38.8,
+   "rop_mean": 12.0
+  }
+ ],
+ "assay": [
+  {
+   "n": 295,
+   "holes": 30,
+   "au_mean": 0.466,
+   "au_sd": 0.2548,
+   "au_min": 0.012,
+   "au_max": 0.909,
+   "cu_mean": 0.9488,
+   "cu_sd": 0.5216,
+   "interval_m": 28.846
+  }
+ ],
+ "assay_geology_codes": [
+  {
+   "geology_code": "OVERBURDEN",
+   "n": 63,
+   "au": 0.473
+  },
+  {
+   "geology_code": "GRANITE",
+   "n": 62,
+   "au": 0.49
+  },
+  {
+   "geology_code": "QSP_ORE",
+   "n": 58,
+   "au": 0.412
+  },
+  {
+   "geology_code": "BASALT",
+   "n": 56,
+   "au": 0.459
+  },
+  {
+   "geology_code": "CHERT",
+   "n": 56,
+   "au": 0.495
+  }
+ ],
+ "blocks": [
+  {
+   "n": 1000,
+   "au_mean": 0.3923,
+   "au_sd": 0.2292,
+   "au_min": 0.001,
+   "au_max": 0.799,
+   "cu_mean": 0.7517,
+   "sg_mean": 2.749,
+   "x0": 485100.0,
+   "x1": 486000.0,
+   "y0": 7432100.0,
+   "y1": 7433000.0,
+   "z0": 325.0,
+   "z1": 550.0
+  }
+ ],
+ "blocks_lithology": [
+  {
+   "lithology_type": "OVERBURDEN",
+   "n": 209,
+   "sg": 2.742,
+   "au": 0.376
+  },
+  {
+   "lithology_type": "CHERT",
+   "n": 207,
+   "sg": 2.753,
+   "au": 0.399
+  },
+  {
+   "lithology_type": "BASALT",
+   "n": 204,
+   "sg": 2.763,
+   "au": 0.39
+  },
+  {
+   "lithology_type": "GRANITE",
+   "n": 194,
+   "sg": 2.737,
+   "au": 0.407
+  },
+  {
+   "lithology_type": "QSP_ORE",
+   "n": 186,
+   "sg": 2.751,
+   "au": 0.39
+  }
+ ],
+ "assets": [
+  {
+   "asset_id": "CONVEYOR-02",
+   "asset_name": "Pit-to-Crusher Main Belt Conveyor",
+   "asset_type": "CONCONVEYOR",
+   "criticality_rating": "HIGH",
+   "current_state": "{\"speed_mps\": 4.5, \"belt_tension_kn\": 25.4, \"load_pct\": 88.0}",
+   "installed": "2020-09-15"
+  },
+  {
+   "asset_id": "CRUSHER-03",
+   "asset_name": "Primary Gyratory Crusher Unit",
+   "asset_type": "CRUSHER",
+   "criticality_rating": "CRITICAL",
+   "current_state": "{\"rotational_torque_nm\": 4205.0, \"feed_rate_tph\": 1210.0, \"gap_size_setting_mm\": 120.0, \"bypass_valve_open\": false, \"temperature_c\": 74.0}",
+   "installed": "2019-06-30"
+  },
+  {
+   "asset_id": "MILL-01",
+   "asset_name": "SAG Grinding Mill 1",
+   "asset_type": "GRINDING_MILL",
+   "criticality_rating": "CRITICAL",
+   "current_state": "{\"rotational_speed_rpm\": 14.8, \"weight_tons\": 452.0, \"power_draw_mw\": 4.25, \"temperature_c\": 88.5}",
+   "installed": "2021-01-18"
+  },
+  {
+   "asset_id": "PUMP-104A",
+   "asset_name": "Tailings Line Centrifugal Slurry Pump",
+   "asset_type": "PUMP",
+   "criticality_rating": "CRITICAL",
+   "current_state": "{\"vibration_hz\": 12.5, \"temperature_c\": 85.2, \"load_pct\": 82.0, \"rotational_speed_rpm\": 1200.0}",
+   "installed": "2022-04-12"
+  },
+  {
+   "asset_id": "TRUCK-08",
+   "asset_name": "Waymo-AHS Autonomous Haul Truck 08",
+   "asset_type": "HAUL_TRUCK",
+   "criticality_rating": "HIGH",
+   "current_state": "{\"speed_kmh\": 32.5, \"payload_tons\": 218.4, \"engine_temp_c\": 92.1}",
+   "installed": "2024-03-01"
+  }
+ ],
+ "asset_dependencies": [
+  {
+   "impact_score": 0.9,
+   "dependency_type": "PHYSICAL_FEED",
+   "target_id": "CRUSHER-03",
+   "source_id": "CONVEYOR-02"
+  },
+  {
+   "impact_score": 0.95,
+   "dependency_type": "PHYSICAL_FEED",
+   "target_id": "MILL-01",
+   "source_id": "CRUSHER-03"
+  },
+  {
+   "impact_score": 0.8,
+   "dependency_type": "PHYSICAL_FEED",
+   "target_id": "PUMP-104A",
+   "source_id": "MILL-01"
+  }
+ ],
+ "drill_holes_sample": [
+  {
+   "azimuth_degrees": 0.0,
+   "dip_degrees": -90.0,
+   "total_depth_meters": 243.84,
+   "collar_elevation": 552.88,
+   "collar_easting": 485836.58,
+   "collar_northing": 7432255.88,
+   "drill_hole_id": "DH-EXP-002"
+  },
+  {
+   "azimuth_degrees": 0.0,
+   "dip_degrees": -90.0,
+   "total_depth_meters": 151.73,
+   "collar_elevation": 537.0,
+   "collar_easting": 485524.55,
+   "collar_northing": 7432804.27,
+   "drill_hole_id": "DH-EXP-003"
+  },
+  {
+   "azimuth_degrees": 0.0,
+   "dip_degrees": -90.0,
+   "total_depth_meters": 344.26,
+   "collar_elevation": 566.5,
+   "collar_easting": 485695.29,
+   "collar_northing": 7432170.35,
+   "drill_hole_id": "DH-EXP-007"
+  }
+ ],
+ "operator_assignments": [
+  {
+   "assignment_id": "ASGN-002",
+   "operator_id": "OP-116",
+   "vehicle_id": "TRUCK-02",
+   "shift_date": "2026-06-18",
+   "shift_type": "DAY"
+  },
+  {
+   "assignment_id": "ASGN-001",
+   "operator_id": "OP-107",
+   "vehicle_id": "TRUCK-01",
+   "shift_date": "2026-06-18",
+   "shift_type": "DAY"
+  },
+  {
+   "assignment_id": "ASGN-005",
+   "operator_id": "OP-103",
+   "vehicle_id": "TRUCK-05",
+   "shift_date": "2026-06-18",
+   "shift_type": "DAY"
+  },
+  {
+   "assignment_id": "ASGN-003",
+   "operator_id": "OP-113",
+   "vehicle_id": "TRUCK-03",
+   "shift_date": "2026-06-18",
+   "shift_type": "NIGHT"
+  },
+  {
+   "assignment_id": "ASGN-004",
+   "operator_id": "OP-120",
+   "vehicle_id": "TRUCK-04",
+   "shift_date": "2026-06-18",
+   "shift_type": "NIGHT"
+  }
+ ],
+ "incident_involvements": [
+  {
+   "involvement_id": "INVOLVE-003",
+   "incident_id": "INC-5059",
+   "vehicle_id": "TRUCK-03",
+   "operator_id": "OP-113"
+  },
+  {
+   "involvement_id": "INVOLVE-001",
+   "incident_id": "INC-5048",
+   "vehicle_id": "TRUCK-01",
+   "operator_id": "OP-107"
+  },
+  {
+   "involvement_id": "INVOLVE-005",
+   "incident_id": "INC-5004",
+   "vehicle_id": "TRUCK-05",
+   "operator_id": "OP-103"
+  },
+  {
+   "involvement_id": "INVOLVE-004",
+   "incident_id": "INC-5030",
+   "vehicle_id": "TRUCK-04",
+   "operator_id": "OP-120"
+  },
+  {
+   "involvement_id": "INVOLVE-002",
+   "incident_id": "INC-5006",
+   "vehicle_id": "TRUCK-02",
+   "operator_id": "OP-116"
+  }
+ ],
+ "fleet_vehicles_sample": [
+  {
+   "gps_location": "POINT(116.85579423128144 -23.123094133774302)",
+   "current_payload_tons": 0.0,
+   "operational_status": "IDLE",
+   "last_telemetry_sync": "2026-06-17 00:00:00+00:00",
+   "payload_capacity_tons": 240.0,
+   "model": "Cat 797F Autonomous",
+   "vehicle_id": "TRUCK-01"
+  },
+  {
+   "gps_location": "POINT(116.85266328513016 -23.131830218837635)",
+   "current_payload_tons": 0.0,
+   "operational_status": "IDLE",
+   "last_telemetry_sync": "2026-06-17 00:00:00+00:00",
+   "payload_capacity_tons": 240.0,
+   "model": "Cat 797F Autonomous",
+   "vehicle_id": "TRUCK-02"
+  },
+  {
+   "gps_location": "POINT(116.85856329979532 -23.123722773118338)",
+   "current_payload_tons": 196.75,
+   "operational_status": "UNLOADING",
+   "last_telemetry_sync": "2026-06-17 00:00:00+00:00",
+   "payload_capacity_tons": 240.0,
+   "model": "Cat 797F Autonomous",
+   "vehicle_id": "TRUCK-03"
+  }
+ ]
+}

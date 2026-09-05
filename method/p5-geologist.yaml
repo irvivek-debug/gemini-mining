@@ -1,0 +1,118 @@
+# The Geologist's driver tree. Skeleton only: no resolution prose lives here.
+# Resolution content is retrieved from the document corpus so that a
+# recommendation is the site's own standard rather than ours.
+#
+# `status` says whether a diagnostic exists and nothing else. Whether a driver
+# is evidenced is decided from the rows that diagnostic returns, on the site's
+# own data — a pack that answered that in advance would be a report with a
+# chat interface in front of it.
+metric: contained-metal variance between the block model and realised grade
+root: grade delivered differs from grade modelled
+
+drivers:
+  - id: model_bias
+    question: Does the block model differ systematically from the assayed grade across the full dataset?
+    status: instrumented
+    controllable: false
+    sql: sql/p5/model_bias.sql
+    params:
+      radius_m: 25
+    doc_query: reconciliation variance tolerance paired sample count search radius grade
+    guard: >-
+      The pairing is a spatial approximation at the declared radius. The
+      variance reported is evidence about the paired subset and not about the
+      deposit as a whole: unpaired samples are excluded from the calculation,
+      and the population of unpaired samples may differ systematically from the
+      paired population. Report the paired-sample count alongside the variance;
+      GEO-GRS-003 clause 4.1 specifies the minimum count required before a
+      result is designated representative rather than indicative. A radius
+      wider than the site standard may inflate the paired count by assigning
+      samples to non-adjacent blocks; confirm the applied radius matches the
+      approved value in the Geological Domains Register before reporting.
+
+  - id: bias_by_lithology
+    question: Is the grade variance concentrated in one or more geological domains?
+    status: instrumented
+    controllable: false
+    sql: sql/p5/bias_by_lithology.sql
+    params:
+      radius_m: 25
+    doc_query: domain reconciliation variance lithology geological resource model reporting
+    guard: >-
+      Per-domain paired counts must be checked individually before any domain
+      result is reported as representative. GEO-GRS-003 clause 4.1 sets the
+      minimum at 30 pairs per domain per reporting period; a domain below that
+      threshold must carry the indicative designation in all reports. The
+      aggregate variance across all domains is not the same as the domain-level
+      variance: do not report the aggregate as the headline figure.
+
+  - id: bias_by_depth
+    question: Does the grade variance change with depth, suggesting depth-dependent model error?
+    status: instrumented
+    controllable: false
+    sql: sql/p5/bias_by_depth.sql
+    params:
+      radius_m: 25
+      shallow_max: 100
+      deep_min: 200
+    doc_query: depth estimation uncertainty drill spacing resource model interpolation
+    guard: >-
+      The depth bands are defined by the parameters applied, not by geological
+      boundaries. A difference between bands establishes that variance correlates
+      with depth at the chosen cut points; it does not establish the geological
+      mechanism, which may be estimation uncertainty, drill spacing, QA/QC
+      protocol differences between campaigns, or domain boundary placement.
+      Report the band definitions and the paired count per band alongside the
+      result. Paired coverage extends only as far as the depth at which the
+      spatial join still finds block centroids within the declared radius; the
+      deposit continues below that point but this diagnostic reaches no further
+      than the deepest paired sample. Material below that depth is not
+      characterised here. Report the deepest paired depth alongside any depth
+      finding so that the coverage boundary is visible in the result.
+
+  - id: bias_by_elevation
+    question: Does the grade variance change with block elevation, suggesting an elevation-related structural or weathering control?
+    status: instrumented
+    controllable: false
+    sql: sql/p5/bias_by_elevation.sql
+    params:
+      radius_m: 25
+      low_max: 375
+      high_min: 450
+    doc_query: elevation weathering oxidation domain boundary grade model variance
+    guard: >-
+      Elevation and depth are correlated where drill holes are sub-vertical.
+      A pattern that appears in elevation may reproduce the depth pattern rather
+      than revealing an independent control. Both diagnostics should be reviewed
+      together before attributing a finding to either dimension. The elevation
+      cut points must match any domain boundaries in the Geological Domains
+      Register; cut points that straddle a domain boundary mix domains and may
+      hide or amplify the variance for either.
+
+  - id: feed_grade_vs_model
+    question: Does the grade delivered to the plant differ from the block-model mean, and by how much?
+    status: instrumented
+    controllable: false
+    sql: sql/p5/feed_grade_vs_model.sql
+    params: {}
+    doc_query: reconciliation variance delivered feed grade model prediction plant
+    guard: >-
+      Feed grade at the plant reflects mining selection, hauling, blending and
+      crushing as well as the block model: a gap between the block-model mean
+      and daily delivered grade is not, on its own, evidence of model error.
+      It may also reflect selective mining of higher- or lower-grade material,
+      blending with off-specification ore, or measurement protocol differences
+      between drill-hole assays and plant-sample assays. GEO-GRS-003 clause 7.1
+      states that reconciliation results are not a determination of economic
+      loss or gain; cite this constraint when presenting the feed-vs-model gap
+      to management.
+
+  - id: tonnage_reconciliation
+    question: Does the modelled tonnage match the tonnes actually mined and delivered?
+    status: not_instrumented
+    controllable: false
+
+  - id: qaqc_bias
+    question: Do laboratory QA/QC failures introduce a systematic assay bias that inflates the apparent grade variance?
+    status: not_instrumented
+    controllable: false

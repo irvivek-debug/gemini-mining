@@ -1,0 +1,124 @@
+# AGT-13 Warranty & OEM Claims's driver tree (Negotiator).
+# Skeleton only: no resolution prose lives here. Resolution content is
+# retrieved from the document corpus so that a recommendation is the
+# customer's own standard rather than ours.
+#
+# `status` says whether a diagnostic exists and nothing else. Whether a
+# driver is evidenced is decided from the rows that diagnostic returns, on
+# the site's own data.
+#
+# Four drivers are instrumented against `warranty_entitlements` (ten rows,
+# five assets, two component-level entitlements per asset) and
+# `warranty_claims`, both now populated. A join from a repair to
+# warranty_entitlements on asset_id alone matches both of an asset's
+# component entitlements, so the naive join returns 76 rows where only 38
+# distinct work orders actually qualify; every SQL file below aggregates to
+# work_order_id and reports the multiplicity rather than hiding it. See
+# sql/agt13/entitlement_coverage.sql for the full note.
+#
+# evidence_completeness stays not_instrumented for a measured reason: no
+# table in this build carries an evidence_pack_id or an equivalent field,
+# and no mapping from an OEM's stated evidence requirements to the columns
+# `maintenance_logs` and the condition-monitoring tables already carry
+# exists. That mapping is a modelling decision, not a missing row.
+metric: recovered value from warranty and OEM claims
+root: entitled claims abandoned before the window closes
+
+drivers:
+  - id: entitlement_coverage
+    question: >-
+      Which repaired failures, on which assets, fall inside an active OEM
+      warranty or service entitlement window, and how many of an asset's
+      component entitlements does each one match?
+    status: instrumented
+    controllable: true
+    sql: sql/agt13/entitlement_coverage.sql
+    params: {}
+    doc_query: OEM warranty entitlement coverage window component claim
+    guard: >-
+      matching_entitlement_count is the number of warranty_entitlements rows
+      whose asset_id and coverage window both match this repair; an asset
+      carrying two component-level entitlements over the same window means
+      this count is ordinarily 2, not 1, and a count of 2 is not itself
+      evidence that two separate failures occurred. has_claim reflects only
+      whether any warranty_claims row cites this work_order_id; it does not
+      establish that the repair was eligible for a claim, only whether one
+      was filed. Report the work-order count alongside repair_cost_usd
+      before drawing a value conclusion — a total built from a small number
+      of repairs is sensitive to any single one of them.
+
+  - id: expired_unclaimed
+    question: >-
+      How much repair cost sat inside an entitlement window that has already
+      closed, with no warranty_claims row ever filed against it?
+    status: instrumented
+    controllable: true
+    sql: sql/agt13/expired_unclaimed.sql
+    params:
+      as_of_date: "2026-08-17"
+    doc_query: OEM warranty entitlement window expired unclaimed claim deadline
+    guard: >-
+      coverage_end is compared against the parameterised @as_of_date, so the
+      set of windows treated as closed moves with the parameter the caller
+      supplies; it is not fixed by the query itself. has_claim is read only
+      from warranty_claims and does not distinguish a failure that was never
+      eligible for a claim from one that was eligible and simply never
+      filed. Report the count of qualifying work orders beside
+      repair_cost_usd; a sum drawn from a handful of rows should be read
+      alongside how many rows produced it, not as a single figure on its
+      own.
+
+  - id: own_cost_repairs
+    question: >-
+      Of the failures repaired inside a still-open warranty window, how much
+      repair cost has no matching warranty_claims row, meaning it is being
+      absorbed by the site's own maintenance budget rather than claimed
+      against the OEM?
+    status: instrumented
+    controllable: true
+    sql: sql/agt13/own_cost_repairs.sql
+    params:
+      as_of_date: "2026-08-17"
+    doc_query: OEM warranty claim unclaimed repair maintenance budget entitlement
+    guard: >-
+      A row here has an open coverage window as of @as_of_date and no
+      warranty_claims row citing its work_order_id; it does not establish
+      that the repair meets every condition an OEM would require to accept a
+      claim, only that none has been filed yet, and a window still being
+      open means the gap this row reports is not yet permanent. Report the
+      count of qualifying work orders beside repair_cost_usd for the same
+      reason given in entitlement_coverage's guard.
+
+  - id: evidence_completeness
+    question: >-
+      For each failure eligible for a claim, does the evidence pack an OEM
+      would demand actually exist — failure mode, condition data, and the
+      parts consumed? Requires a `warranty_claims` table carrying an
+      evidence_pack_id or equivalent field, plus a defined mapping from each
+      OEM's stated evidence requirements to the fields `maintenance_logs` and
+      the condition-monitoring tables already carry. That mapping does not
+      exist today, so no claim's completeness can be evaluated.
+    status: not_instrumented
+    controllable: true
+
+  - id: claim_cycle_time
+    question: >-
+      From the day a covered failure's work order is created to the day a
+      claim reaches the OEM, how much of the entitlement window is consumed
+      before filing?
+    status: instrumented
+    controllable: false
+    sql: sql/agt13/claim_cycle_time.sql
+    params: {}
+    doc_query: OEM warranty claim filing cycle time entitlement window
+    guard: >-
+      days_repair_to_filing measures from the work order's created_at
+      timestamp to warranty_claims.filed_date; it is not a measure of when
+      the failure itself began, only of when it was logged.
+      pct_window_consumed_at_filing can exceed 100 — that is a claim filed
+      after coverage_end had already passed, not a computation error, and it
+      must be reported as such rather than clamped. Report the count of
+      claims any mean or range is drawn from beside the figure itself; a
+      warranty claims corpus of this kind is bounded, and a summary statistic
+      drawn from a small count carries high variance that the count alone
+      makes visible.

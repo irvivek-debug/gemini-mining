@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5 · Following the connections — Mining Agents</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/app.css">
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Following the connections</div>
+    <h1>Questions no table can answer.</h1>
+    <p class="lede">
+      A table answers "what is recorded against this machine". Following the
+      connections answers "what else is affected, and how far along does it
+      reach". Those are different questions, and the second is the one a
+      supervisor asks at three in the morning. Pick a starting point below and
+      the connection trace runs in front of you, one step at a time, exactly as
+      the agent runs it.
+    </p>
+  </section>
+
+  <section>
+    <div class="eyebrow">The estate</div>
+    <h2>What can actually be traced</h2>
+    <!-- Written by graph.js: the three questions are named once, in
+         apps/shared/plain.js, and read from there by every screen that lists
+         them. -->
+    <p class="lede" id="estate-lede"></p>
+    <div class="card">
+      <div class="table-scroll">
+        <table class="data">
+          <thead><tr>
+            <th>The question it answers</th><th>The kinds of record it crosses</th>
+            <th style="text-align:right">Records</th>
+            <th style="text-align:right">Links</th>
+            <th style="text-align:right">Agents you can talk to</th>
+          </tr></thead>
+          <tbody id="estate"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="estate-note" style="margin-top:16px"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Run it</div>
+    <h2>Pick a starting point, and watch it walk</h2>
+
+    <div class="tabstrip" id="tabs" role="tablist"></div>
+
+    <div style="margin:16px 0" id="scope"></div>
+
+    <div class="graph-layout">
+      <div>
+        <div id="cy"></div>
+        <div class="legend" id="legend" style="margin-top:10px"></div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-cap">Set it up</div>
+          <div id="controls"></div>
+          <div class="btn-row" style="margin-top:14px">
+            <button class="btn primary" id="run">Run the trace</button>
+            <button class="btn" id="reset">Reset</button>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-cap">What it did</div>
+          <div class="inspect" id="trace"></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-cap">What this record holds</div>
+          <div class="inspect" id="inspect"></div>
+        </div>
+      </div>
+    </div>
+    <div id="run-note" style="margin-top:20px"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">What came back</div>
+    <h2 id="rows-head">The answer, as the agent receives it</h2>
+    <p class="lede" id="rows-lede"></p>
+    <div class="card">
+      <div class="table-scroll">
+        <table class="data">
+          <thead><tr id="rows-head-row"></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div id="prov"></div>
+
+  <!-- The case ends here, and the thing it argues for is one directory across.
+       A reader who has followed five screens of argument should not have to be
+       told separately that the software exists. -->
+  <div class="btn-row" style="margin-top:32px">
+    <a class="btn" href="solution.html">Back</a>
+    <a class="btn" href="index.html">Start again</a>
+    <a class="btn primary" href="../workspace/index.html">Open the site workspace</a>
+  </div>
+
+</div>
+
+<script src="../shared/vendor/cytoscape.min.js"></script>
+<script src="../shared/data/bundle.js"></script>
+<script src="../shared/shell.js"></script>
+<script src="../shared/plain.js"></script>
+<script src="graph.js"></script>
+</body>
+</html>

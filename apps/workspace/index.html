@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site cockpit — Mining Agents workspace</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/app.css">
+<link rel="stylesheet" href="workspace.css">
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">Site cockpit</div>
+    <h1>Every agent on this site, filed the way you already think.</h1>
+    <p class="lede" id="lede"></p>
+  </section>
+
+  <div id="runtime"></div>
+
+  <section style="margin-top:32px">
+    <div class="bento" id="counts"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">What the agents on this site move</div>
+    <h2>Metrics, in ranges — never a single point estimate</h2>
+    <p class="lede" id="impact-lede"></p>
+    <div class="bento" id="impacts"></div>
+    <p class="pnote" id="impact-note" style="margin-top:14px"></p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Three ways in</div>
+    <h2 id="axis-head">By the person accountable</h2>
+    <p class="lede" id="axis-lede"></p>
+    <div class="tabstrip" id="axes" role="tablist"></div>
+    <div class="bento" id="groups" style="margin-top:16px"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Where a person has to decide</div>
+    <h2>Advisory by default</h2>
+    <div id="signoff-lede"></div>
+    <div class="card"><div class="chips" id="signoff"></div></div>
+  </section>
+
+  <div id="prov"></div>
+
+  <div class="btn-row" style="margin-top:32px">
+    <a class="btn" href="../case/index.html">The case for change</a>
+  </div>
+
+</div>
+
+<script src="../shared/data/bundle.js"></script>
+<script src="../shared/shell.js"></script>
+<script src="../shared/runtime.js"></script>
+<script src="../shared/plain.js"></script>
+<script src="workspace.js"></script>
+<script src="cockpit.js"></script>
+</body>
+</html>

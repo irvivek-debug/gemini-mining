@@ -1,0 +1,10 @@
+{"part_number": "RGT-0001", "part_description": "Potassium Amyl Xanthate (PAX) 25kg", "stock_level": 887, "reorder_point_limit": 203, "lead_time_days": 7, "unit_price_usd": 57.54, "reagent_class": "Collector"}
+{"part_number": "RGT-0002", "part_description": "Sodium Isobutyl Xanthate (SIBX) 25kg", "stock_level": 832, "reorder_point_limit": 65, "lead_time_days": 45, "unit_price_usd": 27.19, "reagent_class": "Collector"}
+{"part_number": "RGT-0003", "part_description": "Sodium Ethyl Xanthate (SEX) 25kg", "stock_level": 315, "reorder_point_limit": 125, "lead_time_days": 30, "unit_price_usd": 28.03, "reagent_class": "Collector"}
+{"part_number": "RGT-0004", "part_description": "MIBC Frother 200L", "stock_level": 754, "reorder_point_limit": 27, "lead_time_days": 21, "unit_price_usd": 75.0, "reagent_class": "Frother"}
+{"part_number": "RGT-0005", "part_description": "Polypropylene Glycol Frother 200L", "stock_level": 811, "reorder_point_limit": 137, "lead_time_days": 14, "unit_price_usd": 48.35, "reagent_class": "Frother"}
+{"part_number": "RGT-0006", "part_description": "Anionic Flocculant 25kg", "stock_level": 806, "reorder_point_limit": 245, "lead_time_days": 14, "unit_price_usd": 24.87, "reagent_class": "Flocculant"}
+{"part_number": "RGT-0007", "part_description": "Hydrated Lime 1t bulk bag", "stock_level": 306, "reorder_point_limit": 100, "lead_time_days": 21, "unit_price_usd": 45.48, "reagent_class": "pH Modifier"}
+{"part_number": "RGT-0008", "part_description": "Copper Sulphate Activator 25kg", "stock_level": 808, "reorder_point_limit": 19, "lead_time_days": 45, "unit_price_usd": 42.07, "reagent_class": "Activator"}
+{"part_number": "RGT-0009", "part_description": "Sodium Cyanide Briquettes 50kg", "stock_level": 263, "reorder_point_limit": 136, "lead_time_days": 14, "unit_price_usd": 30.5, "reagent_class": "Depressant"}
+{"part_number": "RGT-0010", "part_description": "Sulphuric Acid 98% 1000L IBC", "stock_level": 511, "reorder_point_limit": 28, "lead_time_days": 21, "unit_price_usd": 36.68, "reagent_class": "pH Modifier"}

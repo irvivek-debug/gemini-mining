@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2 · The gap in your own record — Mining Agents</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/app.css">
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">The mine today</div>
+    <h1>The best day is already in the record.</h1>
+    <p class="lede" id="hero-lede"></p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Measured, not modelled</div>
+    <h2>Every recorded day, worst to best</h2>
+    <p class="lede" id="ladder-lede"></p>
+    <div class="bento" id="ladders"></div>
+    <div id="method" style="margin-top:20px"></div>
+    <div id="excluded" style="margin-top:16px"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Independently</div>
+    <h2>Others have measured the same distance</h2>
+    <p class="lede" id="bench-lede"></p>
+    <div class="bento" id="bench"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Counted, with sources</div>
+    <h2>The site those days belong to</h2>
+    <div class="card">
+      <div class="table-scroll">
+        <table class="data">
+          <thead><tr><th>Figure</th><th style="text-align:right">Count</th><th>Unit</th></tr></thead>
+          <tbody id="site"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="window" style="margin-top:16px"></div>
+    <div id="unknown" style="margin-top:16px"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Why the ordinary day is ordinary</div>
+    <h2>In their own words</h2>
+    <p class="lede">
+      Eight roles, quoted verbatim from the persona work, each line traceable to
+      its source. Nothing here is paraphrased into marketing copy — the phrasing
+      is the evidence. Read together, they describe a plant where the knowledge
+      that produced the good day exists, and does not reliably arrive in time.
+    </p>
+    <div class="bento" id="pain"></div>
+  </section>
+
+  <div id="prov"></div>
+
+  <div class="btn-row" style="margin-top:32px">
+    <a class="btn" href="index.html">Back</a>
+    <a class="btn primary" href="value.html">Next — what the gap is worth</a>
+  </div>
+
+</div>
+
+<script src="../shared/data/bundle.js"></script>
+<script src="../shared/shell.js"></script>
+<script src="../shared/motion.js"></script>
+<!-- Before scenario.js, which calls plainProse() on the "why" the build wrote
+     under each figure it could not settle locally. -->
+<script src="../shared/plain.js"></script>
+<script src="scenario.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+# The HSE Lead's driver tree. Skeleton only: no resolution prose lives here.
+# Resolution content is retrieved from the document corpus so that a
+# recommendation is the site's own standard rather than ours.
+#
+# `status` says whether a diagnostic exists and nothing else. Whether a driver
+# is evidenced is decided from the rows that diagnostic returns, on the site's
+# own data — a pack that answered that in advance would be a report with a
+# chat interface in front of it.
+#
+# Thin cells are the defining constraint for this persona. Safety incident
+# corpora in operations of this scale are bounded — any cross-tabulation
+# produces cells small enough that a single event can shift a rate materially.
+# Every guard for an instrumented driver therefore requires the count to be
+# reported beside the finding; a finding read off a thin cell without the
+# count stated is uninterpretable. That requirement is a methodological
+# obligation, not a formatting convention.
+#
+# Two drivers are not_instrumented for measured reasons:
+# - fatigue_to_incident: only 5 of 60 incidents carry an operator link in
+#   incident_involvements, so the attributing join does not exist at usable
+#   scale. The 5/60 figure was measured; see the task report.
+# - shift_pattern: all 60 incident timestamps and all 3,340 fatigue log
+#   timestamps are at 00:00. No within-day temporal resolution exists. The
+#   zero-variance check was verified against BigQuery.
+metric: severity-weighted incident exposure
+root: exposure concentrated where controls are weakest
+
+drivers:
+  - id: location_concentration
+    question: Which locations carry the highest incident burden, and does the severity mix differ by location?
+    status: instrumented
+    controllable: false
+    sql: sql/p3/location_concentration.sql
+    params: {}
+    doc_query: OPS-FMS-001 safety incident location exposure indicator risk concentration
+    guard: >-
+      incident_count is a count of recorded incidents at each location in the
+      log; it is not a rate normalised against hours worked, equipment-hours, or
+      personnel exposure at that location. A higher count at a location may
+      reflect higher exposure rather than weaker controls. Report the incident
+      count and each severity-level cell count beside any location finding; a
+      conclusion drawn from a severity cell without its count stated cannot be
+      distinguished from random variation. A biometric alert, as defined in
+      OPS-FMS-001 clause 3.2, is an exposure indicator and is not on its own
+      evidence of an incident cause; that clause applies equally here: a high
+      incident count at a location is a signal that warrants review, not
+      evidence of a specific control failure.
+
+  - id: severity_mix
+    question: How are incidents distributed across severity levels, and does the mix signal any pattern?
+    status: instrumented
+    controllable: false
+    sql: sql/p3/severity_mix.sql
+    params: {}
+    doc_query: OPS-FMS-001 severity fatality LTI MTI HAZARD near miss incident classification exposure
+    guard: >-
+      incident_count and share_pct are derived from the recorded incident log.
+      share_pct is each level's proportion of recorded incidents, not a rate
+      against hours worked or exposure. Report the incident_count for each
+      severity level alongside its share; a share derived from a small cell
+      carries high variance and must be read with its count stated. Severity
+      classification is applied at investigation close; reclassification during
+      investigation means that the distribution at any point in time reflects
+      the current status of open investigations, not a settled record. A shift
+      in the mix over time is observable only if the dataset spans multiple
+      reporting periods.
+
+  - id: fatigue_exposure
+    question: What does the biometric monitoring record show about sleep-deficit exposure across the workforce?
+    status: instrumented
+    controllable: false
+    sql: sql/p3/fatigue_exposure.sql
+    params:
+      deficit_hours: 2.0
+    doc_query: OPS-FMS-001 biometric alert sleep deficit hours fatigue exposure indicator stand-down threshold
+    guard: >-
+      A biometric alert is an exposure indicator as defined in OPS-FMS-001
+      clause 3.2: it indicates that measured fatigue markers have exceeded the
+      detection threshold and that the worker's risk profile warrants review. A
+      biometric alert is not, on its own, evidence that an incident occurred,
+      that the worker was impaired at any prior moment, or that the worker
+      caused or contributed to any event. The deficit_hours threshold is a
+      parameter (@deficit_hours); OPS-FMS-001 clause 4.2 specifies 2 hours
+      against the 24-hour target as the fitness-for-duty review trigger, and
+      clause 4.3 specifies 6 hours against the 7-day target as the mandatory
+      stand-down threshold — these thresholds belong to the standard, not to
+      this measurement. Report log_count, alert_count and distinct_operators for
+      each band; a band whose finding rests on a small count of distinct
+      operators may reflect one or two individuals rather than a workforce
+      pattern, and must be reported as such.
+
+  - id: radio_distress
+    question: Does emergency radio traffic concentrate in any operational period, and what does sentiment indicate?
+    status: instrumented
+    controllable: false
+    sql: sql/p3/radio_distress.sql
+    params:
+      day_start_hour: 6
+      afternoon_start_hour: 14
+      night_start_hour: 22
+    doc_query: OPS-FMS-001 radio emergency alert control room supervisor contact response checklist
+    guard: >-
+      emergency_count is the count of transmissions flagged by the
+      emergency_keyword_flag field; the flag is applied by the transcription
+      system and may not match a human assessment of distress. mean_sentiment_score
+      is the mean of a continuous score derived from transcript text; it is a
+      statistical summary of recorded language, not a direct measurement of
+      operator state or incident proximity. The shift buckets are parameterised
+      (@day_start_hour, @afternoon_start_hour, @night_start_hour); the
+      site's own roster boundaries must be supplied before a concentration
+      finding is read as a shift finding. Report transmission_count and
+      emergency_count for each bucket beside any finding about concentration;
+      a finding about a specific hour within a bucket requires the hourly data
+      to be examined directly before a conclusion can rest on it. OPS-FMS-001
+      clause 3.3 requires the control-room supervisor to contact the worker by
+      radio within 2 minutes of a biometric alert; a concentration of emergency
+      traffic in a shift bucket is consistent with both genuine distress events
+      and with the response protocol generating secondary radio activity.
+
+  - id: fatigue_to_incident
+    question: Can fatigue exposure measured by biometric monitoring be attributed to specific incidents?
+    status: not_instrumented
+    controllable: false
+
+  - id: shift_pattern
+    question: Does incident or fatigue-alert timing differ between day, afternoon and night shifts?
+    status: not_instrumented
+    controllable: false

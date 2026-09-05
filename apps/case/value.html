@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3 · What the gap is worth — Mining Agents</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/app.css">
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero reveal">
+    <div class="eyebrow">Value unlock</div>
+    <h1>What the gap is worth, and where it sits</h1>
+    <p class="lede">
+      The previous screen measured the distance between this site's ordinary day
+      and its own best one. This screen prices that distance and then divides it,
+      so that every part of the value has a named mechanism behind it and no part
+      of it is claimed twice.
+    </p>
+    <p class="lede" id="value-lede"></p>
+  </section>
+
+  <!-- The price of a recovery point comes first, because it is the only
+       arithmetic on this screen a CEO will do in their head, and they should be
+       able to do it before being asked to read anything else. -->
+  <section>
+    <div class="eyebrow reveal">The prize</div>
+    <h2 class="reveal">One point of recovery, priced with your numbers</h2>
+    <p class="lede reveal" id="roi-lede"></p>
+
+    <div class="card reveal">
+      <div class="card-cap">The calculation, with its halves kept apart</div>
+      <div class="roi">
+        <div>
+          <div class="half-cap">What this site's record settles</div>
+          <div id="roi-known"></div>
+        </div>
+        <div>
+          <div class="half-cap">What only you hold</div>
+          <div id="roi-inputs"></div>
+        </div>
+      </div>
+      <div class="roi-out" id="roi-out"></div>
+    </div>
+
+    <div id="roi-note" style="margin-top:16px" class="reveal"></div>
+  </section>
+
+  <!-- Six pools, each one a mechanism with a measurement under it. This is the
+       body of the value argument; the partition below is how we prove the six
+       do not overlap. -->
+  <section>
+    <div class="eyebrow reveal">Where the money is</div>
+    <h2 class="reveal">The pools, and what each one is holding</h2>
+    <p class="lede reveal" id="pools-lede"></p>
+    <div class="bento" id="detail"></div>
+  </section>
+
+  <!-- Demoted deliberately. The partition is how the six are shown not to
+       overlap; a reader who has accepted the six on their merits can take the
+       proof or leave it, and a reader who has not is owed it. -->
+  <section>
+    <div class="eyebrow reveal">Nothing counted twice</div>
+    <h2 class="reveal">How the pools divide the work</h2>
+    <p class="lede reveal" id="mece-lede"></p>
+
+    <div class="card reveal">
+      <div class="card-cap">The work, partitioned</div>
+      <div class="partition" id="partition"></div>
+      <div class="mece-key" id="mece-key"></div>
+      <div id="mece-sum" style="margin-top:18px"></div>
+    </div>
+
+    <div id="convergence" style="margin-top:16px" class="reveal"></div>
+  </section>
+
+  <section>
+    <div class="eyebrow reveal">The process view</div>
+    <h2 class="reveal">The same work, cut so that it overlaps</h2>
+    <p class="lede reveal" id="process-lede"></p>
+    <div class="card reveal">
+      <div class="table-scroll">
+        <table class="data">
+          <thead><tr><th>Standard process area</th><th style="text-align:right">Agents you can talk to</th></tr></thead>
+          <tbody id="process"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="process-note" style="margin-top:16px" class="reveal"></div>
+  </section>
+
+  <div id="prov" class="reveal"></div>
+
+  <div class="btn-row" style="margin-top:32px">
+    <a class="btn" href="scenario.html">Back</a>
+    <a class="btn primary" href="solution.html">Next — how it is assembled</a>
+  </div>
+
+</div>
+
+<script src="../shared/data/bundle.js"></script>
+<script src="../shared/shell.js"></script>
+<script src="../shared/motion.js"></script>
+<script src="value.js"></script>
+</body>
+</html>

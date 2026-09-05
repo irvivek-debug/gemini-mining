@@ -1,0 +1,47 @@
+[
+ {
+  "name": "vessel_id",
+  "type": "STRING"
+ },
+ {
+  "name": "vessel_name",
+  "type": "STRING"
+ },
+ {
+  "name": "berth",
+  "type": "STRING"
+ },
+ {
+  "name": "laycan_start",
+  "type": "DATE"
+ },
+ {
+  "name": "arrival_date",
+  "type": "DATE"
+ },
+ {
+  "name": "departure_date",
+  "type": "DATE"
+ },
+ {
+  "name": "consist_ids",
+  "type": "STRING",
+  "mode": "REPEATED"
+ },
+ {
+  "name": "loaded_tonnes",
+  "type": "FLOAT"
+ },
+ {
+  "name": "moisture_pct",
+  "type": "FLOAT"
+ },
+ {
+  "name": "tml_pct",
+  "type": "FLOAT"
+ },
+ {
+  "name": "demurrage_days",
+  "type": "INTEGER"
+ }
+]

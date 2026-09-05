@@ -1,0 +1,3355 @@
+{
+  "generated_at": "2026-08-18T05:48:49+00:00",
+  "source": "mining_agents.catalog.definitions",
+  "counts": {
+    "agent_nodes": 100,
+    "entrypoints": 52,
+    "swarms": 12,
+    "deep_agents": 40,
+    "hitl_entrypoints": 14
+  },
+  "by_persona": {
+    "P4": {
+      "count": 10,
+      "agents": [
+        "D27",
+        "D28",
+        "D29",
+        "D30",
+        "D31",
+        "D32",
+        "D33",
+        "D34",
+        "S08",
+        "S09"
+      ]
+    },
+    "P3": {
+      "count": 9,
+      "agents": [
+        "D35",
+        "D36",
+        "D37",
+        "D38",
+        "D39",
+        "D40",
+        "S05",
+        "S10",
+        "S11"
+      ]
+    },
+    "P1": {
+      "count": 8,
+      "agents": [
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "S01",
+        "S03"
+      ]
+    },
+    "P6": {
+      "count": 7,
+      "agents": [
+        "D21",
+        "D22",
+        "D23",
+        "D24",
+        "D25",
+        "D26",
+        "S07"
+      ]
+    },
+    "P5": {
+      "count": 6,
+      "agents": [
+        "D16",
+        "D17",
+        "D18",
+        "D19",
+        "D20",
+        "S06"
+      ]
+    },
+    "P7": {
+      "count": 6,
+      "agents": [
+        "D11",
+        "D12",
+        "D13",
+        "D14",
+        "D15",
+        "S04"
+      ]
+    },
+    "P2": {
+      "count": 5,
+      "agents": [
+        "D07",
+        "D08",
+        "D09",
+        "D10",
+        "S02"
+      ]
+    },
+    "P8": {
+      "count": 1,
+      "agents": [
+        "S12"
+      ]
+    }
+  },
+  "by_value_branch": {
+    "safety": {
+      "count": 9,
+      "agents": [
+        "D35",
+        "D36",
+        "D37",
+        "D38",
+        "D39",
+        "D40",
+        "S05",
+        "S10",
+        "S11"
+      ]
+    },
+    "asset_reliability": {
+      "count": 8,
+      "agents": [
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "S01",
+        "S03"
+      ]
+    },
+    "processing": {
+      "count": 7,
+      "agents": [
+        "D21",
+        "D22",
+        "D23",
+        "D24",
+        "D25",
+        "D26",
+        "S07"
+      ]
+    },
+    "geology": {
+      "count": 6,
+      "agents": [
+        "D16",
+        "D17",
+        "D18",
+        "D19",
+        "D20",
+        "S06"
+      ]
+    },
+    "mine_ops": {
+      "count": 6,
+      "agents": [
+        "D11",
+        "D12",
+        "D13",
+        "D14",
+        "D15",
+        "S04"
+      ]
+    },
+    "supply_chain": {
+      "count": 6,
+      "agents": [
+        "D27",
+        "D28",
+        "D29",
+        "D30",
+        "D31",
+        "S08"
+      ]
+    },
+    "maintenance_execution": {
+      "count": 5,
+      "agents": [
+        "D07",
+        "D08",
+        "D09",
+        "D10",
+        "S02"
+      ]
+    },
+    "procurement": {
+      "count": 4,
+      "agents": [
+        "D32",
+        "D33",
+        "D34",
+        "S09"
+      ]
+    },
+    "site_wide": {
+      "count": 1,
+      "agents": [
+        "S12"
+      ]
+    }
+  },
+  "by_apqc": {
+    "11.0.3": {
+      "count": 11,
+      "agents": [
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "D07",
+        "D08",
+        "D09",
+        "D10",
+        "S01"
+      ]
+    },
+    "4.3.1": {
+      "count": 7,
+      "agents": [
+        "D11",
+        "D12",
+        "D13",
+        "D14",
+        "D15",
+        "S04",
+        "S12"
+      ]
+    },
+    "9.1.2": {
+      "count": 7,
+      "agents": [
+        "D35",
+        "D36",
+        "D37",
+        "D38",
+        "D39",
+        "D40",
+        "S11"
+      ]
+    },
+    "4.2.2": {
+      "count": 6,
+      "agents": [
+        "D21",
+        "D22",
+        "D23",
+        "D24",
+        "D25",
+        "D26"
+      ]
+    },
+    "2.0.1": {
+      "count": 5,
+      "agents": [
+        "D16",
+        "D17",
+        "D18",
+        "D19",
+        "D20"
+      ]
+    },
+    "4.1.2": {
+      "count": 5,
+      "agents": [
+        "D27",
+        "D28",
+        "D29",
+        "D30",
+        "D31"
+      ]
+    },
+    "5.2.1": {
+      "count": 4,
+      "agents": [
+        "D32",
+        "D33",
+        "D34",
+        "S09"
+      ]
+    },
+    "11.0.3 / 4.1.2": {
+      "count": 1,
+      "agents": [
+        "S02"
+      ]
+    },
+    "11.0.3 / 4.3.1": {
+      "count": 1,
+      "agents": [
+        "S03"
+      ]
+    },
+    "2.0.1 / 4.2.2": {
+      "count": 1,
+      "agents": [
+        "S06"
+      ]
+    },
+    "4.1.2 / 11.0.3": {
+      "count": 1,
+      "agents": [
+        "S08"
+      ]
+    },
+    "4.2.2 / 11.0.3": {
+      "count": 1,
+      "agents": [
+        "S07"
+      ]
+    },
+    "4.3.1 / 9.1.2": {
+      "count": 1,
+      "agents": [
+        "S05"
+      ]
+    },
+    "9.1.2 / 4.3.1": {
+      "count": 1,
+      "agents": [
+        "S10"
+      ]
+    }
+  },
+  "by_apqc_code": {
+    "11.0.3": {
+      "count": 15,
+      "agents": [
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05",
+        "D06",
+        "D07",
+        "D08",
+        "D09",
+        "D10",
+        "S01",
+        "S02",
+        "S03",
+        "S07",
+        "S08"
+      ]
+    },
+    "4.3.1": {
+      "count": 10,
+      "agents": [
+        "D11",
+        "D12",
+        "D13",
+        "D14",
+        "D15",
+        "S03",
+        "S04",
+        "S05",
+        "S10",
+        "S12"
+      ]
+    },
+    "9.1.2": {
+      "count": 9,
+      "agents": [
+        "D35",
+        "D36",
+        "D37",
+        "D38",
+        "D39",
+        "D40",
+        "S05",
+        "S10",
+        "S11"
+      ]
+    },
+    "4.2.2": {
+      "count": 8,
+      "agents": [
+        "D21",
+        "D22",
+        "D23",
+        "D24",
+        "D25",
+        "D26",
+        "S06",
+        "S07"
+      ]
+    },
+    "4.1.2": {
+      "count": 7,
+      "agents": [
+        "D27",
+        "D28",
+        "D29",
+        "D30",
+        "D31",
+        "S02",
+        "S08"
+      ]
+    },
+    "2.0.1": {
+      "count": 6,
+      "agents": [
+        "D16",
+        "D17",
+        "D18",
+        "D19",
+        "D20",
+        "S06"
+      ]
+    },
+    "5.2.1": {
+      "count": 4,
+      "agents": [
+        "D32",
+        "D33",
+        "D34",
+        "S09"
+      ]
+    }
+  },
+  "compound_apqc_codes": [
+    "11.0.3 / 4.1.2",
+    "11.0.3 / 4.3.1",
+    "2.0.1 / 4.2.2",
+    "4.1.2 / 11.0.3",
+    "4.2.2 / 11.0.3",
+    "4.3.1 / 9.1.2",
+    "9.1.2 / 4.3.1"
+  ],
+  "tool_usage": {
+    "bq_query": 50,
+    "request_approval": 14,
+    "operational_math": 10,
+    "graph_traverse": 7,
+    "bqml_predict": 3
+  },
+  "apqc_names": {
+    "2.0.1": "Develop and manage products and services",
+    "4.1.2": "Manage inventory and materials",
+    "4.2.2": "Manage production operations",
+    "4.3.1": "Manage logistics and transportation",
+    "5.2.1": "Procure materials and services",
+    "9.1.2": "Manage health, safety and environment",
+    "11.0.3": "Manage plant and asset maintenance"
+  },
+  "swarms": {
+    "S01": {
+      "coordinator": "S01",
+      "specialists": [
+        "S01-SP1",
+        "S01-SP2",
+        "S01-SP3"
+      ],
+      "critic": "S01-CRITIC"
+    },
+    "S02": {
+      "coordinator": "S02",
+      "specialists": [
+        "S02-SP1",
+        "S02-SP2",
+        "S02-SP3"
+      ],
+      "critic": "S02-CRITIC"
+    },
+    "S03": {
+      "coordinator": "S03",
+      "specialists": [
+        "S03-SP1",
+        "S03-SP2",
+        "S03-SP3"
+      ],
+      "critic": "S03-CRITIC"
+    },
+    "S04": {
+      "coordinator": "S04",
+      "specialists": [
+        "S04-SP1",
+        "S04-SP2",
+        "S04-SP3"
+      ],
+      "critic": "S04-CRITIC"
+    },
+    "S05": {
+      "coordinator": "S05",
+      "specialists": [
+        "S05-SP1",
+        "S05-SP2",
+        "S05-SP3"
+      ],
+      "critic": "S05-CRITIC"
+    },
+    "S06": {
+      "coordinator": "S06",
+      "specialists": [
+        "S06-SP1",
+        "S06-SP2",
+        "S06-SP3"
+      ],
+      "critic": "S06-CRITIC"
+    },
+    "S07": {
+      "coordinator": "S07",
+      "specialists": [
+        "S07-SP1",
+        "S07-SP2",
+        "S07-SP3"
+      ],
+      "critic": "S07-CRITIC"
+    },
+    "S08": {
+      "coordinator": "S08",
+      "specialists": [
+        "S08-SP1",
+        "S08-SP2",
+        "S08-SP3"
+      ],
+      "critic": "S08-CRITIC"
+    },
+    "S09": {
+      "coordinator": "S09",
+      "specialists": [
+        "S09-SP1",
+        "S09-SP2",
+        "S09-SP3"
+      ],
+      "critic": "S09-CRITIC"
+    },
+    "S10": {
+      "coordinator": "S10",
+      "specialists": [
+        "S10-SP1",
+        "S10-SP2",
+        "S10-SP3"
+      ],
+      "critic": "S10-CRITIC"
+    },
+    "S11": {
+      "coordinator": "S11",
+      "specialists": [
+        "S11-SP1",
+        "S11-SP2",
+        "S11-SP3"
+      ],
+      "critic": "S11-CRITIC"
+    },
+    "S12": {
+      "coordinator": "S12",
+      "specialists": [
+        "S12-SP1",
+        "S12-SP2",
+        "S12-SP3"
+      ],
+      "critic": "S12-CRITIC"
+    }
+  },
+  "agents": [
+    {
+      "agent_id": "S01",
+      "display_name": "Cascading Failure Impact & Recovery Coordinator",
+      "pattern": "A",
+      "swarm_id": "S01",
+      "swarm_role": "coordinator",
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "reasoning",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.telemetry_stream",
+        "mining_data.asset_dependencies",
+        "mining_data.assets",
+        "mining_data.maintenance_logs"
+      ],
+      "tools": [
+        "bq_query",
+        "graph_traverse",
+        "request_approval"
+      ],
+      "traversals": [
+        "blast_radius"
+      ],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S01-SP1",
+      "display_name": "Telemetry Anomaly Detector",
+      "pattern": "A",
+      "swarm_id": "S01",
+      "swarm_role": "specialist",
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.telemetry_stream"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S01-SP2",
+      "display_name": "Dependency Blast-Radius Tracer",
+      "pattern": "A",
+      "swarm_id": "S01",
+      "swarm_role": "specialist",
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.asset_dependencies",
+        "mining_data.assets"
+      ],
+      "tools": [
+        "graph_traverse"
+      ],
+      "traversals": [
+        "blast_radius"
+      ],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S01-SP3",
+      "display_name": "Downtime Duration Forecaster",
+      "pattern": "A",
+      "swarm_id": "S01",
+      "swarm_role": "specialist",
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.maintenance_logs",
+        "mining_data.erp_work_orders",
+        "mining_data.assets",
+        "mining_data.telemetry_stream"
+      ],
+      "tools": [
+        "bq_query",
+        "bqml_predict",
+        "method_lookup",
+        "run_diagnostic",
+        "doc_search"
+      ],
+      "traversals": [],
+      "models": [
+        "downtime_regression_model"
+      ],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S01-CRITIC",
+      "display_name": "Recovery Plan Critic",
+      "pattern": "A",
+      "swarm_id": "S01",
+      "swarm_role": "critic",
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.maintenance_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S02",
+      "display_name": "Planned Shutdown Readiness Coordinator",
+      "pattern": "A",
+      "swarm_id": "S02",
+      "swarm_role": "coordinator",
+      "apqc_code": "11.0.3 / 4.1.2",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage inventory and materials"
+      ],
+      "persona": "P2",
+      "value_branch": "maintenance_execution",
+      "model_tier": "reasoning",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.erp_work_orders",
+        "mining_data.work_order_parts_edge",
+        "mining_data.inventory_levels",
+        "mining_data.assets"
+      ],
+      "tools": [
+        "bq_query",
+        "graph_traverse",
+        "request_approval"
+      ],
+      "traversals": [
+        "stockout_exposure"
+      ],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S02-SP1",
+      "display_name": "Work Order Bundler",
+      "pattern": "A",
+      "swarm_id": "S02",
+      "swarm_role": "specialist",
+      "apqc_code": "11.0.3 / 4.1.2",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage inventory and materials"
+      ],
+      "persona": "P2",
+      "value_branch": "maintenance_execution",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.erp_work_orders",
+        "mining_data.work_order_parts_edge"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S02-SP2",
+      "display_name": "Parts Availability Checker",
+      "pattern": "A",
+      "swarm_id": "S02",
+      "swarm_role": "specialist",
+      "apqc_code": "11.0.3 / 4.1.2",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage inventory and materials"
+      ],
+      "persona": "P2",
+      "value_branch": "maintenance_execution",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.erp_work_orders",
+        "mining_data.work_order_parts_edge",
+        "mining_data.assets"
+      ],
+      "tools": [
+        "graph_traverse",
+        "bq_query",
+        "method_lookup",
+        "run_diagnostic",
+        "doc_search"
+      ],
+      "traversals": [
+        "stockout_exposure"
+      ],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S02-SP3",
+      "display_name": "Lead-Time Feasibility Analyst",
+      "pattern": "A",
+      "swarm_id": "S02",
+      "swarm_role": "specialist",
+      "apqc_code": "11.0.3 / 4.1.2",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage inventory and materials"
+      ],
+      "persona": "P2",
+      "value_branch": "maintenance_execution",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.erp_work_orders"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S02-CRITIC",
+      "display_name": "Readiness Critic",
+      "pattern": "A",
+      "swarm_id": "S02",
+      "swarm_role": "critic",
+      "apqc_code": "11.0.3 / 4.1.2",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage inventory and materials"
+      ],
+      "persona": "P2",
+      "value_branch": "maintenance_execution",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.erp_work_orders",
+        "mining_data.inventory_levels"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S03",
+      "display_name": "Fleet Reliability & Availability Coordinator",
+      "pattern": "A",
+      "swarm_id": "S03",
+      "swarm_role": "coordinator",
+      "apqc_code": "11.0.3 / 4.3.1",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.fleet_vehicles",
+        "mining_data.maintenance_logs",
+        "mining_data.erp_work_orders"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S03-SP1",
+      "display_name": "Vehicle Health Screener",
+      "pattern": "A",
+      "swarm_id": "S03",
+      "swarm_role": "specialist",
+      "apqc_code": "11.0.3 / 4.3.1",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.fleet_vehicles"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S03-SP2",
+      "display_name": "Duty-Cycle Analyst",
+      "pattern": "A",
+      "swarm_id": "S03",
+      "swarm_role": "specialist",
+      "apqc_code": "11.0.3 / 4.3.1",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.fleet_vehicles",
+        "mining_data.maintenance_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S03-SP3",
+      "display_name": "Maintenance History Correlator",
+      "pattern": "A",
+      "swarm_id": "S03",
+      "swarm_role": "specialist",
+      "apqc_code": "11.0.3 / 4.3.1",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.maintenance_logs",
+        "mining_data.erp_work_orders"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S03-CRITIC",
+      "display_name": "Availability Forecast Critic",
+      "pattern": "A",
+      "swarm_id": "S03",
+      "swarm_role": "critic",
+      "apqc_code": "11.0.3 / 4.3.1",
+      "apqc_names": [
+        "Manage plant and asset maintenance",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.fleet_vehicles",
+        "mining_data.maintenance_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S04",
+      "display_name": "Shift Dispatch Re-plan Coordinator",
+      "pattern": "A",
+      "swarm_id": "S04",
+      "swarm_role": "coordinator",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "reasoning",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.haulage_routes",
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.operators_node",
+        "mining_data.fleet_vehicles"
+      ],
+      "tools": [
+        "bq_query",
+        "request_approval"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S04-SP1",
+      "display_name": "Cycle Time Variance Analyst",
+      "pattern": "A",
+      "swarm_id": "S04",
+      "swarm_role": "specialist",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.haulage_routes"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S04-SP2",
+      "display_name": "Route Congestion Modeller",
+      "pattern": "A",
+      "swarm_id": "S04",
+      "swarm_role": "specialist",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.haulage_routes"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S04-SP3",
+      "display_name": "Operator Assignment Fit",
+      "pattern": "A",
+      "swarm_id": "S04",
+      "swarm_role": "specialist",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.operators_node",
+        "mining_data.fleet_vehicles"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S04-CRITIC",
+      "display_name": "Dispatch Plan Critic",
+      "pattern": "A",
+      "swarm_id": "S04",
+      "swarm_role": "critic",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.haulage_routes",
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.fleet_vehicles"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S05",
+      "display_name": "Autonomous Haulage Safety Interlock Coordinator",
+      "pattern": "A",
+      "swarm_id": "S05",
+      "swarm_role": "coordinator",
+      "apqc_code": "4.3.1 / 9.1.2",
+      "apqc_names": [
+        "Manage logistics and transportation",
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "reasoning",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.safety_incidents",
+        "mining_data.incident_involvements",
+        "mining_data.biometric_fatigue_logs",
+        "mining_data.radio_communications",
+        "mining_data.fatigue_logs_node",
+        "mining_data.operators_node",
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.fleet_vehicles"
+      ],
+      "tools": [
+        "bq_query",
+        "graph_traverse",
+        "request_approval"
+      ],
+      "traversals": [
+        "fatigue_to_incident"
+      ],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S05-SP1",
+      "display_name": "Proximity & Incident History Screener",
+      "pattern": "A",
+      "swarm_id": "S05",
+      "swarm_role": "specialist",
+      "apqc_code": "4.3.1 / 9.1.2",
+      "apqc_names": [
+        "Manage logistics and transportation",
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.safety_incidents",
+        "mining_data.incident_involvements"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S05-SP2",
+      "display_name": "Operator Fatigue Cross-Check",
+      "pattern": "A",
+      "swarm_id": "S05",
+      "swarm_role": "specialist",
+      "apqc_code": "4.3.1 / 9.1.2",
+      "apqc_names": [
+        "Manage logistics and transportation",
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.biometric_fatigue_logs",
+        "mining_data.fatigue_logs_node",
+        "mining_data.operators_node",
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.fleet_vehicles",
+        "mining_data.incident_involvements",
+        "mining_data.safety_incidents",
+        "mining_data.radio_communications"
+      ],
+      "tools": [
+        "graph_traverse",
+        "bq_query",
+        "method_lookup",
+        "run_diagnostic",
+        "doc_search"
+      ],
+      "traversals": [
+        "fatigue_to_incident"
+      ],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S05-SP3",
+      "display_name": "Radio Emergency Listener",
+      "pattern": "A",
+      "swarm_id": "S05",
+      "swarm_role": "specialist",
+      "apqc_code": "4.3.1 / 9.1.2",
+      "apqc_names": [
+        "Manage logistics and transportation",
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.radio_communications"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S05-CRITIC",
+      "display_name": "Interlock Critic",
+      "pattern": "A",
+      "swarm_id": "S05",
+      "swarm_role": "critic",
+      "apqc_code": "4.3.1 / 9.1.2",
+      "apqc_names": [
+        "Manage logistics and transportation",
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.safety_incidents",
+        "mining_data.biometric_fatigue_logs",
+        "mining_data.radio_communications"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S06",
+      "display_name": "Grade-to-Recovery Reconciliation Coordinator",
+      "pattern": "A",
+      "swarm_id": "S06",
+      "swarm_role": "coordinator",
+      "apqc_code": "2.0.1 / 4.2.2",
+      "apqc_names": [
+        "Develop and manage products and services",
+        "Manage production operations"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.drill_assay_logs",
+        "mining_data.geological_block_models",
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S06-SP1",
+      "display_name": "Assay-to-Block Variance Analyst",
+      "pattern": "A",
+      "swarm_id": "S06",
+      "swarm_role": "specialist",
+      "apqc_code": "2.0.1 / 4.2.2",
+      "apqc_names": [
+        "Develop and manage products and services",
+        "Manage production operations"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.drill_assay_logs",
+        "mining_data.geological_block_models",
+        "mining_data.drill_holes",
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query",
+        "method_lookup",
+        "run_diagnostic",
+        "doc_search"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S06-SP2",
+      "display_name": "Delivered Feed Grade Tracer",
+      "pattern": "A",
+      "swarm_id": "S06",
+      "swarm_role": "specialist",
+      "apqc_code": "2.0.1 / 4.2.2",
+      "apqc_names": [
+        "Develop and manage products and services",
+        "Manage production operations"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.drill_assay_logs",
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S06-SP3",
+      "display_name": "Recovery Attribution Analyst",
+      "pattern": "A",
+      "swarm_id": "S06",
+      "swarm_role": "specialist",
+      "apqc_code": "2.0.1 / 4.2.2",
+      "apqc_names": [
+        "Develop and manage products and services",
+        "Manage production operations"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.metallurgical_recovery",
+        "mining_data.geological_block_models"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S06-CRITIC",
+      "display_name": "Reconciliation Critic",
+      "pattern": "A",
+      "swarm_id": "S06",
+      "swarm_role": "critic",
+      "apqc_code": "2.0.1 / 4.2.2",
+      "apqc_names": [
+        "Develop and manage products and services",
+        "Manage production operations"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.drill_assay_logs",
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S07",
+      "display_name": "Crusher\u2013Mill Throughput Balance Coordinator",
+      "pattern": "A",
+      "swarm_id": "S07",
+      "swarm_role": "coordinator",
+      "apqc_code": "4.2.2 / 11.0.3",
+      "apqc_names": [
+        "Manage production operations",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "reasoning",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.crusher_states",
+        "mining_data.telemetry_stream",
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math",
+        "request_approval"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S07-SP1",
+      "display_name": "Crusher Setting Analyst",
+      "pattern": "A",
+      "swarm_id": "S07",
+      "swarm_role": "specialist",
+      "apqc_code": "4.2.2 / 11.0.3",
+      "apqc_names": [
+        "Manage production operations",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.crusher_states"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S07-SP2",
+      "display_name": "Mill Load Analyst",
+      "pattern": "A",
+      "swarm_id": "S07",
+      "swarm_role": "specialist",
+      "apqc_code": "4.2.2 / 11.0.3",
+      "apqc_names": [
+        "Manage production operations",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.telemetry_stream"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S07-SP3",
+      "display_name": "Recovery Sensitivity Modeller",
+      "pattern": "A",
+      "swarm_id": "S07",
+      "swarm_role": "specialist",
+      "apqc_code": "4.2.2 / 11.0.3",
+      "apqc_names": [
+        "Manage production operations",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.metallurgical_recovery",
+        "mining_data.crusher_states"
+      ],
+      "tools": [
+        "bq_query",
+        "method_lookup",
+        "run_diagnostic",
+        "doc_search"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S07-CRITIC",
+      "display_name": "Setpoint Safety Critic",
+      "pattern": "A",
+      "swarm_id": "S07",
+      "swarm_role": "critic",
+      "apqc_code": "4.2.2 / 11.0.3",
+      "apqc_names": [
+        "Manage production operations",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.crusher_states",
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math",
+        "doc_search"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S08",
+      "display_name": "Stockout-to-Work-Order Impact Coordinator",
+      "pattern": "A",
+      "swarm_id": "S08",
+      "swarm_role": "coordinator",
+      "apqc_code": "4.1.2 / 11.0.3",
+      "apqc_names": [
+        "Manage inventory and materials",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "reasoning",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.erp_work_orders",
+        "mining_data.work_order_parts_edge",
+        "mining_data.assets"
+      ],
+      "tools": [
+        "bq_query",
+        "graph_traverse",
+        "request_approval"
+      ],
+      "traversals": [
+        "stockout_exposure"
+      ],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S08-SP1",
+      "display_name": "Below-ROP Screener",
+      "pattern": "A",
+      "swarm_id": "S08",
+      "swarm_role": "specialist",
+      "apqc_code": "4.1.2 / 11.0.3",
+      "apqc_names": [
+        "Manage inventory and materials",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S08-SP2",
+      "display_name": "Work Order Exposure Tracer",
+      "pattern": "A",
+      "swarm_id": "S08",
+      "swarm_role": "specialist",
+      "apqc_code": "4.1.2 / 11.0.3",
+      "apqc_names": [
+        "Manage inventory and materials",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.erp_work_orders",
+        "mining_data.work_order_parts_edge",
+        "mining_data.assets"
+      ],
+      "tools": [
+        "graph_traverse"
+      ],
+      "traversals": [
+        "stockout_exposure"
+      ],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S08-SP3",
+      "display_name": "Downtime Cost Modeller",
+      "pattern": "A",
+      "swarm_id": "S08",
+      "swarm_role": "specialist",
+      "apqc_code": "4.1.2 / 11.0.3",
+      "apqc_names": [
+        "Manage inventory and materials",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.erp_work_orders"
+      ],
+      "tools": [
+        "bq_query",
+        "bqml_predict"
+      ],
+      "traversals": [],
+      "models": [
+        "inventory_impact_model"
+      ],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S08-CRITIC",
+      "display_name": "Stocking Critic",
+      "pattern": "A",
+      "swarm_id": "S08",
+      "swarm_role": "critic",
+      "apqc_code": "4.1.2 / 11.0.3",
+      "apqc_names": [
+        "Manage inventory and materials",
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.erp_work_orders"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S09",
+      "display_name": "RFP & Bid Award Evaluation Coordinator",
+      "pattern": "A",
+      "swarm_id": "S09",
+      "swarm_role": "coordinator",
+      "apqc_code": "5.2.1",
+      "apqc_names": [
+        "Procure materials and services"
+      ],
+      "persona": "P4",
+      "value_branch": "procurement",
+      "model_tier": "reasoning",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.procurement_bids",
+        "mining_data.rfp_items",
+        "mining_data.bid_parts_edge",
+        "mining_data.inventory_levels"
+      ],
+      "tools": [
+        "bq_query",
+        "request_approval"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S09-SP1",
+      "display_name": "Bid Compliance Checker",
+      "pattern": "A",
+      "swarm_id": "S09",
+      "swarm_role": "specialist",
+      "apqc_code": "5.2.1",
+      "apqc_names": [
+        "Procure materials and services"
+      ],
+      "persona": "P4",
+      "value_branch": "procurement",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.procurement_bids",
+        "mining_data.rfp_items"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S09-SP2",
+      "display_name": "Technical Scoring Analyst",
+      "pattern": "A",
+      "swarm_id": "S09",
+      "swarm_role": "specialist",
+      "apqc_code": "5.2.1",
+      "apqc_names": [
+        "Procure materials and services"
+      ],
+      "persona": "P4",
+      "value_branch": "procurement",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.procurement_bids",
+        "mining_data.rfp_items",
+        "mining_data.bid_parts_edge"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S09-SP3",
+      "display_name": "Cost & Spend Anomaly Analyst",
+      "pattern": "A",
+      "swarm_id": "S09",
+      "swarm_role": "specialist",
+      "apqc_code": "5.2.1",
+      "apqc_names": [
+        "Procure materials and services"
+      ],
+      "persona": "P4",
+      "value_branch": "procurement",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.procurement_bids",
+        "mining_data.inventory_levels"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S09-CRITIC",
+      "display_name": "Award Critic",
+      "pattern": "A",
+      "swarm_id": "S09",
+      "swarm_role": "critic",
+      "apqc_code": "5.2.1",
+      "apqc_names": [
+        "Procure materials and services"
+      ],
+      "persona": "P4",
+      "value_branch": "procurement",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.procurement_bids",
+        "mining_data.rfp_items",
+        "mining_data.bid_parts_edge"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S10",
+      "display_name": "Fatigue Intervention & Stand-down Coordinator",
+      "pattern": "A",
+      "swarm_id": "S10",
+      "swarm_role": "coordinator",
+      "apqc_code": "9.1.2 / 4.3.1",
+      "apqc_names": [
+        "Manage health, safety and environment",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "reasoning",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.biometric_fatigue_logs",
+        "mining_data.operator_vehicle_assignments"
+      ],
+      "tools": [
+        "bq_query",
+        "bqml_predict",
+        "request_approval"
+      ],
+      "traversals": [],
+      "models": [
+        "safety_model"
+      ],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S10-SP1",
+      "display_name": "Biometric Fatigue Scorer",
+      "pattern": "A",
+      "swarm_id": "S10",
+      "swarm_role": "specialist",
+      "apqc_code": "9.1.2 / 4.3.1",
+      "apqc_names": [
+        "Manage health, safety and environment",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.biometric_fatigue_logs"
+      ],
+      "tools": [
+        "bq_query",
+        "bqml_predict"
+      ],
+      "traversals": [],
+      "models": [
+        "safety_model"
+      ],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S10-SP2",
+      "display_name": "Microsleep Event Escalator",
+      "pattern": "A",
+      "swarm_id": "S10",
+      "swarm_role": "specialist",
+      "apqc_code": "9.1.2 / 4.3.1",
+      "apqc_names": [
+        "Manage health, safety and environment",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.biometric_fatigue_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S10-SP3",
+      "display_name": "Shift Coverage Impact Analyst",
+      "pattern": "A",
+      "swarm_id": "S10",
+      "swarm_role": "specialist",
+      "apqc_code": "9.1.2 / 4.3.1",
+      "apqc_names": [
+        "Manage health, safety and environment",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.biometric_fatigue_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S10-CRITIC",
+      "display_name": "Intervention Critic",
+      "pattern": "A",
+      "swarm_id": "S10",
+      "swarm_role": "critic",
+      "apqc_code": "9.1.2 / 4.3.1",
+      "apqc_names": [
+        "Manage health, safety and environment",
+        "Manage logistics and transportation"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.biometric_fatigue_logs",
+        "mining_data.operator_vehicle_assignments"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S11",
+      "display_name": "Incident Investigation & Corroboration Coordinator",
+      "pattern": "A",
+      "swarm_id": "S11",
+      "swarm_role": "coordinator",
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "reasoning",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.safety_incidents",
+        "mining_data.incident_involvements",
+        "mining_data.radio_communications",
+        "mining_data.fatigue_logs_node",
+        "mining_data.operators_node",
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.fleet_vehicles"
+      ],
+      "tools": [
+        "bq_query",
+        "graph_traverse",
+        "request_approval"
+      ],
+      "traversals": [
+        "fatigue_to_incident"
+      ],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S11-SP1",
+      "display_name": "Incident Clustering Analyst",
+      "pattern": "A",
+      "swarm_id": "S11",
+      "swarm_role": "specialist",
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.safety_incidents"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S11-SP2",
+      "display_name": "Involvement Tracer",
+      "pattern": "A",
+      "swarm_id": "S11",
+      "swarm_role": "specialist",
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.incident_involvements",
+        "mining_data.fatigue_logs_node",
+        "mining_data.operators_node",
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.fleet_vehicles",
+        "mining_data.safety_incidents"
+      ],
+      "tools": [
+        "graph_traverse"
+      ],
+      "traversals": [
+        "fatigue_to_incident"
+      ],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S11-SP3",
+      "display_name": "Radio Transcript Corroborator",
+      "pattern": "A",
+      "swarm_id": "S11",
+      "swarm_role": "specialist",
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.radio_communications",
+        "mining_data.safety_incidents"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S11-CRITIC",
+      "display_name": "Root-Cause Challenge Critic",
+      "pattern": "A",
+      "swarm_id": "S11",
+      "swarm_role": "critic",
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.safety_incidents",
+        "mining_data.incident_involvements",
+        "mining_data.radio_communications"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S12",
+      "display_name": "Shift Handover & Site Value Briefing Coordinator",
+      "pattern": "A",
+      "swarm_id": "S12",
+      "swarm_role": "coordinator",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P8",
+      "value_branch": "site_wide",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.telemetry_stream",
+        "mining_data.asset_dependencies",
+        "mining_data.assets",
+        "mining_data.maintenance_logs",
+        "mining_data.erp_work_orders",
+        "mining_data.fleet_vehicles",
+        "mining_data.haulage_routes",
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.metallurgical_recovery",
+        "mining_data.crusher_states",
+        "mining_data.inventory_levels",
+        "mining_data.safety_incidents",
+        "mining_data.biometric_fatigue_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "S12-SP1",
+      "display_name": "Availability Summariser",
+      "pattern": "A",
+      "swarm_id": "S12",
+      "swarm_role": "specialist",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P8",
+      "value_branch": "site_wide",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.telemetry_stream",
+        "mining_data.fleet_vehicles",
+        "mining_data.assets",
+        "mining_data.maintenance_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S12-SP2",
+      "display_name": "Production & Recovery Summariser",
+      "pattern": "A",
+      "swarm_id": "S12",
+      "swarm_role": "specialist",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P8",
+      "value_branch": "site_wide",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.metallurgical_recovery",
+        "mining_data.crusher_states",
+        "mining_data.haulage_routes"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S12-SP3",
+      "display_name": "Safety & Compliance Summariser",
+      "pattern": "A",
+      "swarm_id": "S12",
+      "swarm_role": "specialist",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P8",
+      "value_branch": "site_wide",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.safety_incidents",
+        "mining_data.biometric_fatigue_logs",
+        "mining_data.incident_involvements"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "S12-CRITIC",
+      "display_name": "Omission Critic",
+      "pattern": "A",
+      "swarm_id": "S12",
+      "swarm_role": "critic",
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P8",
+      "value_branch": "site_wide",
+      "model_tier": "reasoning",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.telemetry_stream",
+        "mining_data.erp_work_orders",
+        "mining_data.inventory_levels",
+        "mining_data.safety_incidents"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": false
+    },
+    {
+      "agent_id": "D01",
+      "display_name": "Vibration Signature Diagnostic",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.telemetry_stream"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D02",
+      "display_name": "Thermal Drift Diagnostic",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.telemetry_stream"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D03",
+      "display_name": "Torque Signature Diagnostic",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.telemetry_stream",
+        "mining_data.crusher_states"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D04",
+      "display_name": "Power Draw Efficiency Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.telemetry_stream"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D05",
+      "display_name": "Asset Dependency Criticality Ranker",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.asset_dependencies",
+        "mining_data.assets"
+      ],
+      "tools": [
+        "graph_traverse"
+      ],
+      "traversals": [
+        "blast_radius"
+      ],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D06",
+      "display_name": "Digital Twin Simulation Replay Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P1",
+      "value_branch": "asset_reliability",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.simulation_runs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D07",
+      "display_name": "Work Order Triage & Prioritisation",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P2",
+      "value_branch": "maintenance_execution",
+      "model_tier": "balanced",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.erp_work_orders"
+      ],
+      "tools": [
+        "bq_query",
+        "request_approval"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D08",
+      "display_name": "Deferral & Cancellation Risk Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P2",
+      "value_branch": "maintenance_execution",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.erp_work_orders",
+        "mining_data.maintenance_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D09",
+      "display_name": "Repair Cost Variance Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P2",
+      "value_branch": "maintenance_execution",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.erp_work_orders",
+        "mining_data.maintenance_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D10",
+      "display_name": "Maintenance Effectiveness / Repeat-Failure Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "11.0.3",
+      "apqc_names": [
+        "Manage plant and asset maintenance"
+      ],
+      "persona": "P2",
+      "value_branch": "maintenance_execution",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.maintenance_logs",
+        "mining_data.work_order_parts_edge"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D11",
+      "display_name": "Haul Cycle Time Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.haulage_routes"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D12",
+      "display_name": "Route Congestion Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.haulage_routes"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D13",
+      "display_name": "Payload Utilisation Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.fleet_vehicles"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D14",
+      "display_name": "Fleet Assignment Optimiser",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "balanced",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.fleet_vehicles"
+      ],
+      "tools": [
+        "bq_query",
+        "request_approval"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D15",
+      "display_name": "Route Network Cluster Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.3.1",
+      "apqc_names": [
+        "Manage logistics and transportation"
+      ],
+      "persona": "P7",
+      "value_branch": "mine_ops",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.haulage_routes"
+      ],
+      "tools": [
+        "bq_query",
+        "bqml_predict"
+      ],
+      "traversals": [],
+      "models": [
+        "asset_clustering_model"
+      ],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D16",
+      "display_name": "Assay-to-Block Model Variance Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "2.0.1",
+      "apqc_names": [
+        "Develop and manage products and services"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.drill_assay_logs",
+        "mining_data.geological_block_models"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D17",
+      "display_name": "Ore Dilution Estimator",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "2.0.1",
+      "apqc_names": [
+        "Develop and manage products and services"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.drill_assay_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D18",
+      "display_name": "Lithology Classification Auditor",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "2.0.1",
+      "apqc_names": [
+        "Develop and manage products and services"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.drill_assay_logs",
+        "mining_data.geological_block_models"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D19",
+      "display_name": "Drill Coverage Gap Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "2.0.1",
+      "apqc_names": [
+        "Develop and manage products and services"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.drill_holes",
+        "mining_data.geological_block_models"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D20",
+      "display_name": "Grade Confidence Scorer",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "2.0.1",
+      "apqc_names": [
+        "Develop and manage products and services"
+      ],
+      "persona": "P5",
+      "value_branch": "geology",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.drill_assay_logs",
+        "mining_data.geological_block_models"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D21",
+      "display_name": "Recovery Rate Variance Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.2.2",
+      "apqc_names": [
+        "Manage production operations"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D22",
+      "display_name": "Feed Grade Sensitivity Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.2.2",
+      "apqc_names": [
+        "Manage production operations"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D23",
+      "display_name": "Tailings Loss Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.2.2",
+      "apqc_names": [
+        "Manage production operations"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D24",
+      "display_name": "Concentrate Quality Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.2.2",
+      "apqc_names": [
+        "Manage production operations"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.metallurgical_recovery"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D25",
+      "display_name": "Crusher Setpoint Optimiser",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.2.2",
+      "apqc_names": [
+        "Manage production operations"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "balanced",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.crusher_states"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math",
+        "request_approval"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D26",
+      "display_name": "Crusher Bypass Event Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.2.2",
+      "apqc_names": [
+        "Manage production operations"
+      ],
+      "persona": "P6",
+      "value_branch": "processing",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.crusher_states"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D27",
+      "display_name": "Safety Stock & Reorder Point Calculator",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.1.2",
+      "apqc_names": [
+        "Manage inventory and materials"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D28",
+      "display_name": "Economic Order Quantity Optimiser",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.1.2",
+      "apqc_names": [
+        "Manage inventory and materials"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.work_order_parts_edge"
+      ],
+      "tools": [
+        "bq_query",
+        "operational_math"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D29",
+      "display_name": "Lead Time Risk Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.1.2",
+      "apqc_names": [
+        "Manage inventory and materials"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.erp_work_orders"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D30",
+      "display_name": "Criticality-Weighted Stocking Policy",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.1.2",
+      "apqc_names": [
+        "Manage inventory and materials"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "balanced",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.assets"
+      ],
+      "tools": [
+        "bq_query",
+        "request_approval"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D31",
+      "display_name": "Stockout Exposure Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "4.1.2",
+      "apqc_names": [
+        "Manage inventory and materials"
+      ],
+      "persona": "P4",
+      "value_branch": "supply_chain",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.inventory_levels",
+        "mining_data.erp_work_orders",
+        "mining_data.work_order_parts_edge",
+        "mining_data.assets"
+      ],
+      "tools": [
+        "graph_traverse"
+      ],
+      "traversals": [
+        "stockout_exposure"
+      ],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D32",
+      "display_name": "Bid Compliance Auditor",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "5.2.1",
+      "apqc_names": [
+        "Procure materials and services"
+      ],
+      "persona": "P4",
+      "value_branch": "procurement",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.procurement_bids"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D33",
+      "display_name": "Vendor Performance & Concentration Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "5.2.1",
+      "apqc_names": [
+        "Procure materials and services"
+      ],
+      "persona": "P4",
+      "value_branch": "procurement",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.procurement_bids"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D34",
+      "display_name": "Procurement Spend Anomaly Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "5.2.1",
+      "apqc_names": [
+        "Procure materials and services"
+      ],
+      "persona": "P4",
+      "value_branch": "procurement",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.procurement_bids",
+        "mining_data.inventory_levels"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D35",
+      "display_name": "Fatigue Risk Scorer",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.biometric_fatigue_logs"
+      ],
+      "tools": [
+        "bq_query",
+        "bqml_predict"
+      ],
+      "traversals": [],
+      "models": [
+        "safety_model"
+      ],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D36",
+      "display_name": "Microsleep Trend Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.biometric_fatigue_logs"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D37",
+      "display_name": "Radio Sentiment & Emergency Triage",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": true,
+      "source_tables": [
+        "mining_data.radio_communications"
+      ],
+      "tools": [
+        "bq_query",
+        "request_approval"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D38",
+      "display_name": "Incident Severity Trend Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.safety_incidents"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D39",
+      "display_name": "Procedural Compliance Drift Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.safety_incidents"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    },
+    {
+      "agent_id": "D40",
+      "display_name": "Operator Exposure Profile Analyst",
+      "pattern": "B",
+      "swarm_id": null,
+      "swarm_role": null,
+      "apqc_code": "9.1.2",
+      "apqc_names": [
+        "Manage health, safety and environment"
+      ],
+      "persona": "P3",
+      "value_branch": "safety",
+      "model_tier": "balanced",
+      "hitl_required": false,
+      "source_tables": [
+        "mining_data.incident_involvements",
+        "mining_data.operator_vehicle_assignments"
+      ],
+      "tools": [
+        "bq_query"
+      ],
+      "traversals": [],
+      "models": [],
+      "is_entrypoint": true
+    }
+  ],
+  "leaks": [
+    "Latency",
+    "Blind spot",
+    "Variance",
+    "Coordination",
+    "Assurance"
+  ],
+  "leak_counts": {
+    "Latency": 8,
+    "Blind spot": 4,
+    "Variance": 2,
+    "Coordination": 2,
+    "Assurance": 1
+  },
+  "group_agents": {
+    "AGT-19": {
+      "agent_id": "AGT-19",
+      "display_name": "Strategic Planning Advisor",
+      "decision": "How the group plan should change when a price, cost or capital assumption moves, and which asset absorbs it.",
+      "leaks": [
+        "Latency"
+      ],
+      "archetype": "Optimiser",
+      "authority": "L1 \u2014 Recommend (permanent; no promotion path)",
+      "financial_lines": [
+        {
+          "line": "group plan re-tested against a moved assumption \u2192 capital allocation quality",
+          "evidence_class": "C"
+        }
+      ],
+      "honest_limit": "The least measurable agent in the portfolio, and the easiest to oversell: it inherits every weakness of the assumption set it is given, and a committee price deck can be optimised very precisely while still being wrong. It contributes nothing to a funding case and must not be added to one.",
+      "pack": "agt19-strategic-planning.yaml",
+      "metric_impacts": [],
+      "coverage": {
+        "instrumented": 2,
+        "total": 5
+      }
+    }
+  },
+  "metric_impact_summary": [
+    {
+      "metric": "Contract value recovered",
+      "agents": [
+        "S09"
+      ],
+      "ranges": [
+        {
+          "direction": "increase",
+          "low_pct": 3.0,
+          "high_pct": 5.0,
+          "source": "industry contract-management research",
+          "agents": [
+            "S09"
+          ]
+        }
+      ]
+    },
+    {
+      "metric": "Maintenance cost",
+      "agents": [
+        "S02"
+      ],
+      "ranges": [
+        {
+          "direction": "decrease",
+          "low_pct": 18.0,
+          "high_pct": 25.0,
+          "source": "McKinsey",
+          "agents": [
+            "S02"
+          ]
+        }
+      ]
+    },
+    {
+      "metric": "Mineral recovery",
+      "agents": [
+        "S06",
+        "S07"
+      ],
+      "ranges": [
+        {
+          "direction": "increase",
+          "low_pct": 1.0,
+          "high_pct": 3.0,
+          "source": "McKinsey",
+          "agents": [
+            "S06",
+            "S07"
+          ]
+        }
+      ]
+    },
+    {
+      "metric": "Throughput",
+      "agents": [
+        "S07"
+      ],
+      "ranges": [
+        {
+          "direction": "increase",
+          "low_pct": 2.0,
+          "high_pct": 5.0,
+          "source": "BCG, mature AI sites in mining & metals",
+          "agents": [
+            "S07"
+          ]
+        },
+        {
+          "direction": "increase",
+          "low_pct": 4.0,
+          "high_pct": 8.0,
+          "source": "McKinsey, metals & mining",
+          "agents": [
+            "S07"
+          ]
+        }
+      ]
+    },
+    {
+      "metric": "Unplanned downtime",
+      "agents": [
+        "S01"
+      ],
+      "ranges": [
+        {
+          "direction": "decrease",
+          "low_pct": 30.0,
+          "high_pct": 50.0,
+          "source": "McKinsey / Deloitte, predictive maintenance",
+          "agents": [
+            "S01"
+          ]
+        }
+      ]
+    }
+  ]
+}

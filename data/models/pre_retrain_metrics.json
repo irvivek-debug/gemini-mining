@@ -1,0 +1,60 @@
+{
+  "captured_at_utc": "2026-08-11T03:41:36.167204+00:00",
+  "note": "ML.EVALUATE on each model BEFORE any Task-10 retrain. Evaluated on each model's own reserved training split, i.e. against the PRE-regeneration data the model was trained on (models created 2026-06-20). Irrecoverable once a model is replaced.",
+  "project": "your-gcp-project-id",
+  "dataset": "mining_data",
+  "metrics": {
+    "asset_clustering_model": {
+      "davies_bouldin_index": 0.31682487029717743,
+      "mean_squared_distance": 0.24331707629569782
+    },
+    "downtime_regression_model": {
+      "explained_variance": 0.5007759759273329,
+      "mean_absolute_error": 13.987179126424127,
+      "mean_squared_error": 292.5117021885065,
+      "mean_squared_log_error": 0.008498887472900257,
+      "median_absolute_error": 12.388220325054476,
+      "r2_score": 0.5007753422094947
+    },
+    "inventory_impact_model": {
+      "explained_variance": 0.9372480271310948,
+      "mean_absolute_error": 1.4175802373173383,
+      "mean_squared_error": 2.3654704795043986,
+      "mean_squared_log_error": 3.3487584587153993e-05,
+      "median_absolute_error": 1.459560333964589,
+      "r2_score": 0.9372480271309931
+    },
+    "inventory_impact_model_crusher": {
+      "explained_variance": 0.016853989369078226,
+      "mean_absolute_error": 4.899712361481584,
+      "mean_squared_error": 30.250105561593585,
+      "mean_squared_log_error": 0.2972638590178633,
+      "median_absolute_error": 5.15318623630769,
+      "r2_score": 0.016788534602242167
+    },
+    "inventory_impact_model_mill": {
+      "explained_variance": 0.01756757229441075,
+      "mean_absolute_error": 4.330608034873042,
+      "mean_squared_error": 24.091350154240192,
+      "mean_squared_log_error": 0.2904302656970537,
+      "median_absolute_error": 4.26580835099791,
+      "r2_score": 0.017094587774304504
+    },
+    "inventory_impact_model_pump": {
+      "explained_variance": 0.028629823760454864,
+      "mean_absolute_error": 4.635163336050643,
+      "mean_squared_error": 27.90000247223443,
+      "mean_squared_log_error": 0.5160011537593295,
+      "median_absolute_error": 4.947587497600254,
+      "r2_score": 0.028296371635788797
+    },
+    "safety_model": {
+      "accuracy": 0.4253731343283582,
+      "f1_score": 0.3177740398093636,
+      "log_loss": 1.098741525753265,
+      "precision": 0.28370221327967804,
+      "recall": 0.3621190130624093,
+      "roc_auc": 0.5104195804195805
+    }
+  }
+}

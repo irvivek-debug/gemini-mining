@@ -1,0 +1,6519 @@
+{
+  "generated_at": "2026-08-18T05:48:50+00:00",
+  "source": "local files, two vintages: asset, vehicle, assignment and incident records from data/profile/stats.json (Calibration profile of mining_data BEFORE regeneration. Captured 2026-08-10); work orders, parts and fatigue logs from data/generated/*.parquet, the current generated data. BigQuery is authoritative for both and was unreachable at build time.",
+  "graphs": {
+    "asset": {
+      "bigquery_graph": "MiningAssetGraph",
+      "traversal": "blast_radius",
+      "question": "If this asset fails, what fails behind it?",
+      "agents": [
+        "D05",
+        "S01",
+        "S01-SP2"
+      ],
+      "entrypoints": [
+        "D05",
+        "S01"
+      ],
+      "sql": "SELECT * FROM GRAPH_TABLE(\n  mining_data.MiningAssetGraph\n  MATCH (origin:assets WHERE origin.asset_id = @asset_id)\n        -[:DEPENDS_ON]->{1,3} (impacted:assets)\n  COLUMNS (origin.asset_id AS fail_origin,\n           impacted.asset_id AS impacted_asset,\n           impacted.criticality_rating AS impacted_criticality)\n)",
+      "params": [
+        "asset_id"
+      ],
+      "columns": [
+        "fail_origin",
+        "impacted_asset",
+        "impacted_criticality"
+      ],
+      "tables_read": [
+        "mining_data.assets",
+        "mining_data.asset_dependencies"
+      ],
+      "scope": "All 5 assets and all 3 dependency edges. Nothing filtered.",
+      "nodes": 5,
+      "edges": 3,
+      "node_types": {
+        "Asset": 5
+      },
+      "edge_labels": {
+        "DEPENDS_ON": 3
+      }
+    },
+    "safety": {
+      "bigquery_graph": "MiningOperationsSafetyGraph",
+      "traversal": "fatigue_to_incident",
+      "question": "Which fatigue readings precede an operator's incident?",
+      "agents": [
+        "S05",
+        "S05-SP2",
+        "S11",
+        "S11-SP2"
+      ],
+      "entrypoints": [
+        "S05",
+        "S11"
+      ],
+      "sql": "SELECT * FROM GRAPH_TABLE(\n  mining_data.MiningOperationsSafetyGraph\n  MATCH (f:FatigueLog) -[:LOGGED_FOR]->\n        (o:Operator WHERE o.operator_id = @operator_id)\n        -[:OPERATES]-> (v:Vehicle) -[:INVOLVED_IN]-> (i:Incident)\n  COLUMNS (f.log_id AS log_id, o.operator_id AS operator_id,\n           v.vehicle_id AS vehicle_id, i.incident_id AS incident_id,\n           i.severity_level AS severity_level)\n)",
+      "params": [
+        "operator_id"
+      ],
+      "columns": [
+        "log_id",
+        "operator_id",
+        "vehicle_id",
+        "incident_id",
+        "severity_level"
+      ],
+      "tables_read": [
+        "mining_data.fatigue_logs_node",
+        "mining_data.operators_node",
+        "mining_data.operator_vehicle_assignments",
+        "mining_data.fleet_vehicles",
+        "mining_data.incident_involvements",
+        "mining_data.safety_incidents"
+      ],
+      "scope": "Fatigue logs that raised an alert: 117 of 3340. Only 5 of 20 operators hold a vehicle assignment, so the traversal returns rows for those and is empty for the rest.",
+      "nodes": 147,
+      "edges": 127,
+      "node_types": {
+        "FatigueLog": 117,
+        "Incident": 5,
+        "Operator": 20,
+        "Vehicle": 5
+      },
+      "edge_labels": {
+        "LOGGED_FOR": 117,
+        "OPERATES": 5,
+        "INVOLVED_IN": 5
+      }
+    },
+    "supply_chain": {
+      "bigquery_graph": "MiningSupplyChainGraph",
+      "traversal": "stockout_exposure",
+      "question": "If this part runs out, which work orders stall?",
+      "agents": [
+        "D31",
+        "S02",
+        "S02-SP2",
+        "S08",
+        "S08-SP2"
+      ],
+      "entrypoints": [
+        "D31",
+        "S02",
+        "S08"
+      ],
+      "sql": "SELECT * FROM GRAPH_TABLE(\n  mining_data.MiningSupplyChainGraph\n  MATCH (p:SparePart WHERE p.part_number IN UNNEST(@below_rop_parts))\n        <-[:REPLACED_PART]- (wo:WorkOrder) <-[:HAS_WORK_ORDER]- (a:Asset)\n  COLUMNS (p.part_number AS part_number, wo.work_order_id AS work_order_id,\n           wo.priority AS priority, wo.repair_cost AS repair_cost,\n           a.asset_id AS asset_id, a.criticality_rating AS criticality_rating)\n)\nWHERE @asset_id IS NULL OR asset_id = @asset_id\nORDER BY part_number, work_order_id",
+      "params": [
+        "below_rop_parts",
+        "asset_id"
+      ],
+      "columns": [
+        "part_number",
+        "work_order_id",
+        "priority",
+        "repair_cost",
+        "asset_id",
+        "criticality_rating"
+      ],
+      "tables_read": [
+        "mining_data.inventory_levels",
+        "mining_data.erp_work_orders",
+        "mining_data.work_order_parts_edge",
+        "mining_data.assets",
+        "mining_data.procurement_bids",
+        "mining_data.bid_parts_edge"
+      ],
+      "scope": "Work orders that consumed a part: 126 of 500. Parts consumed: 5 of 105 held in inventory.",
+      "nodes": 136,
+      "edges": 312,
+      "node_types": {
+        "Asset": 5,
+        "SparePart": 5,
+        "WorkOrder": 126
+      },
+      "edge_labels": {
+        "HAS_WORK_ORDER": 126,
+        "REPLACED_PART": 186
+      }
+    }
+  },
+  "nodes": [
+    {
+      "id": "CONVEYOR-02",
+      "label": "CONVEYOR-02",
+      "type": "Asset",
+      "graph": "asset",
+      "detail": {
+        "name": "Pit-to-Crusher Main Belt Conveyor",
+        "asset_type": "CONCONVEYOR",
+        "criticality": "HIGH",
+        "installed": "2020-09-15",
+        "state_keys": [
+          "belt_tension_kn",
+          "load_pct",
+          "speed_mps"
+        ]
+      }
+    },
+    {
+      "id": "CRUSHER-03",
+      "label": "CRUSHER-03",
+      "type": "Asset",
+      "graph": "asset",
+      "detail": {
+        "name": "Primary Gyratory Crusher Unit",
+        "asset_type": "CRUSHER",
+        "criticality": "CRITICAL",
+        "installed": "2019-06-30",
+        "state_keys": [
+          "bypass_valve_open",
+          "feed_rate_tph",
+          "gap_size_setting_mm",
+          "rotational_torque_nm",
+          "temperature_c"
+        ]
+      }
+    },
+    {
+      "id": "MILL-01",
+      "label": "MILL-01",
+      "type": "Asset",
+      "graph": "asset",
+      "detail": {
+        "name": "SAG Grinding Mill 1",
+        "asset_type": "GRINDING_MILL",
+        "criticality": "CRITICAL",
+        "installed": "2021-01-18",
+        "state_keys": [
+          "power_draw_mw",
+          "rotational_speed_rpm",
+          "temperature_c",
+          "weight_tons"
+        ]
+      }
+    },
+    {
+      "id": "PUMP-104A",
+      "label": "PUMP-104A",
+      "type": "Asset",
+      "graph": "asset",
+      "detail": {
+        "name": "Tailings Line Centrifugal Slurry Pump",
+        "asset_type": "PUMP",
+        "criticality": "CRITICAL",
+        "installed": "2022-04-12",
+        "state_keys": [
+          "load_pct",
+          "rotational_speed_rpm",
+          "temperature_c",
+          "vibration_hz"
+        ]
+      }
+    },
+    {
+      "id": "TRUCK-08",
+      "label": "TRUCK-08",
+      "type": "Asset",
+      "graph": "asset",
+      "detail": {
+        "name": "Waymo-AHS Autonomous Haul Truck 08",
+        "asset_type": "HAUL_TRUCK",
+        "criticality": "HIGH",
+        "installed": "2024-03-01",
+        "state_keys": [
+          "engine_temp_c",
+          "payload_tons",
+          "speed_kmh"
+        ]
+      }
+    },
+    {
+      "id": "029af526e1af42cd5e1f59f9580abe56458123ba4107d4656fe41503c82f26da",
+      "label": "029af526",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-19T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 5.33,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "02d11e9666de27ea46a60fd7539d037b4e5040cb2b7159d2387b1b637be6b514",
+      "label": "02d11e96",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-07T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 68,
+        "sleep_deficit_hours": 6.83,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "03794dea1e183b11d4c95e4c6f0790d4d3c5394303cd901fdf6803c31e35da37",
+      "label": "03794dea",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-06T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 80,
+        "sleep_deficit_hours": 5.76,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "0675e4834c8e76bc28fe89a761f56a24294e3ce5c5f07c448f4d9f839f771df4",
+      "label": "0675e483",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-15T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 67,
+        "sleep_deficit_hours": 2.81,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "08e7bc94b25286c2a2d66aeb0ba86f46ff55ac0ca61f9c45e85ca0c51401fac0",
+      "label": "08e7bc94",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-04T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.98,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "0b57226d71923c788bff340e2fe98537fab797c3d75c8ada2d4b802f2db3fb77",
+      "label": "0b57226d",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-12T00:00:00+00:00",
+        "operator_id": "OP-120",
+        "heart_rate_bpm": 77,
+        "sleep_deficit_hours": 3.95,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "0ef1f439e8e39cad5274cea9a0496db2bac7f96d4ab00f1186e78767d438b14d",
+      "label": "0ef1f439",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-24T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 77,
+        "sleep_deficit_hours": 3.55,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "14051ac3ca1028f935b7816077845299e81fb9757cc1970d14e64d9b05cb0158",
+      "label": "14051ac3",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-11T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 6.65,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "14ae96158cb186fc1ac7c34a35baf6b8f52dff35c3aa217b9bb00665681a6bfc",
+      "label": "14ae9615",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-17T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 81,
+        "sleep_deficit_hours": 3.51,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "1720768cca9fd024f25b3878fbd952226e25f8171ce3c70e52deabdc950485a0",
+      "label": "1720768c",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-09T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 80,
+        "sleep_deficit_hours": 7.16,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "184be4149048091496f9e0df8330d66d05cbd851dc4cb7b2c6b3aaf27c639742",
+      "label": "184be414",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-02T00:00:00+00:00",
+        "operator_id": "OP-101",
+        "heart_rate_bpm": 79,
+        "sleep_deficit_hours": 5.29,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "1a0e7cf84f8efc7da203a30be6d961c8e93af13dbdf0fdadd0fe3f1a896cec57",
+      "label": "1a0e7cf8",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-11T00:00:00+00:00",
+        "operator_id": "OP-115",
+        "heart_rate_bpm": 73,
+        "sleep_deficit_hours": 6.26,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "1cfdb1e1ec9de035796b8e22289d99fccb5ebfb2debb25cd05a8453e5edc9582",
+      "label": "1cfdb1e1",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-06T00:00:00+00:00",
+        "operator_id": "OP-111",
+        "heart_rate_bpm": 64,
+        "sleep_deficit_hours": 3.17,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "1df75ff69253be5ab85371f34773ce335ec4c05799d84c789427a523ac80bf3a",
+      "label": "1df75ff6",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-13T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 77,
+        "sleep_deficit_hours": 3.27,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "2231de11b84332e6f11dc3c5821c963e09fad1637d1d4ee82ef1790ecc3a2e48",
+      "label": "2231de11",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-16T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 6.37,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "223c1359b6b1d43666631ce1a788a4eff99bf29e17a4a4fe56846f4adf8dcf1b",
+      "label": "223c1359",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-05T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.84,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "23d801d06adcc415e012a40122fdb8bfa3a15a2eb88d057db746905288d75ce4",
+      "label": "23d801d0",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-24T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 69,
+        "sleep_deficit_hours": 6.58,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "23f5c998f71c42da59ae186e6b5002fc9cf017cb32bda8d951b95fad6a3639ab",
+      "label": "23f5c998",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-06T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 5.47,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "26150d290b5a854dc7f9c8589efecd4b4281466103c6f62a61fd7ee0f1acda0b",
+      "label": "26150d29",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-10T00:00:00+00:00",
+        "operator_id": "OP-119",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 6.01,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "273329098bca246f8f254826a7c6e40e46d075826adab45d9ba436bb99ea6c9d",
+      "label": "27332909",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-26T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 66,
+        "sleep_deficit_hours": 2.78,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "27fe420fb728fc3125f6bb45c69dd7cfedcca7a23dedc0aad5ca79cffd8d26ff",
+      "label": "27fe420f",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-29T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 6.87,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "2d8fbbfe2cd877b62a62e4af7c1e7eb8295def0522a8b390d857a471956ac2d0",
+      "label": "2d8fbbfe",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-23T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.52,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "2f4b58118c0f2a061a7ddf955c42294cb2fdb3a039acff8f05654382e7e362bd",
+      "label": "2f4b5811",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-29T00:00:00+00:00",
+        "operator_id": "OP-111",
+        "heart_rate_bpm": 82,
+        "sleep_deficit_hours": 6.94,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "2fbf64e8c0b4b3274a44f2f9b110022b2a14fa3264b2b47e578479a7b775ec16",
+      "label": "2fbf64e8",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-08T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 77,
+        "sleep_deficit_hours": 5.61,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "31ec7802783cdb003c1115066dfbbfbe5c531745cab6b78c4e43e72e28b24e40",
+      "label": "31ec7802",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-26T00:00:00+00:00",
+        "operator_id": "OP-117",
+        "heart_rate_bpm": 72,
+        "sleep_deficit_hours": 3.44,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "328b258420f5b3f01e5adf43e3a390c1ec093af2a7d5594dc59b365b08993d5c",
+      "label": "328b2584",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-21T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.59,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "364bbdac42c97ce935e6f6be1c4a8b0cc8b5240a9580c932c925d5528e686e6d",
+      "label": "364bbdac",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-26T00:00:00+00:00",
+        "operator_id": "OP-101",
+        "heart_rate_bpm": 74,
+        "sleep_deficit_hours": 3.68,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "377541327d9c4f49f8b9342951aab30706e8e1bdc107f415933acbb11acf13f1",
+      "label": "37754132",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-26T00:00:00+00:00",
+        "operator_id": "OP-115",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 6.62,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "3bf3083f4a12aaa589793b54aab8130069258c0c3562c1ff9e615829442d471b",
+      "label": "3bf3083f",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-28T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 6.3,
+        "microsleep_events_detected": 3
+      }
+    },
+    {
+      "id": "3c0dd10412dfe21f47adbfdbd95ac834bb2e087840fc07fd3dcbb27538aa402b",
+      "label": "3c0dd104",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-30T00:00:00+00:00",
+        "operator_id": "OP-109",
+        "heart_rate_bpm": 66,
+        "sleep_deficit_hours": 6.55,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "45b0700a2e5a720fca3c52f148e63aba125c986cdcb5ffce416e8827647b0a1c",
+      "label": "45b0700a",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-01T00:00:00+00:00",
+        "operator_id": "OP-114",
+        "heart_rate_bpm": 69,
+        "sleep_deficit_hours": 6.4,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "484cf4aad31762dcbf3f181f02a6710518f79a85b4ee05ccbbb375ef16407d80",
+      "label": "484cf4aa",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-16T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 75,
+        "sleep_deficit_hours": 5,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "4a483d58a837797c4c033f1155e7367c1f361cf1c0ff8cd3dd4d36ef8fa48ce3",
+      "label": "4a483d58",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-05T00:00:00+00:00",
+        "operator_id": "OP-110",
+        "heart_rate_bpm": 80,
+        "sleep_deficit_hours": 7.62,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "4b65c5eba5a6d919ed05f1cc46bc2daa0918ca824aab5e01a1d61c845057b4ec",
+      "label": "4b65c5eb",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-04T00:00:00+00:00",
+        "operator_id": "OP-112",
+        "heart_rate_bpm": 75,
+        "sleep_deficit_hours": 2.71,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "50de9cde63ca820d323298d6781f453255986c06de3e428beb99e094656291cd",
+      "label": "50de9cde",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-07T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.01,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "545e35e53bde4d55c0c2bcab4f731b003d45cd0a3271b3bcdced3431cf85c143",
+      "label": "545e35e5",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-15T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 80,
+        "sleep_deficit_hours": 7.55,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "55213fe6e9a4d9d6becc63526f6f8aae7edd4f1ba1dd7a887d7b7bd5613a5364",
+      "label": "55213fe6",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-01T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 78,
+        "sleep_deficit_hours": 6.69,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "554338d9de9985b0e7eba83d120ad9c5e06ab533bbe1acd110132dedd2e0b529",
+      "label": "554338d9",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-10T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 69,
+        "sleep_deficit_hours": 5.87,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "566dfd89f6ad17ea84bc5491c11650dc9dff5268749d7a13bb15d8bdf94cb47a",
+      "label": "566dfd89",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-15T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 81,
+        "sleep_deficit_hours": 7.95,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "56b986cd24bbc0a88c8e40f42303043642eced7bae499a828c037dccf4817356",
+      "label": "56b986cd",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-01T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 74,
+        "sleep_deficit_hours": 5.58,
+        "microsleep_events_detected": 3
+      }
+    },
+    {
+      "id": "56e1ab059d03334666af5c595c45cfc9f72f0b34297e53a5f07533ab5a15a7fd",
+      "label": "56e1ab05",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-06T00:00:00+00:00",
+        "operator_id": "OP-109",
+        "heart_rate_bpm": 82,
+        "sleep_deficit_hours": 6.12,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "5ced8257f5ef506250d3716eb8a766b444e59f9f3c43e4d4b98a608913e0a6f6",
+      "label": "5ced8257",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-21T00:00:00+00:00",
+        "operator_id": "OP-114",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 3.37,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "5cf0e9acdbaf3d0965bd931e4217ebe0e12256558dcdf5aa82964f139f83f8a6",
+      "label": "5cf0e9ac",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-06T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.87,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "5ed674bbf5e4efd0f7bb063b10319f8ed3839d543f944118f76dcfefa3fe6fd8",
+      "label": "5ed674bb",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-25T00:00:00+00:00",
+        "operator_id": "OP-110",
+        "heart_rate_bpm": 76,
+        "sleep_deficit_hours": 2.49,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "60acf8411be2e6defdf37cd73acc3d03d45ac323b996331895d630b13234ea3f",
+      "label": "60acf841",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-12T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 80,
+        "sleep_deficit_hours": 6.8,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "67db1005e8af5af83db550d537adeece26f8647e9c5fcae421669dbe14cb8d10",
+      "label": "67db1005",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-22T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 5.79,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "68967bf3d3c70d38e95b2955401e774a6ce6d954ce1e6e78ab8d6ad43990cb6a",
+      "label": "68967bf3",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-22T00:00:00+00:00",
+        "operator_id": "OP-109",
+        "heart_rate_bpm": 69,
+        "sleep_deficit_hours": 6.04,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "6ad05eb884c2330386bbfe42c796c562c276ed970895890155181be170cfbabe",
+      "label": "6ad05eb8",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-02T00:00:00+00:00",
+        "operator_id": "OP-114",
+        "heart_rate_bpm": 72,
+        "sleep_deficit_hours": 7.41,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "6c39a2b5e826e524f92516bc58dd283320c6a175acbbbae1c3283c7e7b089655",
+      "label": "6c39a2b5",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-08T00:00:00+00:00",
+        "operator_id": "OP-109",
+        "heart_rate_bpm": 81,
+        "sleep_deficit_hours": 7.91,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "6cb244e9d6d259c190e79de3c639b4016255dc29d6b9cf1afca5c3e75048a266",
+      "label": "6cb244e9",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-09T00:00:00+00:00",
+        "operator_id": "OP-116",
+        "heart_rate_bpm": 78,
+        "sleep_deficit_hours": 3.89,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "6cc98e995c52c8b879a5ac0205a6faf1fc803bb236e307273af566a874420069",
+      "label": "6cc98e99",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-16T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 71,
+        "sleep_deficit_hours": 7.77,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "70a2712380d11adbaac3ae708344119b4768cc0b80784bcbb01279fe0dd76502",
+      "label": "70a27123",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-10T00:00:00+00:00",
+        "operator_id": "OP-120",
+        "heart_rate_bpm": 70,
+        "sleep_deficit_hours": 3.48,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "73bd870be125b5a610815b5ff7b8f20be3bd307d92ee48631ee8da01e6100c7d",
+      "label": "73bd870b",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-19T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 70,
+        "sleep_deficit_hours": 6.73,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "75000593a4b27cc4bb45bd629b5870b22c3472c88b05cac53c4fe0b0818dec26",
+      "label": "75000593",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-20T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 76,
+        "sleep_deficit_hours": 6.76,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "758c9eb6d4e1f4bb531091be0753d271c8f7fdd4d590911f423a200f89baf196",
+      "label": "758c9eb6",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-26T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 79,
+        "sleep_deficit_hours": 2.14,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "76e4ff2db2cc079ce310b854c7585bc92567895a4f4da91f43eb311c87e82f96",
+      "label": "76e4ff2d",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-04T00:00:00+00:00",
+        "operator_id": "OP-117",
+        "heart_rate_bpm": 72,
+        "sleep_deficit_hours": 2.3,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "7a8ef23aaf29cb5df4ee742c263547ef0e8c8265376d889b1942847d0a8ee9e5",
+      "label": "7a8ef23a",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-19T00:00:00+00:00",
+        "operator_id": "OP-114",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 3.97,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "7ae15c1b540b10e5e941f4445f87df229e0381cee2f8106f7523d37b56ecaa56",
+      "label": "7ae15c1b",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-05T00:00:00+00:00",
+        "operator_id": "OP-102",
+        "heart_rate_bpm": 81,
+        "sleep_deficit_hours": 5.72,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "7eee3aa187d7c9eb7b2ce41e655082bcc796dbe1edfe6b6f2a3ec3a34b9bf3b3",
+      "label": "7eee3aa1",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-13T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 71,
+        "sleep_deficit_hours": 3.17,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "82121b5f20d69c75df802f98a76ec97c4c462f34e2ebb2dd5f94fae426b7bd10",
+      "label": "82121b5f",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-21T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 5.54,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "82ef7623264c6bdda177a587ac9dd97cd6f0ff824e5793224412d0ec717d8d2e",
+      "label": "82ef7623",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-15T00:00:00+00:00",
+        "operator_id": "OP-102",
+        "heart_rate_bpm": 64,
+        "sleep_deficit_hours": 7.44,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "8468b4b08f9c456d52766cf5e96c98a4fb207a0c9fb778cd58f78ebc685fdfab",
+      "label": "8468b4b0",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-17T00:00:00+00:00",
+        "operator_id": "OP-117",
+        "heart_rate_bpm": 70,
+        "sleep_deficit_hours": 5.43,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "853b09f9e8c25a60f38c00e9fe604d6f74df9c0eff8cb2c4d37304e65297becb",
+      "label": "853b09f9",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-17T00:00:00+00:00",
+        "operator_id": "OP-112",
+        "heart_rate_bpm": 78,
+        "sleep_deficit_hours": 6.08,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "85565bfcf300253979e4c6675d492266bbf47559011b2498e05a692b6de5cc93",
+      "label": "85565bfc",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-28T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 75,
+        "sleep_deficit_hours": 5.4,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "8686da6ad4b88fee19e587e4b387d4729eae9f19e70c7eccb2765fe702574cd9",
+      "label": "8686da6a",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-01T00:00:00+00:00",
+        "operator_id": "OP-109",
+        "heart_rate_bpm": 65,
+        "sleep_deficit_hours": 4.39,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "883f62285e56201aa29f8e8102bef3ed3993877dd6c71348c6fd06a66e4b6555",
+      "label": "883f6228",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-10T00:00:00+00:00",
+        "operator_id": "OP-102",
+        "heart_rate_bpm": 75,
+        "sleep_deficit_hours": 2.9,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "8b3748d26c35925533d06cae367b100ae46ccf2d2049a10cf1e7f44b5fe3b303",
+      "label": "8b3748d2",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-14T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 71,
+        "sleep_deficit_hours": 5.08,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "8d070ad7c6cd27b3d46716ec638c50df9168149a9cd1fc9574a3ff71ccc45df2",
+      "label": "8d070ad7",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-08T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 70,
+        "sleep_deficit_hours": 3,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "8fc1ffd277e0faa142ef37ee83ab60a46f7b77072b6dbc037682626ee28c86af",
+      "label": "8fc1ffd2",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-05T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 6.19,
+        "microsleep_events_detected": 3
+      }
+    },
+    {
+      "id": "92c30b5971318a097f6af0fb3a4d76989df409e9b71bc423f603ecd8e24648ef",
+      "label": "92c30b59",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-10T00:00:00+00:00",
+        "operator_id": "OP-114",
+        "heart_rate_bpm": 81,
+        "sleep_deficit_hours": 3.28,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "96edc84ea14b31d95911092308bcbdce96d68a07b89923168b3ab4893a57c16b",
+      "label": "96edc84e",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-14T00:00:00+00:00",
+        "operator_id": "OP-109",
+        "heart_rate_bpm": 65,
+        "sleep_deficit_hours": 2.36,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "9aff003577d24bc0d022f67535452a325d500576cd1116398c97a11e4eb4ed56",
+      "label": "9aff0035",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-11T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 79,
+        "sleep_deficit_hours": 1.99,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "9bd3fbe5d0e067c6b8ef02ab6a15c5440dd9663e5cec33030a82b9ce8e296329",
+      "label": "9bd3fbe5",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-06T00:00:00+00:00",
+        "operator_id": "OP-114",
+        "heart_rate_bpm": 72,
+        "sleep_deficit_hours": 2.81,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "a17508f90aa6a3f2ece1f3e9ad1988aaf4163dba265977f0a0f97e99a8fc8022",
+      "label": "a17508f9",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-14T00:00:00+00:00",
+        "operator_id": "OP-110",
+        "heart_rate_bpm": 72,
+        "sleep_deficit_hours": 2.79,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "a232f9a36e4d92fb9e801c9b2b686453ced5092e7422d8fd15da5e89dcc68e77",
+      "label": "a232f9a3",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-05T00:00:00+00:00",
+        "operator_id": "OP-117",
+        "heart_rate_bpm": 81,
+        "sleep_deficit_hours": 5.18,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "a3949fabf1d316812aa8ce000b5611ec8b3c7c600873b0f9299dd4cc3f7635c0",
+      "label": "a3949fab",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-04T00:00:00+00:00",
+        "operator_id": "OP-110",
+        "heart_rate_bpm": 82,
+        "sleep_deficit_hours": 7.23,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "ab6b27dda8addc73f0105ff7c91ab4b278f6300624666950c0e2b218ef7af38b",
+      "label": "ab6b27dd",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-02T00:00:00+00:00",
+        "operator_id": "OP-109",
+        "heart_rate_bpm": 81,
+        "sleep_deficit_hours": 7.37,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "aba5a23734bf687552096e54ddf0ef418e039e9d883206b584dc592e8a694efa",
+      "label": "aba5a237",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-26T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.73,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "ad728a56d5c20eaa578a0216e4550176e4937b005c7ccef27bffb6f011586a53",
+      "label": "ad728a56",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-21T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 67,
+        "sleep_deficit_hours": 3.73,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "ae00317554fdf588e80f06e6e7bb35ef53d410b56a7d8848cba4b59ee8fc9c30",
+      "label": "ae003175",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-07T00:00:00+00:00",
+        "operator_id": "OP-101",
+        "heart_rate_bpm": 78,
+        "sleep_deficit_hours": 2.7,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "b0343453bf946bd01fd295c1bc9e0720a920f07843e06a70549b8bb6651396f9",
+      "label": "b0343453",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-11T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 71,
+        "sleep_deficit_hours": 3.44,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "b0d3e41ae5872a4843cbfb7debf3b343ab7b163ae329ea556f0c8509d70cf14c",
+      "label": "b0d3e41a",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-01T00:00:00+00:00",
+        "operator_id": "OP-119",
+        "heart_rate_bpm": 68,
+        "sleep_deficit_hours": 2.77,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "b12cb8335353e85edeb21752839438d2e470efb621ca248f5a5baf8bd6d08fad",
+      "label": "b12cb833",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-10T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 79,
+        "sleep_deficit_hours": 3.9,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "b1c3634e051db3cbf6a1743af891ea76aa0ec4ad3f7c8d624dcc2f316d875246",
+      "label": "b1c3634e",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-25T00:00:00+00:00",
+        "operator_id": "OP-101",
+        "heart_rate_bpm": 79,
+        "sleep_deficit_hours": 5.9,
+        "microsleep_events_detected": 3
+      }
+    },
+    {
+      "id": "b32b10d2033da0774af41559a5e141383bf3a8f52c31096d324fd4400381134a",
+      "label": "b32b10d2",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-01T00:00:00+00:00",
+        "operator_id": "OP-111",
+        "heart_rate_bpm": 81,
+        "sleep_deficit_hours": 3.21,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "b65a091c49dfa4da79c17e0c7aad17a7285deb34e1b15cedb012d48f36b0f929",
+      "label": "b65a091c",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-13T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 74,
+        "sleep_deficit_hours": 6.48,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "b88e433e04c53f6831e4755fb4b7c19a887bc857ade38983f484a2fdaeee9ba9",
+      "label": "b88e433e",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-20T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 75,
+        "sleep_deficit_hours": 4.86,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "b9780d250cca74e224e5b54f00ee92734fb9997ad2dbbffd6c1edb4559b8aad6",
+      "label": "b9780d25",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-13T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 67,
+        "sleep_deficit_hours": 6.15,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "babd007d880733370a0b4d160fdd00f64b5182b8898a666bcf036445b115e5c7",
+      "label": "babd007d",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-15T00:00:00+00:00",
+        "operator_id": "OP-104",
+        "heart_rate_bpm": 76,
+        "sleep_deficit_hours": 3.54,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "bc18f9314066f69c8c8083cbb2c7a6f3dc3cc44e02a536dd71501c2a3301762a",
+      "label": "bc18f931",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-07T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 6.33,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "c4c59642b55a01782401d77ec62aa00b254fb5f928b4a3dd4e05ad18e896f92c",
+      "label": "c4c59642",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-02-20T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.48,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "c668cce319dece83327cf00a696df36b355f343a40d6cd94d397ffdbe1f57799",
+      "label": "c668cce3",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-13T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 5.65,
+        "microsleep_events_detected": 3
+      }
+    },
+    {
+      "id": "c74dce111533546b6093e042ec1dc42301859e140c605b343cf9c09b8d52f13e",
+      "label": "c74dce11",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-30T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 74,
+        "sleep_deficit_hours": 3.96,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "c7b2a464922874d0de7de5519128fffc0a572c992ca46587aba545b468e4cfc3",
+      "label": "c7b2a464",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-25T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 82,
+        "sleep_deficit_hours": 6.22,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "ca18369e00927139f52d0c5ea2c17011f00e57eeb99ad6eb3fba60e8c74ee784",
+      "label": "ca18369e",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-21T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.12,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "cbd4ac052529440870ebf868d674fbebccefa1c9b19b61755dac381c2a6172b0",
+      "label": "cbd4ac05",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-05T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 82,
+        "sleep_deficit_hours": 3.3,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "cd03a27a409f8985d3be7cd94918d2e575af1aa84b07ce18b8031dd34742b93e",
+      "label": "cd03a27a",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-15T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 78,
+        "sleep_deficit_hours": 7.26,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "d1bd20bd86767f225792b93bef6828d65b4ff2aac5639f93906bcd9dbf6e0f3b",
+      "label": "d1bd20bd",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-03T00:00:00+00:00",
+        "operator_id": "OP-101",
+        "heart_rate_bpm": 80,
+        "sleep_deficit_hours": 6.51,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "d2bb50eccf5f9e0f243d663f9c4433da1d208b3533f1a83981bcd1605dd83b66",
+      "label": "d2bb50ec",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-12T00:00:00+00:00",
+        "operator_id": "OP-115",
+        "heart_rate_bpm": 81,
+        "sleep_deficit_hours": 7.34,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "d4a2fba25f3567facc905d182f361990ae68b0784f43f7aedc76af97629d4855",
+      "label": "d4a2fba2",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-30T00:00:00+00:00",
+        "operator_id": "OP-106",
+        "heart_rate_bpm": 75,
+        "sleep_deficit_hours": 4.25,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "d63cadb8285c96dd0b273770c186848b32b19a872004cb748f3e8e08ac56b42c",
+      "label": "d63cadb8",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-02T00:00:00+00:00",
+        "operator_id": "OP-102",
+        "heart_rate_bpm": 65,
+        "sleep_deficit_hours": 1.85,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "dc636cb29a0f83eee84e9e7124331d066fe85c3a3cfb6d1d5762952ee30a9531",
+      "label": "dc636cb2",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-03T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 7.8,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "dc9321b232a3590a9a03cd5da8dbac8c0996f487046353135dede3aa2154cf82",
+      "label": "dc9321b2",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-20T00:00:00+00:00",
+        "operator_id": "OP-114",
+        "heart_rate_bpm": 79,
+        "sleep_deficit_hours": 3.74,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "dd2547b9acda2aa44b714f4567a82072ea7c5e85220a2bc73a916797963bd3b7",
+      "label": "dd2547b9",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-13T00:00:00+00:00",
+        "operator_id": "OP-105",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 7.05,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "de4e6eecab3e4f056437b9e2ce191380b44da55ed4d6e3bcc1acb08d04a86205",
+      "label": "de4e6eec",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-14T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 80,
+        "sleep_deficit_hours": 6.44,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "dfc2d3826267443d72f6b4dbd8d8287e05dd50d3da96aea800af5f9fc37941c7",
+      "label": "dfc2d382",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-07T00:00:00+00:00",
+        "operator_id": "OP-109",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.66,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "e1e03919cc7f22d6efb305bd05f079600d2ca8cfc1b45a2df508f56897e1a326",
+      "label": "e1e03919",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-01T00:00:00+00:00",
+        "operator_id": "OP-110",
+        "heart_rate_bpm": 77,
+        "sleep_deficit_hours": 3.7,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "e264701a393eae10cfd34699af2433d181935627bd9ad96e62bfced9563d975d",
+      "label": "e264701a",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-01-23T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 75,
+        "sleep_deficit_hours": 6.98,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "e80b77a1414df174bacf15e36b924b1ead1d9fbe1119fe7ae04bb94e1fb23170",
+      "label": "e80b77a1",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-02T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 72,
+        "sleep_deficit_hours": 3.55,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "ea95e840c8e72e80c44f8404d78eea30f85091c7f085e2251adfa0e6759796e3",
+      "label": "ea95e840",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-25T00:00:00+00:00",
+        "operator_id": "OP-113",
+        "heart_rate_bpm": 73,
+        "sleep_deficit_hours": 7.09,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "eebea752db298f5e527fd26956b4c871c80dd97d0b7201de6ebb37fb6c759429",
+      "label": "eebea752",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-06T00:00:00+00:00",
+        "operator_id": "OP-117",
+        "heart_rate_bpm": 83,
+        "sleep_deficit_hours": 7.19,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "ef13889542bba8373f8cae7a2518fd62e8ac11f3e88a95a6743ea8decf540ce9",
+      "label": "ef138895",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-06T00:00:00+00:00",
+        "operator_id": "OP-107",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 5.22,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "efcaf2f8ce8d2418116b3d2be57d5712fedc1ba52257576b87fba823e6e06523",
+      "label": "efcaf2f8",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-06-11T00:00:00+00:00",
+        "operator_id": "OP-110",
+        "heart_rate_bpm": 82,
+        "sleep_deficit_hours": 6.91,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "f1a0010e1324f86d0d494b0670b0f9b66e563799103c1ad424dd59651fc01b12",
+      "label": "f1a0010e",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-03-14T00:00:00+00:00",
+        "operator_id": "OP-118",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.3,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "f78410feb107eea742a61c7438ab195580636802a105b670f40d4c8426ad9a92",
+      "label": "f78410fe",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-05-14T00:00:00+00:00",
+        "operator_id": "OP-108",
+        "heart_rate_bpm": 84,
+        "sleep_deficit_hours": 7.7,
+        "microsleep_events_detected": 4
+      }
+    },
+    {
+      "id": "f82a94bec99c3de85e06707285d7393292fb55b22bdc2533937d4bf5f1e3cc85",
+      "label": "f82a94be",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-24T00:00:00+00:00",
+        "operator_id": "OP-119",
+        "heart_rate_bpm": 78,
+        "sleep_deficit_hours": 3.95,
+        "microsleep_events_detected": 1
+      }
+    },
+    {
+      "id": "fac5b558d42a589bb1d75017ccb38fe3371abedace8d0989ce57729f356af2a9",
+      "label": "fac5b558",
+      "type": "FatigueLog",
+      "graph": "safety",
+      "detail": {
+        "timestamp": "2026-04-30T00:00:00+00:00",
+        "operator_id": "OP-110",
+        "heart_rate_bpm": 82,
+        "sleep_deficit_hours": 5.94,
+        "microsleep_events_detected": 2
+      }
+    },
+    {
+      "id": "INC-5004",
+      "label": "INC-5004",
+      "type": "Incident",
+      "graph": "safety",
+      "detail": {
+        "severity_level": null
+      }
+    },
+    {
+      "id": "INC-5006",
+      "label": "INC-5006",
+      "type": "Incident",
+      "graph": "safety",
+      "detail": {
+        "severity_level": null
+      }
+    },
+    {
+      "id": "INC-5030",
+      "label": "INC-5030",
+      "type": "Incident",
+      "graph": "safety",
+      "detail": {
+        "severity_level": null
+      }
+    },
+    {
+      "id": "INC-5048",
+      "label": "INC-5048",
+      "type": "Incident",
+      "graph": "safety",
+      "detail": {
+        "severity_level": null
+      }
+    },
+    {
+      "id": "INC-5059",
+      "label": "INC-5059",
+      "type": "Incident",
+      "graph": "safety",
+      "detail": {
+        "severity_level": null
+      }
+    },
+    {
+      "id": "OP-101",
+      "label": "OP-101",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 5,
+        "max_sleep_deficit_hours": 6.51
+      }
+    },
+    {
+      "id": "OP-102",
+      "label": "OP-102",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 4,
+        "max_sleep_deficit_hours": 7.44
+      }
+    },
+    {
+      "id": "OP-103",
+      "label": "OP-103",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 0,
+        "max_sleep_deficit_hours": 3.93
+      }
+    },
+    {
+      "id": "OP-104",
+      "label": "OP-104",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 1,
+        "max_sleep_deficit_hours": 3.97
+      }
+    },
+    {
+      "id": "OP-105",
+      "label": "OP-105",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 10,
+        "max_sleep_deficit_hours": 7.12
+      }
+    },
+    {
+      "id": "OP-106",
+      "label": "OP-106",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 11,
+        "max_sleep_deficit_hours": 7.59
+      }
+    },
+    {
+      "id": "OP-107",
+      "label": "OP-107",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 10,
+        "max_sleep_deficit_hours": 7.77
+      }
+    },
+    {
+      "id": "OP-108",
+      "label": "OP-108",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 10,
+        "max_sleep_deficit_hours": 7.95
+      }
+    },
+    {
+      "id": "OP-109",
+      "label": "OP-109",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 8,
+        "max_sleep_deficit_hours": 7.91
+      }
+    },
+    {
+      "id": "OP-110",
+      "label": "OP-110",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 7,
+        "max_sleep_deficit_hours": 7.62
+      }
+    },
+    {
+      "id": "OP-111",
+      "label": "OP-111",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 3,
+        "max_sleep_deficit_hours": 6.94
+      }
+    },
+    {
+      "id": "OP-112",
+      "label": "OP-112",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 2,
+        "max_sleep_deficit_hours": 6.08
+      }
+    },
+    {
+      "id": "OP-113",
+      "label": "OP-113",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 12,
+        "max_sleep_deficit_hours": 7.98
+      }
+    },
+    {
+      "id": "OP-114",
+      "label": "OP-114",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 7,
+        "max_sleep_deficit_hours": 7.41
+      }
+    },
+    {
+      "id": "OP-115",
+      "label": "OP-115",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 3,
+        "max_sleep_deficit_hours": 7.34
+      }
+    },
+    {
+      "id": "OP-116",
+      "label": "OP-116",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 1,
+        "max_sleep_deficit_hours": 3.92
+      }
+    },
+    {
+      "id": "OP-117",
+      "label": "OP-117",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 5,
+        "max_sleep_deficit_hours": 7.19
+      }
+    },
+    {
+      "id": "OP-118",
+      "label": "OP-118",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 13,
+        "max_sleep_deficit_hours": 7.52
+      }
+    },
+    {
+      "id": "OP-119",
+      "label": "OP-119",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 3,
+        "max_sleep_deficit_hours": 6.01
+      }
+    },
+    {
+      "id": "OP-120",
+      "label": "OP-120",
+      "type": "Operator",
+      "graph": "safety",
+      "detail": {
+        "fatigue_readings": 167,
+        "alerts_triggered": 2,
+        "max_sleep_deficit_hours": 5.97
+      }
+    },
+    {
+      "id": "TRUCK-01",
+      "label": "TRUCK-01",
+      "type": "Vehicle",
+      "graph": "safety",
+      "detail": {
+        "model": "Cat 797F Autonomous",
+        "status": "IDLE",
+        "payload_capacity_tons": 240.0
+      }
+    },
+    {
+      "id": "TRUCK-02",
+      "label": "TRUCK-02",
+      "type": "Vehicle",
+      "graph": "safety",
+      "detail": {
+        "model": "Cat 797F Autonomous",
+        "status": "IDLE",
+        "payload_capacity_tons": 240.0
+      }
+    },
+    {
+      "id": "TRUCK-03",
+      "label": "TRUCK-03",
+      "type": "Vehicle",
+      "graph": "safety",
+      "detail": {
+        "model": "Cat 797F Autonomous",
+        "status": "UNLOADING",
+        "payload_capacity_tons": 240.0
+      }
+    },
+    {
+      "id": "TRUCK-04",
+      "label": "TRUCK-04",
+      "type": "Vehicle",
+      "graph": "safety",
+      "detail": {
+        "model": null,
+        "status": null,
+        "payload_capacity_tons": null
+      }
+    },
+    {
+      "id": "TRUCK-05",
+      "label": "TRUCK-05",
+      "type": "Vehicle",
+      "graph": "safety",
+      "detail": {
+        "model": null,
+        "status": null,
+        "payload_capacity_tons": null
+      }
+    },
+    {
+      "id": "CONVEYOR-02",
+      "label": "CONVEYOR-02",
+      "type": "Asset",
+      "graph": "supply_chain",
+      "detail": {
+        "name": "Pit-to-Crusher Main Belt Conveyor",
+        "criticality": "HIGH"
+      }
+    },
+    {
+      "id": "CRUSHER-03",
+      "label": "CRUSHER-03",
+      "type": "Asset",
+      "graph": "supply_chain",
+      "detail": {
+        "name": "Primary Gyratory Crusher Unit",
+        "criticality": "CRITICAL"
+      }
+    },
+    {
+      "id": "MILL-01",
+      "label": "MILL-01",
+      "type": "Asset",
+      "graph": "supply_chain",
+      "detail": {
+        "name": "SAG Grinding Mill 1",
+        "criticality": "CRITICAL"
+      }
+    },
+    {
+      "id": "PUMP-104A",
+      "label": "PUMP-104A",
+      "type": "Asset",
+      "graph": "supply_chain",
+      "detail": {
+        "name": "Tailings Line Centrifugal Slurry Pump",
+        "criticality": "CRITICAL"
+      }
+    },
+    {
+      "id": "TRUCK-08",
+      "label": "TRUCK-08",
+      "type": "Asset",
+      "graph": "supply_chain",
+      "detail": {
+        "name": "Waymo-AHS Autonomous Haul Truck 08",
+        "criticality": "HIGH"
+      }
+    },
+    {
+      "id": "SKU-AIR-FILTER-08",
+      "label": "SKU-AIR-FILTER-08",
+      "type": "SparePart",
+      "graph": "supply_chain",
+      "detail": {
+        "description": "Engine Air Filter Cartridge Set",
+        "stock_level": 2,
+        "reorder_point_limit": 4,
+        "lead_time_days": 7,
+        "unit_price_usd": 450,
+        "below_reorder_point": true
+      }
+    },
+    {
+      "id": "SKU-BEARING-PUMP-G1",
+      "label": "SKU-BEARING-PUMP-G1",
+      "type": "SparePart",
+      "graph": "supply_chain",
+      "detail": {
+        "description": "High-load Centrifugal Slurry Pump Bearing Unit",
+        "stock_level": 0,
+        "reorder_point_limit": 8,
+        "lead_time_days": 14,
+        "unit_price_usd": 1250,
+        "below_reorder_point": true
+      }
+    },
+    {
+      "id": "SKU-BELT-SPLICE-G2",
+      "label": "SKU-BELT-SPLICE-G2",
+      "type": "SparePart",
+      "graph": "supply_chain",
+      "detail": {
+        "description": "Pit-to-Crusher Conveyor Belt Vulcanizing Splice Kit",
+        "stock_level": 2,
+        "reorder_point_limit": 4,
+        "lead_time_days": 7,
+        "unit_price_usd": 450,
+        "below_reorder_point": true
+      }
+    },
+    {
+      "id": "SKU-LUBE-HEAVY-T2",
+      "label": "SKU-LUBE-HEAVY-T2",
+      "type": "SparePart",
+      "graph": "supply_chain",
+      "detail": {
+        "description": "Conveyor Belt Gearbox Heavy Lubricant Fluid (20L)",
+        "stock_level": 1,
+        "reorder_point_limit": 3,
+        "lead_time_days": 3,
+        "unit_price_usd": 180,
+        "below_reorder_point": true
+      }
+    },
+    {
+      "id": "SKU-VALVE-SEAL-22",
+      "label": "SKU-VALVE-SEAL-22",
+      "type": "SparePart",
+      "graph": "supply_chain",
+      "detail": {
+        "description": "Hydraulic Valve Gasket and Seal Kit",
+        "stock_level": 2,
+        "reorder_point_limit": 3,
+        "lead_time_days": 7,
+        "unit_price_usd": 450,
+        "below_reorder_point": true
+      }
+    },
+    {
+      "id": "WO-990004",
+      "label": "WO-990004",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 4500,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990008",
+      "label": "WO-990008",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 2070,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990011",
+      "label": "WO-990011",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 2010,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990014",
+      "label": "WO-990014",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 13320,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990015",
+      "label": "WO-990015",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 4080,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990018",
+      "label": "WO-990018",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 11270,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990021",
+      "label": "WO-990021",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 15750,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990027",
+      "label": "WO-990027",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 2940,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990032",
+      "label": "WO-990032",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 5345,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990044",
+      "label": "WO-990044",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 4940,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990047",
+      "label": "WO-990047",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 4020,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990052",
+      "label": "WO-990052",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 7190,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990068",
+      "label": "WO-990068",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 8010,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990073",
+      "label": "WO-990073",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 6110,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990075",
+      "label": "WO-990075",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 6975,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990088",
+      "label": "WO-990088",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 3105,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990093",
+      "label": "WO-990093",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 2285,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990111",
+      "label": "WO-990111",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 3090,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990116",
+      "label": "WO-990116",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 6480,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990130",
+      "label": "WO-990130",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 3105,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990140",
+      "label": "WO-990140",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 3030,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990144",
+      "label": "WO-990144",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 8010,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990145",
+      "label": "WO-990145",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 10250,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990148",
+      "label": "WO-990148",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 11160,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990150",
+      "label": "WO-990150",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 4085,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990160",
+      "label": "WO-990160",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 4200,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990165",
+      "label": "WO-990165",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 4095,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990171",
+      "label": "WO-990171",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 7515,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990173",
+      "label": "WO-990173",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 5220,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990174",
+      "label": "WO-990174",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 6030,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990180",
+      "label": "WO-990180",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 4310,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990184",
+      "label": "WO-990184",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 2745,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990188",
+      "label": "WO-990188",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 10190,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990195",
+      "label": "WO-990195",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 6560,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990196",
+      "label": "WO-990196",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 12720,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990197",
+      "label": "WO-990197",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 3915,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990201",
+      "label": "WO-990201",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 4130,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990202",
+      "label": "WO-990202",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 5265,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990207",
+      "label": "WO-990207",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 10950,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990209",
+      "label": "WO-990209",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 1440,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990212",
+      "label": "WO-990212",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 2790,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990213",
+      "label": "WO-990213",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 8280,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990218",
+      "label": "WO-990218",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 14940,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990222",
+      "label": "WO-990222",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 11220,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990223",
+      "label": "WO-990223",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 5280,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990232",
+      "label": "WO-990232",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 2100,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990248",
+      "label": "WO-990248",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 9180,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990253",
+      "label": "WO-990253",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 5340,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990255",
+      "label": "WO-990255",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 3330,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990260",
+      "label": "WO-990260",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 3600,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990266",
+      "label": "WO-990266",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 17360,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990278",
+      "label": "WO-990278",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 9180,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990286",
+      "label": "WO-990286",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 1590,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990289",
+      "label": "WO-990289",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 8765,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990290",
+      "label": "WO-990290",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 3270,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990294",
+      "label": "WO-990294",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 6515,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990299",
+      "label": "WO-990299",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 1800,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990300",
+      "label": "WO-990300",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 2150,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990301",
+      "label": "WO-990301",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 8730,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990303",
+      "label": "WO-990303",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 6540,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990304",
+      "label": "WO-990304",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 2880,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990312",
+      "label": "WO-990312",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 5090,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990314",
+      "label": "WO-990314",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 4590,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990316",
+      "label": "WO-990316",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 4500,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990324",
+      "label": "WO-990324",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 6795,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990331",
+      "label": "WO-990331",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 12510,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990332",
+      "label": "WO-990332",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 2025,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990339",
+      "label": "WO-990339",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 4680,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990344",
+      "label": "WO-990344",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 4770,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990351",
+      "label": "WO-990351",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 8325,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990359",
+      "label": "WO-990359",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 9690,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990365",
+      "label": "WO-990365",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 8775,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990366",
+      "label": "WO-990366",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 9575,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990374",
+      "label": "WO-990374",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 7890,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990376",
+      "label": "WO-990376",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 4500,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990378",
+      "label": "WO-990378",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 3800,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990387",
+      "label": "WO-990387",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 8150,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990394",
+      "label": "WO-990394",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 11420,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990398",
+      "label": "WO-990398",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 4200,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990403",
+      "label": "WO-990403",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 2520,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990407",
+      "label": "WO-990407",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 9900,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990419",
+      "label": "WO-990419",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 4455,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990424",
+      "label": "WO-990424",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 6830,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990429",
+      "label": "WO-990429",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 3995,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990436",
+      "label": "WO-990436",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 5670,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990437",
+      "label": "WO-990437",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 5370,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990441",
+      "label": "WO-990441",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 3840,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990444",
+      "label": "WO-990444",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 6050,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990450",
+      "label": "WO-990450",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 5700,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990451",
+      "label": "WO-990451",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 4905,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990452",
+      "label": "WO-990452",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 8940,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990453",
+      "label": "WO-990453",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 11220,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990456",
+      "label": "WO-990456",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 5630,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990457",
+      "label": "WO-990457",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 4590,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990460",
+      "label": "WO-990460",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 17280,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990462",
+      "label": "WO-990462",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 1350,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990463",
+      "label": "WO-990463",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 1395,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990465",
+      "label": "WO-990465",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 3450,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990466",
+      "label": "WO-990466",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 1530,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990467",
+      "label": "WO-990467",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 11010,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990470",
+      "label": "WO-990470",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 6170,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    },
+    {
+      "id": "WO-990471",
+      "label": "WO-990471",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 11990,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990472",
+      "label": "WO-990472",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 4410,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990473",
+      "label": "WO-990473",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 2940,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990474",
+      "label": "WO-990474",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 4430,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990475",
+      "label": "WO-990475",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 3620,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990476",
+      "label": "WO-990476",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 11510,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990477",
+      "label": "WO-990477",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 7620,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990478",
+      "label": "WO-990478",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 5400,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990479",
+      "label": "WO-990479",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 5190,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990481",
+      "label": "WO-990481",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 13250,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990482",
+      "label": "WO-990482",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 5625,
+        "description": "Replace scraper blade due to severe wear."
+      }
+    },
+    {
+      "id": "WO-990483",
+      "label": "WO-990483",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CRUSHER-03",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 6030,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990484",
+      "label": "WO-990484",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "CRITICAL",
+        "status": "COMPLETED",
+        "repair_cost": 16560,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990485",
+      "label": "WO-990485",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 8190,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990486",
+      "label": "WO-990486",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 4185,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990488",
+      "label": "WO-990488",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 7610,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990489",
+      "label": "WO-990489",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 3060,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990492",
+      "label": "WO-990492",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 3825,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990493",
+      "label": "WO-990493",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 8585,
+        "description": "Vibration spike on bearings. Perform inspection."
+      }
+    },
+    {
+      "id": "WO-990494",
+      "label": "WO-990494",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "TRUCK-08",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 7695,
+        "description": "Inspect lubrication line nozzle for blockages."
+      }
+    },
+    {
+      "id": "WO-990495",
+      "label": "WO-990495",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "CONVEYOR-02",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 7605,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990496",
+      "label": "WO-990496",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 7740,
+        "description": "Hydraulic valve fluid leak detected - replace gaskets."
+      }
+    },
+    {
+      "id": "WO-990497",
+      "label": "WO-990497",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "HIGH",
+        "status": "COMPLETED",
+        "repair_cost": 11100,
+        "description": "Adjust drive belt tensioning system."
+      }
+    },
+    {
+      "id": "WO-990499",
+      "label": "WO-990499",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "MILL-01",
+        "priority": "MEDIUM",
+        "status": "COMPLETED",
+        "repair_cost": 5535,
+        "description": "Re-vulcanize splice on belt segment."
+      }
+    },
+    {
+      "id": "WO-990500",
+      "label": "WO-990500",
+      "type": "WorkOrder",
+      "graph": "supply_chain",
+      "detail": {
+        "asset_id": "PUMP-104A",
+        "priority": "LOW",
+        "status": "COMPLETED",
+        "repair_cost": 2250,
+        "description": "Air filter clog warning - replace filter cartridges."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "CONVEYOR-02",
+      "target": "CRUSHER-03",
+      "label": "DEPENDS_ON",
+      "graph": "asset",
+      "weight": 0.9,
+      "detail": {
+        "dependency_type": "PHYSICAL_FEED",
+        "impact_score": 0.9
+      }
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "MILL-01",
+      "label": "DEPENDS_ON",
+      "graph": "asset",
+      "weight": 0.95,
+      "detail": {
+        "dependency_type": "PHYSICAL_FEED",
+        "impact_score": 0.95
+      }
+    },
+    {
+      "source": "MILL-01",
+      "target": "PUMP-104A",
+      "label": "DEPENDS_ON",
+      "graph": "asset",
+      "weight": 0.8,
+      "detail": {
+        "dependency_type": "PHYSICAL_FEED",
+        "impact_score": 0.8
+      }
+    },
+    {
+      "source": "029af526e1af42cd5e1f59f9580abe56458123ba4107d4656fe41503c82f26da",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "02d11e9666de27ea46a60fd7539d037b4e5040cb2b7159d2387b1b637be6b514",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "03794dea1e183b11d4c95e4c6f0790d4d3c5394303cd901fdf6803c31e35da37",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "0675e4834c8e76bc28fe89a761f56a24294e3ce5c5f07c448f4d9f839f771df4",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "08e7bc94b25286c2a2d66aeb0ba86f46ff55ac0ca61f9c45e85ca0c51401fac0",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "0b57226d71923c788bff340e2fe98537fab797c3d75c8ada2d4b802f2db3fb77",
+      "target": "OP-120",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "0ef1f439e8e39cad5274cea9a0496db2bac7f96d4ab00f1186e78767d438b14d",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "14051ac3ca1028f935b7816077845299e81fb9757cc1970d14e64d9b05cb0158",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "14ae96158cb186fc1ac7c34a35baf6b8f52dff35c3aa217b9bb00665681a6bfc",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "1720768cca9fd024f25b3878fbd952226e25f8171ce3c70e52deabdc950485a0",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "184be4149048091496f9e0df8330d66d05cbd851dc4cb7b2c6b3aaf27c639742",
+      "target": "OP-101",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "1a0e7cf84f8efc7da203a30be6d961c8e93af13dbdf0fdadd0fe3f1a896cec57",
+      "target": "OP-115",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "1cfdb1e1ec9de035796b8e22289d99fccb5ebfb2debb25cd05a8453e5edc9582",
+      "target": "OP-111",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "1df75ff69253be5ab85371f34773ce335ec4c05799d84c789427a523ac80bf3a",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "2231de11b84332e6f11dc3c5821c963e09fad1637d1d4ee82ef1790ecc3a2e48",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "223c1359b6b1d43666631ce1a788a4eff99bf29e17a4a4fe56846f4adf8dcf1b",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "23d801d06adcc415e012a40122fdb8bfa3a15a2eb88d057db746905288d75ce4",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "23f5c998f71c42da59ae186e6b5002fc9cf017cb32bda8d951b95fad6a3639ab",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "26150d290b5a854dc7f9c8589efecd4b4281466103c6f62a61fd7ee0f1acda0b",
+      "target": "OP-119",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "273329098bca246f8f254826a7c6e40e46d075826adab45d9ba436bb99ea6c9d",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "27fe420fb728fc3125f6bb45c69dd7cfedcca7a23dedc0aad5ca79cffd8d26ff",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "2d8fbbfe2cd877b62a62e4af7c1e7eb8295def0522a8b390d857a471956ac2d0",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "2f4b58118c0f2a061a7ddf955c42294cb2fdb3a039acff8f05654382e7e362bd",
+      "target": "OP-111",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "2fbf64e8c0b4b3274a44f2f9b110022b2a14fa3264b2b47e578479a7b775ec16",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "31ec7802783cdb003c1115066dfbbfbe5c531745cab6b78c4e43e72e28b24e40",
+      "target": "OP-117",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "328b258420f5b3f01e5adf43e3a390c1ec093af2a7d5594dc59b365b08993d5c",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "364bbdac42c97ce935e6f6be1c4a8b0cc8b5240a9580c932c925d5528e686e6d",
+      "target": "OP-101",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "377541327d9c4f49f8b9342951aab30706e8e1bdc107f415933acbb11acf13f1",
+      "target": "OP-115",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "3bf3083f4a12aaa589793b54aab8130069258c0c3562c1ff9e615829442d471b",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "3c0dd10412dfe21f47adbfdbd95ac834bb2e087840fc07fd3dcbb27538aa402b",
+      "target": "OP-109",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "45b0700a2e5a720fca3c52f148e63aba125c986cdcb5ffce416e8827647b0a1c",
+      "target": "OP-114",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "484cf4aad31762dcbf3f181f02a6710518f79a85b4ee05ccbbb375ef16407d80",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "4a483d58a837797c4c033f1155e7367c1f361cf1c0ff8cd3dd4d36ef8fa48ce3",
+      "target": "OP-110",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "4b65c5eba5a6d919ed05f1cc46bc2daa0918ca824aab5e01a1d61c845057b4ec",
+      "target": "OP-112",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "50de9cde63ca820d323298d6781f453255986c06de3e428beb99e094656291cd",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "545e35e53bde4d55c0c2bcab4f731b003d45cd0a3271b3bcdced3431cf85c143",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "55213fe6e9a4d9d6becc63526f6f8aae7edd4f1ba1dd7a887d7b7bd5613a5364",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "554338d9de9985b0e7eba83d120ad9c5e06ab533bbe1acd110132dedd2e0b529",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "566dfd89f6ad17ea84bc5491c11650dc9dff5268749d7a13bb15d8bdf94cb47a",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "56b986cd24bbc0a88c8e40f42303043642eced7bae499a828c037dccf4817356",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "56e1ab059d03334666af5c595c45cfc9f72f0b34297e53a5f07533ab5a15a7fd",
+      "target": "OP-109",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "5ced8257f5ef506250d3716eb8a766b444e59f9f3c43e4d4b98a608913e0a6f6",
+      "target": "OP-114",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "5cf0e9acdbaf3d0965bd931e4217ebe0e12256558dcdf5aa82964f139f83f8a6",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "5ed674bbf5e4efd0f7bb063b10319f8ed3839d543f944118f76dcfefa3fe6fd8",
+      "target": "OP-110",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "60acf8411be2e6defdf37cd73acc3d03d45ac323b996331895d630b13234ea3f",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "67db1005e8af5af83db550d537adeece26f8647e9c5fcae421669dbe14cb8d10",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "68967bf3d3c70d38e95b2955401e774a6ce6d954ce1e6e78ab8d6ad43990cb6a",
+      "target": "OP-109",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "6ad05eb884c2330386bbfe42c796c562c276ed970895890155181be170cfbabe",
+      "target": "OP-114",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "6c39a2b5e826e524f92516bc58dd283320c6a175acbbbae1c3283c7e7b089655",
+      "target": "OP-109",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "6cb244e9d6d259c190e79de3c639b4016255dc29d6b9cf1afca5c3e75048a266",
+      "target": "OP-116",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "6cc98e995c52c8b879a5ac0205a6faf1fc803bb236e307273af566a874420069",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "70a2712380d11adbaac3ae708344119b4768cc0b80784bcbb01279fe0dd76502",
+      "target": "OP-120",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "73bd870be125b5a610815b5ff7b8f20be3bd307d92ee48631ee8da01e6100c7d",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "75000593a4b27cc4bb45bd629b5870b22c3472c88b05cac53c4fe0b0818dec26",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "758c9eb6d4e1f4bb531091be0753d271c8f7fdd4d590911f423a200f89baf196",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "76e4ff2db2cc079ce310b854c7585bc92567895a4f4da91f43eb311c87e82f96",
+      "target": "OP-117",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "7a8ef23aaf29cb5df4ee742c263547ef0e8c8265376d889b1942847d0a8ee9e5",
+      "target": "OP-114",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "7ae15c1b540b10e5e941f4445f87df229e0381cee2f8106f7523d37b56ecaa56",
+      "target": "OP-102",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "7eee3aa187d7c9eb7b2ce41e655082bcc796dbe1edfe6b6f2a3ec3a34b9bf3b3",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "82121b5f20d69c75df802f98a76ec97c4c462f34e2ebb2dd5f94fae426b7bd10",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "82ef7623264c6bdda177a587ac9dd97cd6f0ff824e5793224412d0ec717d8d2e",
+      "target": "OP-102",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "8468b4b08f9c456d52766cf5e96c98a4fb207a0c9fb778cd58f78ebc685fdfab",
+      "target": "OP-117",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "853b09f9e8c25a60f38c00e9fe604d6f74df9c0eff8cb2c4d37304e65297becb",
+      "target": "OP-112",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "85565bfcf300253979e4c6675d492266bbf47559011b2498e05a692b6de5cc93",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "8686da6ad4b88fee19e587e4b387d4729eae9f19e70c7eccb2765fe702574cd9",
+      "target": "OP-109",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "883f62285e56201aa29f8e8102bef3ed3993877dd6c71348c6fd06a66e4b6555",
+      "target": "OP-102",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "8b3748d26c35925533d06cae367b100ae46ccf2d2049a10cf1e7f44b5fe3b303",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "8d070ad7c6cd27b3d46716ec638c50df9168149a9cd1fc9574a3ff71ccc45df2",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "8fc1ffd277e0faa142ef37ee83ab60a46f7b77072b6dbc037682626ee28c86af",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "92c30b5971318a097f6af0fb3a4d76989df409e9b71bc423f603ecd8e24648ef",
+      "target": "OP-114",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "96edc84ea14b31d95911092308bcbdce96d68a07b89923168b3ab4893a57c16b",
+      "target": "OP-109",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "9aff003577d24bc0d022f67535452a325d500576cd1116398c97a11e4eb4ed56",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "9bd3fbe5d0e067c6b8ef02ab6a15c5440dd9663e5cec33030a82b9ce8e296329",
+      "target": "OP-114",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "OP-103",
+      "target": "TRUCK-05",
+      "label": "OPERATES",
+      "graph": "safety",
+      "detail": {
+        "shift_date": "2026-06-18",
+        "shift_type": "DAY"
+      }
+    },
+    {
+      "source": "OP-107",
+      "target": "TRUCK-01",
+      "label": "OPERATES",
+      "graph": "safety",
+      "detail": {
+        "shift_date": "2026-06-18",
+        "shift_type": "DAY"
+      }
+    },
+    {
+      "source": "OP-113",
+      "target": "TRUCK-03",
+      "label": "OPERATES",
+      "graph": "safety",
+      "detail": {
+        "shift_date": "2026-06-18",
+        "shift_type": "NIGHT"
+      }
+    },
+    {
+      "source": "OP-116",
+      "target": "TRUCK-02",
+      "label": "OPERATES",
+      "graph": "safety",
+      "detail": {
+        "shift_date": "2026-06-18",
+        "shift_type": "DAY"
+      }
+    },
+    {
+      "source": "OP-120",
+      "target": "TRUCK-04",
+      "label": "OPERATES",
+      "graph": "safety",
+      "detail": {
+        "shift_date": "2026-06-18",
+        "shift_type": "NIGHT"
+      }
+    },
+    {
+      "source": "TRUCK-01",
+      "target": "INC-5048",
+      "label": "INVOLVED_IN",
+      "graph": "safety"
+    },
+    {
+      "source": "TRUCK-02",
+      "target": "INC-5006",
+      "label": "INVOLVED_IN",
+      "graph": "safety"
+    },
+    {
+      "source": "TRUCK-03",
+      "target": "INC-5059",
+      "label": "INVOLVED_IN",
+      "graph": "safety"
+    },
+    {
+      "source": "TRUCK-04",
+      "target": "INC-5030",
+      "label": "INVOLVED_IN",
+      "graph": "safety"
+    },
+    {
+      "source": "TRUCK-05",
+      "target": "INC-5004",
+      "label": "INVOLVED_IN",
+      "graph": "safety"
+    },
+    {
+      "source": "a17508f90aa6a3f2ece1f3e9ad1988aaf4163dba265977f0a0f97e99a8fc8022",
+      "target": "OP-110",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "a232f9a36e4d92fb9e801c9b2b686453ced5092e7422d8fd15da5e89dcc68e77",
+      "target": "OP-117",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "a3949fabf1d316812aa8ce000b5611ec8b3c7c600873b0f9299dd4cc3f7635c0",
+      "target": "OP-110",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "ab6b27dda8addc73f0105ff7c91ab4b278f6300624666950c0e2b218ef7af38b",
+      "target": "OP-109",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "aba5a23734bf687552096e54ddf0ef418e039e9d883206b584dc592e8a694efa",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "ad728a56d5c20eaa578a0216e4550176e4937b005c7ccef27bffb6f011586a53",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "ae00317554fdf588e80f06e6e7bb35ef53d410b56a7d8848cba4b59ee8fc9c30",
+      "target": "OP-101",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "b0343453bf946bd01fd295c1bc9e0720a920f07843e06a70549b8bb6651396f9",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "b0d3e41ae5872a4843cbfb7debf3b343ab7b163ae329ea556f0c8509d70cf14c",
+      "target": "OP-119",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "b12cb8335353e85edeb21752839438d2e470efb621ca248f5a5baf8bd6d08fad",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "b1c3634e051db3cbf6a1743af891ea76aa0ec4ad3f7c8d624dcc2f316d875246",
+      "target": "OP-101",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "b32b10d2033da0774af41559a5e141383bf3a8f52c31096d324fd4400381134a",
+      "target": "OP-111",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "b65a091c49dfa4da79c17e0c7aad17a7285deb34e1b15cedb012d48f36b0f929",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "b88e433e04c53f6831e4755fb4b7c19a887bc857ade38983f484a2fdaeee9ba9",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "b9780d250cca74e224e5b54f00ee92734fb9997ad2dbbffd6c1edb4559b8aad6",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "babd007d880733370a0b4d160fdd00f64b5182b8898a666bcf036445b115e5c7",
+      "target": "OP-104",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "bc18f9314066f69c8c8083cbb2c7a6f3dc3cc44e02a536dd71501c2a3301762a",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "c4c59642b55a01782401d77ec62aa00b254fb5f928b4a3dd4e05ad18e896f92c",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "c668cce319dece83327cf00a696df36b355f343a40d6cd94d397ffdbe1f57799",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "c74dce111533546b6093e042ec1dc42301859e140c605b343cf9c09b8d52f13e",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "c7b2a464922874d0de7de5519128fffc0a572c992ca46587aba545b468e4cfc3",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "ca18369e00927139f52d0c5ea2c17011f00e57eeb99ad6eb3fba60e8c74ee784",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "cbd4ac052529440870ebf868d674fbebccefa1c9b19b61755dac381c2a6172b0",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "cd03a27a409f8985d3be7cd94918d2e575af1aa84b07ce18b8031dd34742b93e",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "d1bd20bd86767f225792b93bef6828d65b4ff2aac5639f93906bcd9dbf6e0f3b",
+      "target": "OP-101",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "d2bb50eccf5f9e0f243d663f9c4433da1d208b3533f1a83981bcd1605dd83b66",
+      "target": "OP-115",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "d4a2fba25f3567facc905d182f361990ae68b0784f43f7aedc76af97629d4855",
+      "target": "OP-106",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "d63cadb8285c96dd0b273770c186848b32b19a872004cb748f3e8e08ac56b42c",
+      "target": "OP-102",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "dc636cb29a0f83eee84e9e7124331d066fe85c3a3cfb6d1d5762952ee30a9531",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "dc9321b232a3590a9a03cd5da8dbac8c0996f487046353135dede3aa2154cf82",
+      "target": "OP-114",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "dd2547b9acda2aa44b714f4567a82072ea7c5e85220a2bc73a916797963bd3b7",
+      "target": "OP-105",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "de4e6eecab3e4f056437b9e2ce191380b44da55ed4d6e3bcc1acb08d04a86205",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "dfc2d3826267443d72f6b4dbd8d8287e05dd50d3da96aea800af5f9fc37941c7",
+      "target": "OP-109",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "e1e03919cc7f22d6efb305bd05f079600d2ca8cfc1b45a2df508f56897e1a326",
+      "target": "OP-110",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "e264701a393eae10cfd34699af2433d181935627bd9ad96e62bfced9563d975d",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "e80b77a1414df174bacf15e36b924b1ead1d9fbe1119fe7ae04bb94e1fb23170",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "ea95e840c8e72e80c44f8404d78eea30f85091c7f085e2251adfa0e6759796e3",
+      "target": "OP-113",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "eebea752db298f5e527fd26956b4c871c80dd97d0b7201de6ebb37fb6c759429",
+      "target": "OP-117",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "ef13889542bba8373f8cae7a2518fd62e8ac11f3e88a95a6743ea8decf540ce9",
+      "target": "OP-107",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "efcaf2f8ce8d2418116b3d2be57d5712fedc1ba52257576b87fba823e6e06523",
+      "target": "OP-110",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "f1a0010e1324f86d0d494b0670b0f9b66e563799103c1ad424dd59651fc01b12",
+      "target": "OP-118",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "f78410feb107eea742a61c7438ab195580636802a105b670f40d4c8426ad9a92",
+      "target": "OP-108",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "f82a94bec99c3de85e06707285d7393292fb55b22bdc2533937d4bf5f1e3cc85",
+      "target": "OP-119",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "fac5b558d42a589bb1d75017ccb38fe3371abedace8d0989ce57729f356af2a9",
+      "target": "OP-110",
+      "label": "LOGGED_FOR",
+      "graph": "safety"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990027",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990073",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990088",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990093",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990144",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990173",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990218",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990232",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990253",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990255",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990289",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990324",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990344",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990359",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990374",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990471",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990484",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CONVEYOR-02",
+      "target": "WO-990495",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990008",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990075",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990111",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990145",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990184",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990188",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990195",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990196",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990294",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990314",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990331",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990351",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990365",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990366",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990387",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990407",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990424",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990441",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990444",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990453",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990460",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990472",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990474",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990478",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "CRUSHER-03",
+      "target": "WO-990483",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990014",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990015",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990032",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990047",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990052",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990116",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990130",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990160",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990171",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990180",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990222",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990266",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990290",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990299",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990316",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990339",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990378",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990429",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990451",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990457",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990465",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990467",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990476",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990479",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990486",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990496",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "MILL-01",
+      "target": "WO-990499",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990004",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990068",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990148",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990150",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990201",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990212",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990213",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990223",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990260",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990278",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990301",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990304",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990312",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990332",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990376",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990394",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990403",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990436",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990437",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990452",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990462",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990466",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990470",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990473",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990477",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990481",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990485",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990497",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "PUMP-104A",
+      "target": "WO-990500",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990011",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990018",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990021",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990044",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990140",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990165",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990174",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990197",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990202",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990207",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990209",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990248",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990286",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990300",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990303",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990398",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990419",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990450",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990456",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990463",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990475",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990482",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990488",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990489",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990492",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990493",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "TRUCK-08",
+      "target": "WO-990494",
+      "label": "HAS_WORK_ORDER",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990004",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990008",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990008",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990011",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990011",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990014",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990014",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990015",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990015",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990018",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990021",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990021",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990027",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990027",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990032",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990044",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990047",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990052",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990068",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990068",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990073",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990075",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990075",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990088",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990088",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990093",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990111",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990111",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990116",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990116",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990130",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990140",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990144",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990144",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990145",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990148",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990148",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990150",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990160",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990165",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990165",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990171",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990173",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990173",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990174",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990174",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990180",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990184",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990184",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990188",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990195",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990196",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990196",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990197",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990197",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990201",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990202",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990207",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990207",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990209",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990212",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990212",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990213",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990213",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990218",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990218",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990222",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990223",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990223",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990232",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990248",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990248",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990253",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990255",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990260",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990260",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990266",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990278",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990278",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990286",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990289",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990290",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990290",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990294",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990299",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990299",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990300",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990301",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990301",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990303",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990304",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990304",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990312",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990314",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990316",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990316",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990324",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990324",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990331",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990331",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990332",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990332",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990339",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990344",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990344",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990351",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990359",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990359",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990365",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990365",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990366",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990374",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990374",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990376",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990376",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990378",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990387",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990394",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990398",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990398",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990403",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990407",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990419",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990419",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990424",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990429",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990436",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990436",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990437",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990437",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990441",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990444",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990450",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990450",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990451",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990452",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990453",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990453",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990456",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990457",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990457",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990460",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990460",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990462",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990462",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990463",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990465",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990466",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990467",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990467",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990470",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990471",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990472",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990473",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990474",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990475",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990476",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990477",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990478",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990478",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990479",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990479",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990481",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990482",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990482",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990483",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990483",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990484",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990484",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990485",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990485",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990486",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990488",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990489",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990492",
+      "target": "SKU-BELT-SPLICE-G2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990492",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990493",
+      "target": "SKU-BEARING-PUMP-G1",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990494",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990494",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990495",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990496",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990497",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990497",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990499",
+      "target": "SKU-LUBE-HEAVY-T2",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990500",
+      "target": "SKU-AIR-FILTER-08",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    },
+    {
+      "source": "WO-990500",
+      "target": "SKU-VALVE-SEAL-22",
+      "label": "REPLACED_PART",
+      "graph": "supply_chain"
+    }
+  ]
+}

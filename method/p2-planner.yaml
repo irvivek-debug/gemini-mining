@@ -1,0 +1,112 @@
+# The Maintenance Planner's driver tree. Skeleton only: no resolution prose
+# lives here. Resolution content is retrieved from the document corpus so that
+# a recommendation is the site's own standard rather than ours.
+#
+# `status` says whether a diagnostic exists and nothing else. Whether a driver
+# is evidenced is decided from the rows that diagnostic returns, on the site's
+# own data — a pack that answered that in advance would be a report with a
+# chat interface in front of it.
+#
+# The governing metric is maintenance cost per completed work order, not
+# schedule compliance. erp_work_orders carries no planned date and no due
+# date, so compliance with a plan cannot be evidenced. schedule_compliance and
+# planned_ratio are declared not_instrumented so that the gap is visible rather
+# than hidden.
+metric: maintenance cost per completed work order
+root: work escalating in priority before it is done
+
+drivers:
+  - id: priority_cost_escalation
+    question: Does mean repair cost rise as priority level rises?
+    status: instrumented
+    controllable: false
+    sql: sql/p2/priority_cost_escalation.sql
+    params: {}
+    doc_query: work order priority level cost repair escalation MAINT-WOP-002
+    guard: >-
+      repair_cost is the recorded estimate at work order creation, not a
+      settled invoice; cost at a higher priority may reflect the nature of
+      assets that fail critically rather than a cost consequence of the
+      priority classification itself. Cite the work order count per priority
+      alongside the cost: a mean derived from fewer than twenty orders is
+      indicative. The priority classification is made by the Maintenance
+      Planner at creation; MAINT-WOP-002 clause 5 prohibits raising priority
+      to accelerate procurement. A cost pattern that rises with priority is
+      consistent with both genuine escalation dynamics and a classification
+      system that is correctly assigning higher priorities to more complex
+      repairs.
+
+  - id: backlog_aging
+    question: How old is the open backlog, and does cost differ between fresh and stale orders?
+    status: instrumented
+    controllable: false
+    sql: sql/p2/backlog_aging.sql
+    params:
+      stale_days: 30
+      exclude_statuses: ["COMPLETED", "CANCELLED"]
+    doc_query: work order open backlog age escalation review threshold MAINT-WOP-002 clause 3
+    guard: >-
+      Age is elapsed time from work order creation to the dataset's maximum
+      date, not time since the last status change. A work order that has been
+      IN_PROGRESS for most of its age may not be stale in an operational
+      sense; the elapsed age from creation is the only aging signal this table
+      supports. The stale threshold is a parameter — @stale_days — rather than
+      a site constant; MAINT-WOP-002 clause 3.1 specifies the review-trigger
+      periods per priority (30 days for Priority 3, 90 days for Priority 4),
+      and a work order that has reached the trigger age is banded as stale
+      (the boundary comparison is >=, consistent with the standard's "within
+      the following periods" language). A mean cost difference between fresh and
+      stale bands is consistent with both an escalation effect and a selection
+      effect where older orders belong to lower-priority, lower-cost asset
+      classes.
+
+  - id: parts_stockout
+    question: Which parts are below their reorder point and what are their lead times?
+    status: instrumented
+    controllable: false
+    sql: sql/p2/parts_stockout.sql
+    params: {}
+    doc_query: parts procurement lead time reorder stockout MAINT-WOP-002 clause 4 schedulable
+    guard: >-
+      stock_level is the quantity recorded in the inventory system at the time
+      the query runs; it does not account for reservations against open work
+      orders or parts already in transit on a purchase order. A part below its
+      reorder point is not necessarily unavailable for the next scheduled job;
+      confirm the actual on-order position before treating a low stock level as
+      a scheduling constraint. lead_time_days is the catalogue lead time for
+      the part; MAINT-WOP-002 clause 4.2 requires a purchase order to be
+      raised before scheduling when lead time exceeds 14 days, and clause 4.3
+      requires written notification to the Maintenance Superintendent when lead
+      time exceeds 45 days.
+
+  - id: parts_demand_cover
+    question: For the parts named in open work orders, does stock on hand cover demand?
+    status: instrumented
+    controllable: false
+    sql: sql/p2/parts_demand_cover.sql
+    params: {}
+    doc_query: parts demand work order inventory stock catalogue coverage MAINT-WOP-002
+    guard: >-
+      demand_count is the number of work orders that name each part, not a
+      quantity; the edge table carries no quantity column, so this is the
+      closest available demand signal. The demand record spans only the
+      distinct subset of parts named in work_order_parts_edge, which is a
+      catalogue subset; the cover finding does not speak to parts that appear
+      in work descriptions but are not recorded in the edge table. stock_on_hand,
+      reorder_point_limit, lead_time_days, and unit_price_usd are each read as
+      a single record per part from inventory_levels; the query assumes that
+      table is unique on part_number. Where a site holds inventory by location,
+      these figures must be confirmed to represent site-wide totals before any
+      cover conclusion rests on them — the SQL does not detect or reject a
+      multi-location schema. stock_on_hand does not account for reservations
+      already placed against other open work orders or parts in transit.
+
+  - id: schedule_compliance
+    question: What proportion of work orders were completed within their scheduled window?
+    status: not_instrumented
+    controllable: false
+
+  - id: planned_ratio
+    question: What proportion of work orders are preventive or predictive rather than corrective?
+    status: not_instrumented
+    controllable: true

@@ -1,0 +1,37 @@
+# What NOT to upload to Cloud Build.
+#
+# The presence of this file switches gcloud off its default, which is to read
+# .gitignore. That default would have uploaded tests/, docs/, data/ and
+# frameworks/ — none of which the image copies — and skipped nothing that
+# matters. The list below is therefore the whole exclusion policy, not an
+# addition to .gitignore.
+
+.git/
+.gitignore
+.gemini/
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Not copied by the Dockerfile. The generated parquet under data/ is the
+# largest thing in the tree and the screens read none of it at runtime: the
+# figures they show were baked into apps/shared/data/ by
+# scripts/build_app_data.py before the commit.
+#
+# EVERY ONE OF THESE IS ANCHORED WITH A LEADING SLASH, and that is not tidiness.
+# These patterns follow .gitignore semantics, where a bare `data/` matches a
+# directory of that name at ANY depth. Written bare, it excluded
+# apps/shared/data/ — the entire figures bundle every screen in both
+# applications reads — and the first deployed revision served ten pages that
+# each 404'd on bundle.js.
+/data/
+/docs/
+/frameworks/
+/packages/
+/tests/
+/agent_manifest.json
+
+# Verbatim upstream copies read only by the generators in scripts/, never by
+# the running container -- the Dockerfile does not COPY it. Three megabytes
+# uploaded to Cloud Build on every deploy for nothing.
+/vendor/

@@ -1,0 +1,31 @@
+VENDOR SUPPLY AGREEMENT CTR-0006
+=================================
+
+Buyer:      Argolis Mining Operations Pty Ltd
+Supplier:   SiloParts Mining Supplies
+Part:       SKU-BEARING-PUMP-G1
+Unit price: USD 1,156.81
+Term:       2026-03-18 to 2027-03-14
+Award:      bid BID-8926
+
+------------------------------------------------------------------------
+
+1. SCOPE OF SUPPLY. SiloParts Mining Supplies (the Supplier) shall supply Argolis Mining Operations Pty Ltd (the Buyer) with part SKU-BEARING-PUMP-G1 for the term commencing 2026-03-18 and ending 2027-03-14. This Agreement is awarded pursuant to bid BID-8926, tendered by SiloParts Mining Supplies at a proposed total of USD 63,095.68 with a technical rating of 9.0. No other part number is covered by this Agreement, and supply of any other part shall be governed by a separate instrument.
+
+2. PRICE. The agreed unit price for part SKU-BEARING-PUMP-G1 is USD 1,156.81 per unit, firm for the term. The Buyer shall not be invoiced, and shall not pay, any amount per unit in excess of USD 1,156.81 without a written variation executed by both parties. Any amount paid above the agreed unit price is recoverable by the Buyer as a debt due.
+
+3. PRICE ESCALATION. No escalation applies during the term. The Supplier may propose an adjusted unit price for any renewal term by written notice not less than sixty (60) days before 2027-03-14. An adjusted price takes effect only on execution of a written variation; a price quoted on an invoice does not vary this clause.
+
+4. VOLUME REBATE. The Supplier shall credit the Buyer as follows: Tier 1: 2.0% of cumulative spend once cumulative spend under this Agreement exceeds USD 3,088.21; Tier 2: 4.5% of cumulative spend once cumulative spend under this Agreement exceeds USD 6,794.06. Rebate is calculated on cumulative spend for part SKU-BEARING-PUMP-G1 under this Agreement within the term, and shall be credited within thirty (30) days of the end of each quarter. An entitlement not claimed by the Buyer remains payable by the Supplier and does not lapse.
+
+5. DELIVERY. The Supplier shall deliver to the Buyer's nominated warehouse within the lead time recorded against part SKU-BEARING-PUMP-G1 in the Buyer's inventory system. Where delivery is late by more than five (5) working days, the Buyer may claim a credit of one per cent (1%) of the order value per week of delay, capped at ten per cent (10%) of the order value.
+
+6. INVOICING AND PAYMENT. Each delivery shall be invoiced once. The Supplier shall not submit more than one invoice in respect of the same delivery, whether under the same invoice number or a different one. Where the Buyer pays twice in respect of one delivery, the second payment is recoverable in full on demand, and the Supplier shall not set it off against any other amount.
+
+7. AUDIT RIGHTS. The Buyer may audit the Supplier's records relating to this Agreement on thirty (30) days' notice, not more than twice in any twelve (12) month period. Where an audit establishes an overcharge exceeding two per cent (2%) of amounts invoiced in the period audited, the Supplier shall bear the reasonable cost of the audit in addition to repaying the overcharge.
+
+8. ANTI-BRIBERY AND ANTI-CORRUPTION. The Supplier warrants that neither it nor any person acting on its behalf has offered, given or agreed to give any person any gift, hospitality, payment or consideration of any kind as an inducement or reward in connection with the award or performance of this Agreement. The Supplier shall maintain a register of any hospitality offered to Buyer personnel with a value exceeding USD 100.00 and shall produce it on request. Breach of this clause entitles the Buyer to terminate immediately and to recover all sums paid in connection with the breach.
+
+9. CONFLICT OF INTEREST. The Supplier shall disclose in writing any interest, direct or indirect, held by any officer or employee of the Buyer in the Supplier or in any of its affiliates, and any relationship between the Supplier's personnel and the Buyer's personnel involved in awarding or administering this Agreement. A failure to disclose is a material breach.
+
+10. TERM AND TERMINATION. This Agreement runs from 2026-03-18 to 2027-03-14. Either party may terminate for material breach not remedied within thirty (30) days of written notice. The Buyer may terminate immediately for breach of clause 8. Clauses 4, 6 and 7 survive termination in respect of the period before it.

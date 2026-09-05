@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mining Agent Platform — Demo Artifacts</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .tile { display: block; text-decoration: none; color: inherit; height: 100%; }
+  .tile:hover { border-color: var(--accent); background: var(--surface-high); }
+  .tile h3 { color: var(--fg); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">Mining Agent Platform / Demo Artifacts</span>
+</div>
+
+<div class="wrap">
+
+<section>
+  <div class="eyebrow">Start here</div>
+  <h1>What to open, and when</h1>
+  <p class="lede">
+    Two screens carry the demo. One is what the audience sees, the other is what you talk over
+    once they start asking how it works.
+  </p>
+
+  <div class="bento" style="margin-top:24px">
+    <a class="card c6 tile" href="wireframes.html">
+      <div class="card-cap">During the demo</div>
+      <h3>UX wireframes for the whole journey</h3>
+      <p style="color:var(--fg-muted);margin:0 0 14px">
+        Three navigation models with strengths, weaknesses and a recommendation, then the four
+        deep screens that stay the same whichever model wins.
+      </p>
+      <ul class="tight" style="color:var(--fg-muted);font-size:13.5px">
+        <li>Option A, persona cockpit. Navigate by who you are.</li>
+        <li>Option B, AISC value tree. Navigate by where the money leaks.</li>
+        <li>Option C, shift timeline. Navigate by when. Roadmap, not built.</li>
+        <li>Swarm console, workbench, HITL approval, executive roll-up.</li>
+      </ul>
+      <span class="badge b-info" style="margin-top:8px">Hold-to-Confirm is interactive on this page</span>
+    </a>
+
+    <a class="card c6 tile" href="technical-flow.html">
+      <div class="card-cap">After the demo</div>
+      <h3>Functional and technical flow</h3>
+      <p style="color:var(--fg-muted);margin:0 0 14px">
+        One screen per question an engineer in the room will ask, in the order they tend to ask
+        them.
+      </p>
+      <ul class="tight" style="color:var(--fg-muted);font-size:13.5px">
+        <li>The request path from caller to BigQuery and back.</li>
+        <li>What is actually inside a swarm, and why it is one container.</li>
+        <li>Why an agent cannot read a table it did not declare.</li>
+        <li>Three service accounts, the HITL write path, and what is not built.</li>
+      </ul>
+      <span class="badge b-info" style="margin-top:8px">Numbers on this page are read from the catalog</span>
+    </a>
+
+    <div class="card c12">
+      <div class="card-cap">Underneath both</div>
+      <h3 style="margin-top:0">Personas and the value tree</h3>
+      <p style="margin:0 0 10px">
+        The Phase 0 spine these screens rest on:
+        <code>docs/personas-and-value-tree.md</code>. It holds the re-rooted CEO tree, eleven
+        personas with jobs-to-be-done traced to named agents, the orphan register, and the
+        assumption ledger.
+      </p>
+      <p style="margin:0;color:var(--fg-muted);font-size:13.5px">
+        Read the orphan register before the demo. It is where the honest gaps are, and knowing
+        them is what lets you answer a hard question without improvising.
+      </p>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:24px">
+    <strong>One rule these artifacts follow</strong><br>
+    No invented numbers. The only client figure available is the $145k/hr mill downtime rate.
+    Everywhere else a baseline would belong, the screens render [CLIENT INPUT REQUIRED] rather
+    than a plausible-looking number. A fabricated benchmark that gets challenged in the room costs
+    more than an admitted gap.
+  </div>
+</section>
+
+</div>
+</body>
+</html>

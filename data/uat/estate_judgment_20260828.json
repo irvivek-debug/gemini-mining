@@ -1,0 +1,933 @@
+{
+ "AGT-19": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 5,
+  "flags": [
+   "wrong-persona-tone",
+   "overlong"
+  ],
+  "note": "Excellent grounded Lane sensitivity (block counts, price deck, 92.21% recovery) but far too technical for CEO/CFO"
+ },
+ "D01": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 6,
+  "business_voice": 8,
+  "flags": [
+   "prompt-echo-only"
+  ],
+  "note": "RQD 75.83% arithmetic flawless; honest that drill_holes lacks tray data, so calc is pure prompt inputs"
+ },
+ "D02": {
+  "function": 5,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "no-final-answer"
+  ],
+  "note": "Rich assay grounding (295 intervals, QSP 1.743% Cu) but never delivers the requested crystallinity ratio"
+ },
+ "D03": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [
+   "overlong",
+   "unverifiable-variogram-params"
+  ],
+  "note": "Remarkably self-consistent geostat audit; variogram nugget/range presented as empirical may be modeled, not queried"
+ },
+ "D04": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Textbook-correct CJ pressure 8.60 GPa; cites 64 emulsion records and honestly labels density/VOD as external inputs"
+ },
+ "D05": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Correct 180 m ballistic range plus sensible 2x exclusion-zone guidance; blast_designs stats cited but not load-bearing"
+ },
+ "D06": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Rosin-Rammler percentiles verify exactly (d50 87.25, P80 181.5); honest that fragmentation params come from prompt"
+ },
+ "D07": {
+  "function": 7,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [
+   "underdetermined-prompt"
+  ],
+  "note": "Strong sensor grounding (GEO-07 9.794 mm/day max, GEO-08 ALERT); parametric t_f matrix since acceleration unmeasured"
+ },
+ "D08": {
+  "function": 6,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "hedging-refusal"
+  ],
+  "note": "Justified refusal: geotech_sensors has no seismic magnitudes or North Pit fault; audit of 240 records is honest"
+ },
+ "D09": {
+  "function": 7,
+  "logic": 8,
+  "grounding": 6,
+  "business_voice": 7,
+  "flags": [
+   "underdetermined-prompt"
+  ],
+  "note": "Parametric Darcy answer correct but pipe-area/unit-gradient framing is odd physics; pit_designs adds little"
+ },
+ "D10": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Rimpull 591.9 kN correct via exact and linearized methods; TRUCK-08 payload stats cited, gaps disclosed"
+ },
+ "D11": {
+  "function": 4,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "hedging-refusal"
+  ],
+  "note": "Refuses to estimate L/t-km at all; good catch that 4.2 km route doesn't exist (max 3.469 km) but zero deliverable"
+ },
+ "D12": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [
+   "arithmetic-error"
+  ],
+  "note": "Dual hypothetical vs grounded TKPH is exactly right; 205.02x28.04 reported 5748.22 vs 5748.76 (trivial slip)"
+ },
+ "D13": {
+  "function": 5,
+  "logic": 4,
+  "grounding": 5,
+  "business_voice": 7,
+  "flags": [
+   "contradiction",
+   "generic-no-data"
+  ],
+  "note": "Declares 'no missing tooth' after admitting no camera feed exists \u2014 ungrounded safety assurance; followup contradicts it"
+ },
+ "D14": {
+  "function": 5,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "generic-no-data",
+   "overlong"
+  ],
+  "note": "No acoustic channels so no FFT performed; compensates with sound physics and actionable speed/feed recommendations"
+ },
+ "D15": {
+  "function": 4,
+  "logic": 8,
+  "grounding": 7,
+  "business_voice": 7,
+  "flags": [
+   "hedging-refusal"
+  ],
+  "note": "Honest that optical occlusion telemetry is absent; formula and MILL-01 baseline given but no blinding number"
+ },
+ "D16": {
+  "function": 7,
+  "logic": 9,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "partial-answer"
+  ],
+  "note": "Slurry SG 1.68 and 4.63 m atmospheric margin verify; correctly finds PUMP-03 absent from telemetry, gaps explicit"
+ },
+ "D17": {
+  "function": 7,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [
+   "partial-answer"
+  ],
+  "note": "Good surge framing (3,800 tph = +214% over 1,210 tph baseline) with FF+PID structure; no numeric gains (not in DB)"
+ },
+ "D18": {
+  "function": 4,
+  "logic": 7,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "hedging-refusal"
+  ],
+  "note": "Solid asset/assay grounding (7.65 m3/min air, 92.21% recovery) but d32 not computed and no workaround offered"
+ },
+ "D19": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Arrhenius chain verifies to 71.86% potency; strong inventory grounding (887 bags, $57.54) and 1.39x dosing action"
+ },
+ "D20": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Best of slice: exact stoichiometry, water_balance_logs volumes, lime stock/cost, and the mineral-acidity caveat"
+ },
+ "D21": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [],
+  "note": "2.53 deg slope with sensitivity table verifies; piezometer beach widths used to translate slope into elevation drop"
+ },
+ "D22": {
+  "function": 5,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "generic-no-data",
+   "overlong"
+  ],
+  "note": "No gas ppm anywhere (checked lube_samples) so no coordinates plotted; delivers IEC framework and asset baseline instead"
+ },
+ "D23": {
+  "function": 6,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [
+   "partial-answer"
+  ],
+  "note": "Sharp catch that 15 MW claim conflicts with 4.25 MW actual across all mills; PD analysis is framework-only, no data"
+ },
+ "D24": {
+  "function": 6,
+  "logic": 7,
+  "grounding": 7,
+  "business_voice": 7,
+  "flags": [
+   "asserts-status-without-sensor-data"
+  ],
+  "note": "Concludes belt 'stable within spec' from static asset params despite no ultrasonic logs for CONVEYOR-01 \u2014 mild overreach"
+ },
+ "D25": {
+  "function": 5,
+  "logic": 7,
+  "grounding": 7,
+  "business_voice": 5,
+  "flags": [
+   "no-computation-data-gap",
+   "wrong-persona-tone",
+   "overlong"
+  ],
+  "note": "Honestly declares missing UT transit time; cites real crusher telemetry but delivers no thickness; too academic for persona"
+ },
+ "D26": {
+  "function": 5,
+  "logic": 6,
+  "grounding": 8,
+  "business_voice": 6,
+  "flags": [
+   "tautological-answer"
+  ],
+  "note": "Float=0 is definitionally true; no CPM network built. WO backlog stats well grounded but never used in the calculation"
+ },
+ "D27": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Strong audit: disputes claim with specific contract and telemetry evidence; clear withhold-payment recommendation"
+ },
+ "D28": {
+  "function": 8,
+  "logic": 9,
+  "grounding": 4,
+  "business_voice": 6,
+  "flags": [
+   "prompt-echo-only",
+   "assumed-inputs"
+  ],
+  "note": "Flawless ASTM D1250 math, but built purely on prompt inputs plus assumed SG; table admitted irrelevant, no own data values"
+ },
+ "D29": {
+  "function": 8,
+  "logic": 6,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "unit-error-suspected"
+  ],
+  "note": "Grounded mill power (4.086 MW) applied well, but g/kWh unit choice gives 42 kg/day; Bond constant is lb/kWh (~19 t/day)"
+ },
+ "D30": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [
+   "missed-invalid-iso-codes"
+  ],
+  "note": "Rich sample-level parsing, flags negative Fe artifact; misses physically impossible rising ISO codes (e.g. 15/19/14)"
+ },
+ "D32": {
+  "function": 7,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 7,
+  "flags": [],
+  "note": "No pump-seal SKU exists; good stockout feasibility check (2 vs 12) and cycle-count action despite missing RFID/SAP docs"
+ },
+ "D33": {
+  "function": 6,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 7,
+  "flags": [
+   "entity-not-found"
+  ],
+  "note": "MV Bulk Pioneer absent; strong vessel-level evidence and BIMCO rules, but no laytime actually parsed or computed"
+ },
+ "D34": {
+  "function": 8,
+  "logic": 4,
+  "grounding": 7,
+  "business_voice": 7,
+  "flags": [
+   "arithmetic-error"
+  ],
+  "note": "k derivation inconsistent: A=1.5e9/day with Ea 85kJ gives ~8e-6/day, not 0.008/day; shelf-life table off ~1000x"
+ },
+ "D35": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [],
+  "note": "Clean sensitivity matrix across mu and grade, all arithmetic verifies; honest that grade/friction are unlogged"
+ },
+ "D36": {
+  "function": 5,
+  "logic": 6,
+  "grounding": 6,
+  "business_voice": 6,
+  "flags": [
+   "ungrounded-compliance-claim"
+  ],
+  "note": "Claims 5m margin 'actively enforced' with no sensor evidence after admitting LiDAR isn't logged; vessel data is padding"
+ },
+ "D37": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Empirical deficits (8.53h/4d) drive E(t)=61% at nadir, mapped to stand-down clause; decision-ready for a safety lead"
+ },
+ "D38": {
+  "function": 6,
+  "logic": 8,
+  "grounding": 5,
+  "business_voice": 7,
+  "flags": [
+   "generic-no-data"
+  ],
+  "note": "No gas readings exist in safety_telemetry; sound TARP/entry protocol but zero measured values, evaluation not performed"
+ },
+ "D39": {
+  "function": 5,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 6,
+  "flags": [
+   "hedging-refusal"
+  ],
+  "note": "Excellent monthly telemetry tables, but declines to compute intensity (missing fuel/grid/cathode data); no estimate offered"
+ },
+ "D40": {
+  "function": 7,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [
+   "prompt-target-missing"
+  ],
+  "note": "Water discharge permits not in data; pivots to fully verified tenement expiry audit (rents/areas sum exactly); honest gap"
+ },
+ "S01-1-LITHOLOGY": {
+  "function": 4,
+  "logic": 8,
+  "grounding": 6,
+  "business_voice": 6,
+  "flags": [
+   "no-computation-data-gap"
+  ],
+  "note": "Tray #482 has no piece-length data; RQD framework only, no classification delivered; honest but thin on evidence"
+ },
+ "S01-2-GEOSTAT": {
+  "function": 8,
+  "logic": 7,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [
+   "method-substitution"
+  ],
+  "note": "Rich per-domain stats, but reports block-grade dispersion variance as 'estimation variance', not kriging variance"
+ },
+ "S01-3-STRUCTURAL": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Plane fit, normal vector, strike/dip all check out; grounded bench-by-bench contacts; actionable daylighting risk call"
+ },
+ "S01-COORDINATOR": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Tonnage/contained-metal math verifies; assay-vs-kriged reconciliation honest about basalt smoothing; near demo-grade"
+ },
+ "S01-R-CRITIC": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [],
+  "note": "Genuinely adversarial: exposes zero duplicates/CRMs/blanks and qaqc_standards as placeholder view; correct JORC downgrade"
+ },
+ "S02-1-GEOTECH": {
+  "function": 6,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 7,
+  "flags": [
+   "no-final-number"
+  ],
+  "note": "Finds exact 48.0 deg sensor record (u=121.6 kPa) but returns FoS framework only; won't invent c'/phi' - defensible, incomplete"
+ },
+ "S02-2-SCHEDULE": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Best-in-slice: flags 1.8Mt/mo as +52.6% over plan, sequences 4 shovels with routes and blend math that all verifies"
+ },
+ "S02-3-DUMP": {
+  "function": 7,
+  "logic": 8,
+  "grounding": 6,
+  "business_voice": 7,
+  "flags": [
+   "generic-parameters"
+  ],
+  "note": "Waste volume (193.75 Mm3) grounded in pit_designs, but repose/runout/bund numbers are textbook values, flagged as such"
+ },
+ "S02-COORDINATOR": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Catches 48 vs 45 deg geotech limit; bench table sums verify; mislabels 0.83% bench average as QSP ore grade in Stage 2"
+ },
+ "S02-R-CRITIC": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [
+   "unquestioned-perfect-alignment"
+  ],
+  "note": "Strong F1 audit, totals verify; catches 40k vs 27.5k tpd disconnect; accepts suspicious zero spatial drift uncritically"
+ },
+ "S03-1-GEOMETRY": {
+  "function": 8,
+  "logic": 5,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "arithmetic-error",
+   "overlong"
+  ],
+  "note": "Rich DB grounding, but claimed 0.85 kg/m3 PF contradicts own figures (54,990kg/103,572m3=0.53); burden values don't follow stated formula."
+ },
+ "S03-2-EXPLOSIVE": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [],
+  "note": "P_CJ math verified from stated formula; VOD from standard models with absence honestly disclosed; strong inventory/blast-stat grounding."
+ },
+ "S03-3-VIBRATION": {
+  "function": 5,
+  "logic": 7,
+  "grounding": 7,
+  "business_voice": 5,
+  "flags": [
+   "hedging-refusal",
+   "no-final-answer"
+  ],
+  "note": "Correctly finds K/beta uncalibrated and computes SD=22.9, but delivers no PPV estimate even as a caveated range."
+ },
+ "S03-COORDINATOR": {
+  "function": 8,
+  "logic": 6,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [
+   "arithmetic-error"
+  ],
+  "note": "Cites specific blast IDs (BL-00076 etc.) \u2014 strong; but stated Kuz-Ram inputs yield q~0.46, not the claimed 0.86-0.92."
+ },
+ "S03-R-CRITIC": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "All counts reconcile exactly (148+32=180 designs; 17+43=60 permits); gate table decision-ready; lightning policy generic but reasonable."
+ },
+ "S04-1-SHOVEL": {
+  "function": 8,
+  "logic": 9,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Surfaces DB 240t vs OEM 363t rating conflict and computes both; PC8000 specs generic but disclosed as absent from site tables."
+ },
+ "S04-2-ROUTE": {
+  "function": 6,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 7,
+  "flags": [
+   "entity-not-found"
+  ],
+  "note": "'Pit Alpha south ramp' absent from dispatch_routes; refuses to invent it and substitutes a fully grounded 10-route table with optima."
+ },
+ "S04-3-PAYLOAD": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Exemplary audit: dual-window (42 + 1,997 cycles), Z=3.77 verified, max 239.97t timestamped; scope is one truck though framed as fleet."
+ },
+ "S04-COORDINATOR": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [],
+  "note": "Truck-by-truck replan with live payloads, statuses, routes, shovel pass rates; Little's Law applied loosely but arrival-rate math checks."
+ },
+ "S04-R-CRITIC": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [],
+  "note": "SAFTE absence honestly remapped to site biometric tables; decisive OP-107 stand-down grounded in 7.77h deficit and 4 microsleeps."
+ },
+ "S05-1-CSS": {
+  "function": 7,
+  "logic": 9,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "data-gap-disclosed"
+  ],
+  "note": "Correct grounded refusal on a trap prompt: hydraulic pressure not in schema, no 135mm records; evidences actual 115/120/125mm distribution."
+ },
+ "S05-2-FEED": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [],
+  "note": "PID strategy anchored to real torque/feed stats, OEM 4,500Nm limit, and the 2026-06-01 bypass event; gains honestly deferred to step tests."
+ },
+ "S05-3-WEAR": {
+  "function": 8,
+  "logic": 7,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [
+   "ungrounded-benchmark-inputs"
+  ],
+  "note": "Internally consistent life math (284.6 days verified) but hinges on asserted 12.5Mt rated life and 80/25mm thicknesses not in data (disclosed)."
+ },
+ "S05-COORDINATOR": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 9,
+  "flags": [],
+  "note": "Correctly classifies unevidenced 78% wear and tramp flag as external inputs, then issues a crisp stop-feed/LOTO/inspect/restart sequence."
+ },
+ "S05-R-CRITIC": {
+  "function": 8,
+  "logic": 7,
+  "grounding": 7,
+  "business_voice": 7,
+  "flags": [
+   "claimed-actuation"
+  ],
+  "note": "Declares feed trip 'ENFORCED \u2014 0.00 tph' as if executed, tension with its own advisory-only followup; telemetry baseline solid."
+ },
+ "S06-1-SAG": {
+  "function": 6,
+  "logic": 8,
+  "grounding": 7,
+  "business_voice": 6,
+  "flags": [
+   "generic-method-lecture",
+   "data-gap-disclosed"
+  ],
+  "note": "Acoustic array not in data, so bulk is textbook 1/3-octave theory; MILL-01 stats grounded and 98% of design speed check is correct."
+ },
+ "S06-2-BALL": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Reconciles 3,800tph ask vs measured 1,153tph (3.29x, 13.46MW circuit \u2014 all verified); wear rates given as disclosed benchmark ranges."
+ },
+ "S06-3-CYCLONE": {
+  "function": 5,
+  "logic": 8,
+  "grounding": 7,
+  "business_voice": 6,
+  "flags": [
+   "no-final-answer",
+   "hedging-refusal"
+  ],
+  "note": "No cyclone geometry/pressure in telemetry \u2014 honest, but offers no illustrative d50c even as a range; delivers workflow only."
+ },
+ "S06-COORDINATOR": {
+  "function": 8,
+  "logic": 7,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [
+   "questionable-physics"
+  ],
+  "note": "Flags impossible 14.8MW vs 3.09MW baseline (+379% verified) well; slurry-pooling-raises-power diagnosis is physically debatable."
+ },
+ "S06-R-CRITIC": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Strong proxy audit: pump vibration 12.5Hz vs 5.6Hz mean plus detailed dated lube sample (Fe 49.2ppm, 15/13/10); density gap disclosed."
+ },
+ "S07-1-REAGENT": {
+  "function": 4,
+  "logic": 8,
+  "grounding": 7,
+  "business_voice": 6,
+  "flags": [
+   "hedging-refusal",
+   "no-final-answer"
+  ],
+  "note": "Inventory well grounded (754 drums, unit math checks) but refuses any dosage figure; a caveated CCC-based ppm range was available."
+ },
+ "S07-2-AIR": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Full down-bank Jg/froth-depth/holdup schedule tied to real recovery envelope (92.21%); per-cell targets textbook, instrumentation gap disclosed."
+ },
+ "S07-3-GRADE": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 7,
+  "flags": [
+   "wrong-persona-tone"
+  ],
+  "note": "Two-product balance math verifies to 2 decimals across 5 model variants incl. dated assay match; thin on commercial framing for a smelter liaison."
+ },
+ "S07-COORDINATOR": {
+  "function": 7,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Reconciles 0.72% Cu below plant envelope with lowest-bin stats and PAX stock; sound staging/NSR strategy but no numeric g/t setpoint."
+ },
+ "S07-R-CRITIC": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [
+   "generic-thresholds"
+  ],
+  "note": "Turns missing As/Bi/Sb assays into the audit finding with commercial exposure framing; thresholds industry-typical, not contract-specific."
+ },
+ "S08-1-WATER": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [
+   "latex-render-artifacts"
+  ],
+  "note": "Mass balance closes exactly (183,156.1 m3, 167 records) with monthly breakdown; strong data grounding."
+ },
+ "S08-2-PORE": {
+  "function": 6,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 6,
+  "flags": [
+   "textbook-heavy",
+   "latex-render-artifacts"
+  ],
+  "note": "Fourier-series theory dump; never fits cv or a dissipation timeline. Honest that 'Dam 2' absent from data."
+ },
+ "S08-3-THICK": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Dosing math verified (17.3-36.4 kg/h); grounds pump limits and reagent stock beyond assigned table with disclosure."
+ },
+ "S08-COORDINATOR": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [],
+  "note": "Converts 0.38 m/wk to 3.73 kPa/wk, finds analogous recharge events by reading ID, TARP decision-ready."
+ },
+ "S08-R-CRITIC": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [
+   "overlong"
+  ],
+  "note": "36/200 FoS breaches, open fatality permit, 77.8% uncleared incidents; genuinely sharp adversarial audit."
+ },
+ "S09-1-VIBRATION": {
+  "function": 6,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 7,
+  "flags": [
+   "textbook-heavy",
+   "no-defect-diagnosis"
+  ],
+  "note": "BPFI formulas recited but no spectrum parsed and no diagnosis; telemetry context grounded, deliverable missing."
+ },
+ "S09-2-TRIBOLOGY": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "All cohort counts reconcile across 220 samples; honestly flags absent pq_index column and works around it."
+ },
+ "S09-3-THERMAL": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [
+   "unshown-derivation"
+  ],
+  "note": "Well grounded in physics params, but 82-86C core and 8-12C gradient asserted without shown calculation."
+ },
+ "S09-COORDINATOR": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [
+   "repeated-word-glitch"
+  ],
+  "note": "Admits MILL-01 has no vibration stream, ties to real WOs (WO-990393/990276); crisp P0 plan. 'catastrophic' x3 typo."
+ },
+ "S09-R-CRITIC": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 7,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Handles odd HMAC prompt sensibly: gate hold, digital MFA != physical LOTO; lighter data depth (counts only)."
+ },
+ "S10-1-CONTRACT": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [
+   "count-subtotal-inconsistency"
+  ],
+  "note": "Dollar columns reconcile to the cent ($2,979.93 recovery) but txn-count subtotal row (84) contradicts column sum (95)."
+ },
+ "S10-2-ESCALATE": {
+  "function": 8,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Correct grounded answer: contracts are firm-fixed, escalation delta $0; cleanly separates plan assumptions from contract law."
+ },
+ "S10-3-WARRANTY": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Evidence-rich negative finding: no SAG liner entitlement or failure record; claim ruled ineligible with WEN/WO citations."
+ },
+ "S10-COORDINATOR": {
+  "function": 8,
+  "logic": 9,
+  "grounding": 8,
+  "business_voice": 9,
+  "flags": [],
+  "note": "INV-8839 not in INV-00001..175 range, no haulage MSA exists; refuses to fabricate variance, escalates to fraud review."
+ },
+ "S10-R-CRITIC": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [],
+  "note": "Duplicate 'R'-suffix invoices with IDs/amounts; vendor totals sum exactly to $5,082,212.79 over 175 invoices."
+ },
+ "S11-1-STOCK": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Empirical D and sigma from PO/WO history; SS math verified across service levels; flags live zero-stock emergency."
+ },
+ "S11-2-LEADTIME": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Gamma MoM fits verify per vendor (DLW alpha=0.87 heavy tail); catches 8 negative lead-time data-quality records."
+ },
+ "S11-3-HOLDING": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [],
+  "note": "Reconciles $45M prompt vs $55.88M actual; i=8.4% evidenced, w/o benchmarks explicitly disclosed as unevidenced."
+ },
+ "S11-COORDINATOR": {
+  "function": 8,
+  "logic": 9,
+  "grounding": 8,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Refuses to fabricate EOQ for uncataloged 'hydraulic cylinder'; lists real hydraulic SKUs and a concrete path forward."
+ },
+ "S11-R-CRITIC": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [
+   "aging-window-overreach"
+  ],
+  "note": "Dead-stock totals reconcile exactly ($55.88M/140 SKUs), but '>365 days' claim outruns the ~10-month data history."
+ },
+ "S12-1-RAIL": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [
+   "minor-typo"
+  ],
+  "note": "Consist-length and headway-clustering segmentation grounded with quantified targets; '8/32' should read 8/28."
+ },
+ "S12-2-BLEND": {
+  "function": 9,
+  "logic": 8,
+  "grounding": 9,
+  "business_voice": 8,
+  "flags": [],
+  "note": "Key metallurgical catch: 0.74% Cu ROM cannot blend to 28% \u2014 spec belongs to concentrate; full LP formulated with TML."
+ },
+ "S12-3-BERTH": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [],
+  "note": "Per-vessel laytime table sums exactly to 27 demurrage days over 13 calls; declines to invent monetary rates."
+ },
+ "S12-COORDINATOR": {
+  "function": 8,
+  "logic": 8,
+  "grounding": 8,
+  "business_voice": 9,
+  "flags": [
+   "some-unsourced-rates"
+  ],
+  "note": "Good reconciliation (vessel unknown, 160kt exceeds historic max), but berth rates and 72kt staging figure unsourced."
+ },
+ "S12-R-CRITIC": {
+  "function": 9,
+  "logic": 9,
+  "grounding": 9,
+  "business_voice": 9,
+  "flags": [
+   "commodity-label-mismatch"
+  ],
+  "note": "7 vessels + 2 stockpiles interlocked; violation tonnages sum exactly; grade column labeled '% Fe' where peers use Cu."
+ }
+}

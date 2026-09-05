@@ -1,0 +1,64 @@
+# The Metallurgist's driver tree. Skeleton only: no resolution prose lives
+# here. Resolution content is retrieved from the document corpus so that a
+# recommendation is the site's own standard rather than ours.
+#
+# `status` says whether a diagnostic exists and nothing else. Whether a driver
+# is evidenced is decided from the rows that diagnostic returns, on the site's
+# own data — a pack that answered that in advance would be a report with a
+# chat interface in front of it.
+metric: unit cost per tonne of contained metal
+root: contained metal lost to tailings
+
+drivers:
+  - id: liberation
+    question: Is the crusher closed-side setting costing recovery?
+    status: instrumented
+    controllable: true
+    compare: setting_band
+    sql: sql/p6/liberation.sql
+    params:
+      tight_max: 117
+      wide_min: 123
+    doc_query: crusher gap size aperture torque limit feed rate
+    guard: >-
+      Confirm throughput neutrality across bands before recommending any
+      setting change. The torque column is a maximum over DAILY MEAN torque,
+      so it bounds the average duty only; it cannot evidence headroom under an
+      instantaneous critical alarm. Say so, and require the 2-hourly telemetry
+      to be checked against the documented alarm before the change is made.
+
+  - id: feed_variability
+    question: Does feed grade explain the recovery gap instead of the setting?
+    status: instrumented
+    controllable: false
+    compare: setting_band
+    sql: sql/p6/feed_variability.sql
+    params:
+      tight_max: 117
+      wide_min: 123
+    doc_query: feed grade blending stockpile variability
+    guard: >-
+      The setting effect must hold within every feed-grade stratum. If it does
+      not, the finding is a feed-grade artefact and must not be recommended.
+      Cite the residual feed means alongside the recovery gap: a stratum whose
+      tight and wide days still differ in feed has not controlled for feed.
+
+  - id: bypass
+    question: Are bypass events costing recovery?
+    status: instrumented
+    controllable: true
+    sql: sql/p6/bypass.sql
+    doc_query: crusher bypass valve clog abnormal situation
+    guard: >-
+      State the observed count and whether it supports a conclusion. A driver
+      you cannot evidence is reported as such; silence is not.
+
+  - id: reagent_regime
+    question: Is the reagent regime costing recovery?
+    status: not_instrumented
+    controllable: false
+
+  - id: grind_size_p80
+    question: Is grind size costing liberation?
+    status: not_instrumented
+    controllable: true

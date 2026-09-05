@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mining Agent Platform — Functional and Technical Flow</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* Flow-specific chrome. Layers stack vertically, each a labelled band. */
+  .layer { border: 1px solid var(--border); background: var(--surface); margin-bottom: 0; }
+  .layer-cap {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 8px 14px; border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02); color: var(--fg-muted);
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  }
+  .layer-cap .num { color: var(--accent); }
+  .layer-cap .spacer { flex: 1; }
+  .layer-body { padding: 14px; }
+  .arrow {
+    text-align: center; font-family: var(--mono); font-size: 11px; color: var(--fg-dim);
+    padding: 6px 0; letter-spacing: 0.08em;
+  }
+  .arrow b { color: var(--accent); font-weight: 700; }
+  .node {
+    background: var(--surface-high); border: 1px solid var(--border); padding: 11px 13px;
+  }
+  .node.accent { border-color: var(--accent); }
+  .node.crit { border-color: var(--critical); }
+  .node.ok { border-color: var(--success); }
+  .node h4 { margin: 0 0 5px; font-size: 13.5px; }
+  .node p { margin: 0; font-size: 12.5px; color: var(--fg-muted); }
+  .node .tag {
+    font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--fg-dim); display: block; margin-bottom: 5px;
+  }
+  .num-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .num-strip .card { text-align: left; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">Mining Agent Platform / Functional &amp; Technical Flow</span>
+  <nav>
+    <a href="#oneline">In One Screen</a>
+    <a href="#request">Request Path</a>
+    <a href="#patterns">A vs B</a>
+    <a href="#tools">Tool Layer</a>
+    <a href="#security">Security</a>
+    <a href="#identity">Identity</a>
+    <a href="#hitl">HITL Path</a>
+    <a href="#deploy">Deployment</a>
+    <a href="#numbers">Numbers</a>
+    <a href="#notbuilt">Not Built</a>
+    <a href="wireframes.html">&larr; Wireframes</a>
+  </nav>
+</div>
+
+<div class="wrap">
+
+<!-- ============================================================ -->
+<section id="oneline">
+  <div class="eyebrow">Post-demo explainer</div>
+  <h1>How this actually works</h1>
+  <p class="lede">
+    One screen per question an engineer in the room will ask. Everything on this page is read from
+    the running system: the catalog, the registry, the tool modules, and the live BigQuery schema.
+  </p>
+
+  <div class="card" style="margin-top:20px;border-color:var(--accent)">
+    <div class="card-cap">The whole thing in one sentence</div>
+    <p style="margin:0;font-size:16.5px;line-height:1.6">
+      100 Google ADK agents run as 52 private Cloud Run services against one BigQuery dataset, where
+      every agent can only read the tables it declared, BigQuery itself enforces that constraint,
+      and any agent whose recommendation would change the physical world has to stop and get a
+      human to hold a button.
+    </p>
+  </div>
+
+  <div class="num-strip" style="margin-top:16px">
+    <div class="card"><div class="metric">100</div><div class="metric-sub">Agents</div></div>
+    <div class="card"><div class="metric">52</div><div class="metric-sub">Callable services</div></div>
+    <div class="card"><div class="metric">12</div><div class="metric-sub">Pattern A swarms</div></div>
+    <div class="card"><div class="metric">40</div><div class="metric-sub">Pattern B deep</div></div>
+    <div class="card"><div class="metric" style="color:var(--critical)">14</div><div class="metric-sub">Require approval</div></div>
+    <div class="card"><div class="metric">3</div><div class="metric-sub">Service accounts</div></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="request">
+  <h2>The request path, end to end</h2>
+  <p class="lede">
+    Read top to bottom. This is one question travelling from a caller to BigQuery and back, and it
+    is the same path for all 52 services.
+  </p>
+
+  <div style="margin-top:20px">
+
+    <div class="layer">
+      <div class="layer-cap"><span class="num">01</span> Caller <span class="spacer"></span> UI, Agent Gateway, or a script</div>
+      <div class="layer-body">
+        <div class="bento">
+          <div class="card c8" style="padding:0;border:0">
+            <div class="node">
+              <span class="tag">Two calls, the ADK api_server contract</span>
+              <div class="console" style="border-style:solid">POST /apps/S01/users/&lt;uid&gt;/sessions/&lt;sid&gt;   <span class="dim">create session</span>
+POST /run                                     <span class="dim">send the message</span>
+
+<span class="dim">{ "app_name": "S01", "user_id": "...", "session_id": "...",
+  "new_message": { "role": "user", "parts": [ { "text": "..." } ] } }</span></div>
+            </div>
+          </div>
+          <div class="card c4" style="padding:0;border:0">
+            <div class="node crit" style="height:100%">
+              <span class="tag">Gotcha worth stating out loud</span>
+              <h4>OIDC identity token, not an access token</h4>
+              <p>Private Cloud Run authenticates the caller with a signed identity token scoped to
+              the service URL. An OAuth access token returns 401. This catches almost everyone the
+              first time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">&darr; &nbsp; <b>HTTPS + Bearer &lt;identity token&gt;</b></div>
+
+    <div class="layer">
+      <div class="layer-cap"><span class="num">02</span> Google Cloud IAM <span class="spacer"></span> roles/run.invoker</div>
+      <div class="layer-body">
+        <div class="bento">
+          <div class="card c6" style="padding:0;border:0">
+            <div class="node ok" style="height:100%">
+              <span class="tag">What is checked</span>
+              <h4>Is this principal allowed to invoke this service?</h4>
+              <p>Ingress is private. Nothing reaches the container until IAM says yes. There is no
+              application-level auth code to get wrong, because there is no unauthenticated path
+              into the service at all.</p>
+            </div>
+          </div>
+          <div class="card c6" style="padding:0;border:0">
+            <div class="node" style="height:100%">
+              <span class="tag">Current demo state</span>
+              <h4>Domain-wide invoker</h4>
+              <p>Invoker is granted at the domain level so anyone in the org can run the demo. A
+              production deployment narrows this to the gateway service account, which every
+              registration already names in its <span class="mono">caller_allowlist</span>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">&darr; &nbsp; <b>mag-&lt;agent-id&gt;.run.app</b></div>
+
+    <div class="layer">
+      <div class="layer-cap"><span class="num">03</span> Cloud Run service <span class="spacer"></span> one container per entrypoint</div>
+      <div class="layer-body">
+        <div class="bento">
+          <div class="card c4" style="padding:0;border:0">
+            <div class="node accent" style="height:100%">
+              <span class="tag">Container</span>
+              <h4>ADK api_server</h4>
+              <p>The agent package, its prompt, its tool bindings and its declared tables are baked
+              into the image. Scales to zero between runs.</p>
+            </div>
+          </div>
+          <div class="card c4" style="padding:0;border:0">
+            <div class="node" style="height:100%">
+              <span class="tag">Runtime identity</span>
+              <h4>One of three service accounts</h4>
+              <p>The container assumes an identity by tier, not by agent. That identity is what
+              BigQuery sees, and it is where read and write permission actually lives.</p>
+            </div>
+          </div>
+          <div class="card c4" style="padding:0;border:0">
+            <div class="node" style="height:100%">
+              <span class="tag">Model</span>
+              <h4>Gemini, two tiers</h4>
+              <p>76 agents on the balanced tier, 24 on the reasoning tier. Tier is set per agent in
+              the catalog, not chosen at runtime.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">&darr; &nbsp; <b>in-process, no network hop</b></div>
+
+    <div class="layer">
+      <div class="layer-cap"><span class="num">04</span> Agent graph <span class="spacer"></span> Pattern A runs five agents here, Pattern B runs one</div>
+      <div class="layer-body">
+        <div class="note info" style="margin-bottom:14px">
+          <strong>The thing people get wrong</strong><br>
+          A swarm is not five microservices calling each other. The coordinator, three specialists
+          and the critic are nodes in one Workflow graph inside one container. There is no A2A RPC,
+          no service mesh, and no per-hop auth between them. This is why a swarm costs the same to
+          operate as a single agent, and why it fails as one unit rather than partially.
+        </div>
+        <div class="bento" id="graphGrid"></div>
+      </div>
+    </div>
+
+    <div class="arrow">&darr; &nbsp; <b>tool call</b></div>
+
+    <div class="layer">
+      <div class="layer-cap"><span class="num">05</span> Tool layer <span class="spacer"></span> six tools, every one enveloped</div>
+      <div class="layer-body"><div class="bento" id="toolGrid"></div></div>
+    </div>
+
+    <div class="arrow">&darr; &nbsp; <b>parameterised SQL, dry run first</b></div>
+
+    <div class="layer">
+      <div class="layer-cap"><span class="num">06</span> BigQuery <span class="spacer"></span> dataset mining_data, US</div>
+      <div class="layer-body">
+        <div class="bento">
+          <div class="card c8" style="padding:0;border:0">
+            <div class="node" style="height:100%">
+              <span class="tag">Read</span>
+              <h4>Every table the agents use, and nothing else</h4>
+              <p>Each agent declares its source tables in the catalog. The declaration is not
+              documentation, it is the enforcement input. See the security section.</p>
+            </div>
+          </div>
+          <div class="card c4" style="padding:0;border:0">
+            <div class="node crit" style="height:100%">
+              <span class="tag">Write</span>
+              <h4>agent_approvals only</h4>
+              <p>One table. One tool. No agent can write anywhere else in the dataset.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">&uarr; &nbsp; <b>rows, masked and wrapped, back up the same path</b></div>
+
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="patterns">
+  <h2>Pattern A and Pattern B, side by side</h2>
+  <p class="lede">
+    The build uses two agent patterns. Pattern C, a document search surface, is deliberately not in
+    scope here because the value in this dataset is structured operational data, not documents.
+  </p>
+
+  <div class="bento" style="margin-top:20px">
+    <div class="card c6">
+      <div class="card-cap">Pattern A &middot; swarm &middot; 12 of them &middot; 60 agents</div>
+      <p style="margin-top:0">
+        A coordinator decomposes the question, three specialists work different tables in parallel,
+        and a critic argues with the result before a human ever sees it.
+      </p>
+      <table class="data">
+        <thead><tr><th>Node</th><th>Job</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">S01</td><td>Coordinator. Decomposes, routes, assembles.</td></tr>
+          <tr><td class="mono">S01-SP1</td><td>Telemetry Anomaly Detector</td></tr>
+          <tr><td class="mono">S01-SP2</td><td>Dependency Blast-Radius Tracer</td></tr>
+          <tr><td class="mono">S01-SP3</td><td>Downtime Duration Forecaster</td></tr>
+          <tr><td class="mono">S01-CRITIC</td><td>Recovery Plan Critic. Can dissent and block.</td></tr>
+        </tbody>
+      </table>
+      <div class="note info" style="margin-top:12px">
+        <strong>Why a critic earns its cost</strong><br>
+        A single agent cannot disagree with itself. The critic is the only node whose job is to find
+        the reason the answer is wrong, and it is what makes the recommendation safe to put in front
+        of someone who has to act on it.
+      </div>
+    </div>
+
+    <div class="card c6">
+      <div class="card-cap">Pattern B &middot; deep single agent &middot; 40 of them</div>
+      <p style="margin-top:0">
+        One agent, one narrow job, deep domain prompt, a small set of declared tables. These answer
+        a specific analytical question and return the rows behind the answer.
+      </p>
+      <table class="data">
+        <thead><tr><th>Agent</th><th>Reads</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">D01 Vibration Signature</td><td class="mono">telemetry_stream</td></tr>
+          <tr><td class="mono">D05 Dependency Criticality</td><td class="mono">asset_dependencies, assets</td></tr>
+          <tr><td class="mono">D11 Haul Cycle Time</td><td class="mono">haulage_routes</td></tr>
+          <tr><td class="mono">D31 Stockout Exposure</td><td class="mono">inventory_levels, erp_work_orders,<br>work_order_parts_edge, assets</td></tr>
+          <tr><td class="mono">D35 Fatigue Risk Scorer</td><td class="mono">biometric_fatigue_logs</td></tr>
+        </tbody>
+      </table>
+      <div class="note info" style="margin-top:12px">
+        <strong>When to use which</strong><br>
+        Pattern B answers a question. Pattern A resolves a situation that crosses a human handoff.
+        S01 exists because diagnosis and scheduling are two different people with two different
+        systems of record, and the seam between them is where the cost sits.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="tools">
+  <h2>What an agent is allowed to do</h2>
+  <p class="lede">
+    An agent has no general capability. It has six possible tools, and each one is bound at build
+    time to the specific tables that agent declared. The counts below are actual usage across all
+    100 agents.
+  </p>
+  <div class="bento" style="margin-top:20px" id="toolDetail"></div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="security">
+  <h2>Why an agent cannot read a table it did not declare</h2>
+  <p class="lede">
+    This is the part worth slowing down for, because it is the answer to the first question a
+    security architect will ask.
+  </p>
+
+  <div class="card" style="margin-top:20px;border-color:var(--accent)">
+    <div class="card-cap">The core idea</div>
+    <p style="margin:0;font-size:15.5px">
+      The system does not read the SQL to decide whether it is safe. It asks BigQuery. Every query
+      is submitted twice: once as a dry run to ask the engine which tables the statement actually
+      resolves to, and again for real only if that set is inside the agent's declaration. A parser
+      or a regex is a second opinion about what SQL means, and the gap between the two opinions is
+      the vulnerability.
+    </p>
+  </div>
+
+  <div class="bento" style="margin-top:16px">
+    <div class="card c4">
+      <div class="card-cap">Check 1 &middot; statement type</div>
+      <p style="margin:0 0 8px">Must be <span class="mono">SELECT</span>.</p>
+      <p style="margin:0;color:var(--fg-muted);font-size:13px">
+        This is what stops <span class="mono">EXECUTE IMMEDIATE</span> and multi-statement scripts.
+        BigQuery reports those as <span class="mono">SCRIPT</span> with an empty referenced-tables
+        list, so a subset check on its own would wave them straight through.
+      </p>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Check 2 &middot; non-empty</div>
+      <p style="margin:0 0 8px">Must resolve to at least one table.</p>
+      <p style="margin:0;color:var(--fg-muted);font-size:13px">
+        A read that touches no table is either a mistake or an evasion, and it would make the
+        provenance metadata a lie. Agents that need to compute without reading use
+        <span class="mono">operational_math</span> instead.
+      </p>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Check 3 &middot; subset</div>
+      <p style="margin:0 0 8px">Resolved tables must be inside the declaration.</p>
+      <p style="margin:0;color:var(--fg-muted);font-size:13px">
+        Both sides are normalised the same way, so a cross-project read keeps its prefix and matches
+        nothing. Views expand to base tables in a dry run, so access cannot be laundered through a
+        view.
+      </p>
+    </div>
+    <div class="card c12">
+      <div class="card-cap">Trace of one refused query</div>
+      <div class="console">&gt; agent D01 declares [mining_data.telemetry_stream]
+&gt; agent authors: SELECT * FROM `mining_data.biometric_fatigue_logs` LIMIT 10
+&gt; <span class="dim">dry run submitted (0 bytes billed, nothing executed)</span>
+&gt; <span class="dim">statement_type = SELECT</span>                        <span class="ok">check 1 PASS</span>
+&gt; <span class="dim">referenced_tables = [mining_data.biometric_fatigue_logs]</span>  <span class="ok">check 2 PASS</span>
+&gt; <span class="dim">subset of declared?</span>                              <span class="crit">check 3 FAIL</span>
+&gt; <span class="crit">UNDECLARED_TABLE: query reads ['mining_data.biometric_fatigue_logs'],
+                    which this agent has not declared</span>
+&gt; <span class="dim">the real query is never submitted</span></div>
+    </div>
+  </div>
+
+  <div class="bento" style="margin-top:16px">
+    <div class="card c4">
+      <div class="card-cap">Output filter &middot; biometric masking</div>
+      <p style="margin:0">
+        Biometric fields are masked on the way out, in the one function every query result passes
+        through, keyed on what the query actually read rather than what it declared. An operator's
+        raw biometric trace never reaches a model or a screen.
+      </p>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Untrusted-text wrapping</div>
+      <p style="margin:0">
+        Free-text columns coming back from BigQuery are wrapped in an explicit untrusted-data
+        envelope before a model sees them. A maintenance note that says "ignore your instructions"
+        arrives labelled as data, not as instruction.</p>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Parameterised SQL</div>
+      <p style="margin:0">
+        Literals in predicates are refused in favour of query parameters. Worth saying plainly in
+        the room: this one is a lint that catches careless authoring. The control that actually
+        constrains reach is the dry run above.
+      </p>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="identity">
+  <h2>Three service accounts, not one hundred</h2>
+  <p class="lede">
+    An early instinct is one identity per agent. That does not survive contact with quota, and it
+    buys less isolation than it appears to.
+  </p>
+
+  <div class="bento" style="margin-top:20px">
+    <div class="card c7">
+      <table class="data">
+        <thead><tr><th>Service account</th><th class="num">Agents</th><th>Grants</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="mono">mag-agent-base</td><td class="num">35</td>
+            <td>Read the dataset. No write anywhere. The default for a Pattern B agent that only
+                answers questions.</td>
+          </tr>
+          <tr>
+            <td class="mono">mag-agent-coordinator</td><td class="num">12</td>
+            <td>Read plus the ability to run a swarm graph. One per Pattern A entrypoint.</td>
+          </tr>
+          <tr>
+            <td class="mono">mag-agent-approver</td><td class="num">5</td>
+            <td>Read plus insert into <span class="mono">agent_approvals</span>. The only identities
+                on the platform that can write anything at all.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin:14px 0 0;color:var(--fg-muted);font-size:13.5px">
+        Counts are per deployed service and read from the registry.
+      </p>
+    </div>
+    <div class="card c5">
+      <div class="card-cap">Why tiers beat per-agent identities</div>
+      <ul class="tight" style="margin-top:0">
+        <li><strong>Quota.</strong> Service account quota is per project and this platform is
+            redeployed repeatedly across demos. 100 identities per rebuild does not fit.</li>
+        <li><strong>The isolation is elsewhere.</strong> Two agents sharing
+            <span class="mono">mag-agent-base</span> still cannot read each other's tables, because
+            the declared-table check is per agent and enforced by the query engine, not by IAM.</li>
+        <li><strong>Auditability.</strong> Three identities with clearly different powers is a
+            model a reviewer can hold in their head. One hundred identities with identical grants
+            is theatre.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="hitl">
+  <h2>The human-in-the-loop path</h2>
+  <p class="lede">
+    Fourteen of the 52 entrypoints can propose an action that changes something physical. None of
+    them can take it.
+  </p>
+
+  <div class="bento" style="margin-top:20px">
+    <div class="card c7">
+      <div class="card-cap">Sequence</div>
+      <div class="console">01  agent reaches a recommendation
+02  agent calls <span class="dim">request_approval(...)</span>
+03  row inserted into <span class="dim">mining_data.agent_approvals</span>
+      decision = <span class="warn">PENDING</span>
+      approver_principal = <span class="dim">SYSTEM:PENDING</span>
+      agent_reasoning_snapshot = <span class="dim">&lt;why&gt;</span>
+      source_tables = <span class="dim">&lt;what it read&gt;</span>
+04  <span class="crit">agent returns. It does not proceed. It cannot proceed.</span>
+05  approval surfaces on the operator screen with the
+      reasoning and the source telemetry in view
+06  human holds the confirm control for 2s
+07  decision -&gt; <span class="ok">APPROVED</span>, approver_principal -&gt; real identity,
+      hold_duration_ms -&gt; <span class="dim">2000</span>, decided_at -&gt; <span class="dim">server time</span>
+08  action released</div>
+    </div>
+    <div class="card c5">
+      <div class="card-cap">The load-bearing property</div>
+      <p style="margin:0 0 12px;font-size:15px">
+        Nothing in this codebase can write the value <span class="mono">APPROVED</span>. Only a
+        human does, through the approval surface.
+      </p>
+      <p style="margin:0 0 12px;color:var(--fg-muted);font-size:13.5px">
+        That is a stronger claim than a policy or a prompt instruction, and it is the one to make
+        when someone asks what stops the agent going rogue. The agent has no code path to approval.
+      </p>
+      <div class="note">
+        <strong>hold_duration_ms</strong><br>
+        The Hold-to-Confirm interaction is not decoration. Its duration is written into the audit
+        record, so the log can distinguish a considered decision from a reflex click.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="deploy">
+  <h2>Deployment topology</h2>
+  <div class="bento" style="margin-top:20px">
+    <div class="card c6">
+      <div class="card-cap">Build and ship</div>
+      <div class="console">catalog/definitions.py       <span class="dim">100 agents, source of truth</span>
+        |
+        v
+scripts/packages.py          <span class="dim">generates one deployable</span>
+                             <span class="dim">package per entrypoint</span>
+        |
+        v
+gcloud run deploy            <span class="dim">52 services, 6 concurrent</span>
+        |
+        v
+mag-&lt;id&gt;-&lt;hash&gt;-uc.a.run.app <span class="dim">private ingress</span></div>
+      <p style="margin:12px 0 0;color:var(--fg-muted);font-size:13.5px">
+        The catalog is the single source of truth. Agent prompts, tool bindings, declared tables,
+        model tier, HITL flag and service account all derive from it, so the deployed fleet cannot
+        drift from the documented one.
+      </p>
+    </div>
+    <div class="card c6">
+      <div class="card-cap">Operational shape</div>
+      <dl class="kv">
+        <dt>Project</dt><dd class="mono">your-gcp-project-id</dd>
+        <dt>Dataset</dt><dd class="mono">mining_data (US)</dd>
+        <dt>Region</dt><dd class="mono">us-central1</dd>
+        <dt>Services</dt><dd class="mono">52</dd>
+        <dt>Ingress</dt><dd class="mono">private, IAM only</dd>
+        <dt>Idle cost</dt><dd>Scales to zero. A swarm that nobody calls costs nothing.</dd>
+        <dt>Framework</dt><dd class="mono">Google ADK</dd>
+        <dt>Tests</dt><dd class="mono">722 passing</dd>
+      </dl>
+      <div class="note info" style="margin-top:14px">
+        <strong>Two audiences, one artifact</strong><br>
+        This is a sales showcase and a reference accelerator a customer forks. That is why the
+        catalog drives everything: a customer swaps the dataset and the agent definitions and keeps
+        the security, identity and approval machinery unchanged.
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="numbers">
+  <h2>Numbers to have ready</h2>
+  <div class="bento">
+    <div class="card c12">
+      <table class="data">
+        <thead><tr><th>Question</th><th>Answer</th><th>Where it comes from</th></tr></thead>
+        <tbody>
+          <tr><td>How many agents?</td><td class="mono">100</td><td>catalog</td></tr>
+          <tr><td>How many can I call?</td><td class="mono">52</td><td>40 Pattern B, 12 Pattern A coordinators</td></tr>
+          <tr><td>What is inside a swarm?</td><td class="mono">1 + 3 + 1</td><td>coordinator, three specialists, one critic</td></tr>
+          <tr><td>How many need a human?</td><td class="mono">14</td><td>9 swarms, 5 deep agents</td></tr>
+          <tr><td>How many identities?</td><td class="mono">3</td><td>base 35, coordinator 12, approver 5</td></tr>
+          <tr><td>How many tools exist?</td><td class="mono">6</td><td>bq_query, request_approval, graph_traverse, operational_math, bqml_predict, ontology_lookup</td></tr>
+          <tr><td>Which tool dominates?</td><td class="mono">bq_query, 93 of 100</td><td>catalog tool bindings</td></tr>
+          <tr><td>How many model tiers?</td><td class="mono">2</td><td>balanced 76, reasoning 24</td></tr>
+          <tr><td>What can an agent write?</td><td class="mono">1 table</td><td>agent_approvals, and only PENDING</td></tr>
+          <tr><td>What does downtime cost?</td><td class="mono">$145k / hr</td><td>client CEO playbook. The only client figure supplied.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================ -->
+<section id="notbuilt">
+  <h2>What is not built, said plainly</h2>
+  <p class="lede">
+    Worth having ready, because volunteering a limit before it is found is worth more than being
+    caught by it.
+  </p>
+  <div class="bento">
+    <div class="card c4">
+      <div class="card-cap">No trigger layer</div>
+      <p style="margin:0">The 52 agents are request-response services. Nothing watches BigQuery and
+      dispatches an agent when a threshold breaks. The shift timeline option in the wireframes
+      depends on this and is roadmap, not product.</p>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">No role-based access</div>
+      <p style="margin:0">Invoker is granted domain-wide for the demo. Every signed-in user can
+      call every agent. Per-persona scoping is a real piece of work, not a config toggle.</p>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">No column-level masking in BigQuery</div>
+      <p style="margin:0">Masking happens in the tool layer. A dry run expands a view to its base
+      tables, which is what makes the declared-table check strong, but it also means the check
+      cannot tell a masked view from a raw table. That enforcement has to live elsewhere.</p>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">No Pattern C</div>
+      <p style="margin:0">No document search surface. The value in this dataset is structured
+      operational data. Adding Pattern C would need a document corpus that does not exist here.</p>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">No AISC baseline</div>
+      <p style="margin:0">The value tree is structurally complete and financially empty. Only the
+      $145k/hr downtime rate is a client figure. Everything else needs client input, and the
+      screens render that as a gap rather than inventing it.</p>
+    </div>
+    <div class="card c4">
+      <div class="card-cap">Two data gaps</div>
+      <p style="margin:0">No tailings dam or piezometer data, and no capital-project or EPC data.
+      Two branches in the published industry tree cannot be served, which is why the tree was
+      re-rooted on AISC rather than faking coverage.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+// Swarm graph nodes, rendered rather than hand-written so the shape stays consistent.
+const GRAPH = [
+  {cls:"accent", tag:"NODE 1", h:"Coordinator", p:"Decomposes the question, routes to specialists, assembles the result."},
+  {cls:"",       tag:"NODE 2", h:"Specialist 1", p:"Own tables, own sub-question. Runs in parallel with the others."},
+  {cls:"",       tag:"NODE 3", h:"Specialist 2", p:"Different tables, different angle on the same situation."},
+  {cls:"",       tag:"NODE 4", h:"Specialist 3", p:"Third angle. Together these three cover the branch."},
+  {cls:"crit",   tag:"NODE 5", h:"Critic", p:"Argues with the assembled answer. Can dissent and stop it reaching a human."}
+];
+document.getElementById("graphGrid").innerHTML = GRAPH.map(n => `
+  <div class="card c4" style="padding:0;border:0">
+    <div class="node ${n.cls}" style="height:100%">
+      <span class="tag">${n.tag}</span><h4>${n.h}</h4><p>${n.p}</p>
+    </div>
+  </div>`).join("");
+
+// Tool inventory. Usage counts are actual, read from the catalog across all 100 agents.
+const TOOLS = [
+  {name:"bq_query", used:93,
+   short:"Parameterised reads, constrained to declared tables.",
+   long:"The workhorse. Agent-authored SQL, checked by a BigQuery dry run before it runs for real. Every other read tool routes through the same enforcement."},
+  {name:"request_approval", used:14,
+   short:"The only write path on the platform.",
+   long:"Inserts a PENDING row into agent_approvals and returns. Cannot write APPROVED. The agent stops here and waits for a human."},
+  {name:"graph_traverse", used:12,
+   short:"Walks asset dependency relationships.",
+   long:"Used when the question is what else breaks when this breaks. Blast-radius tracing in the reliability swarms depends on it."},
+  {name:"operational_math", used:12,
+   short:"Deterministic arithmetic, no table read.",
+   long:"Exists so an agent that needs to compute rather than read has a legitimate path. Without it, a model tempted to fabricate a query to do arithmetic would trip the non-empty check."},
+  {name:"bqml_predict", used:6,
+   short:"Calls a trained BigQuery ML model.",
+   long:"Forecasting, used sparingly. Six agents. A prediction is labelled as a prediction on its way back."},
+  {name:"ontology_lookup", used:0,
+   short:"Resolves domain vocabulary to schema.",
+   long:"Available in the tool layer but bound to no agent in the current catalog. Listed here for completeness rather than credit."}
+];
+
+document.getElementById("toolGrid").innerHTML = TOOLS.map(t => `
+  <div class="card c4" style="padding:0;border:0">
+    <div class="node" style="height:100%">
+      <span class="tag">${t.used ? t.used + " of 100 agents" : "not bound to any agent"}</span>
+      <h4 class="mono" style="font-size:13px">${t.name}</h4>
+      <p>${t.short}</p>
+    </div>
+  </div>`).join("");
+
+document.getElementById("toolDetail").innerHTML = TOOLS.map(t => `
+  <div class="card c6">
+    <div class="card-cap">
+      <span class="mono">${t.name}</span>
+      &middot; ${t.used ? t.used + " agents" : "unbound"}
+    </div>
+    <p style="margin:0 0 8px;font-size:14.5px">${t.short}</p>
+    <p style="margin:0;color:var(--fg-muted);font-size:13.5px">${t.long}</p>
+  </div>`).join("");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,281 @@
+[
+ {
+  "group": "S01",
+  "agents": [
+   "S01-COORDINATOR",
+   "S01-1-LITHOLOGY",
+   "S01-2-GEOSTAT",
+   "S01-3-STRUCTURAL",
+   "S01-R-CRITIC"
+  ],
+  "department": "Exploration/Geology",
+  "tables": [
+   "assay_logs",
+   "drill_holes",
+   "geological_block_models",
+   "qaqc_standards"
+  ]
+ },
+ {
+  "group": "S02",
+  "agents": [
+   "S02-COORDINATOR",
+   "S02-1-GEOTECH",
+   "S02-2-SCHEDULE",
+   "S02-3-DUMP",
+   "S02-R-CRITIC"
+  ],
+  "department": "Mine Planning/Operations",
+  "tables": [
+   "geotech_sensors",
+   "mine_production_schedule",
+   "pit_designs",
+   "survey_scans"
+  ]
+ },
+ {
+  "group": "S03",
+  "agents": [
+   "S03-COORDINATOR",
+   "S03-1-GEOMETRY",
+   "S03-2-EXPLOSIVE",
+   "S03-3-VIBRATION",
+   "S03-R-CRITIC"
+  ],
+  "department": "Mine Planning/Operations",
+  "tables": [
+   "blast_designs",
+   "explosives_inventory",
+   "safety_permits",
+   "vibration_monitors"
+  ]
+ },
+ {
+  "group": "S04",
+  "agents": [
+   "S04-COORDINATOR",
+   "S04-1-SHOVEL",
+   "S04-2-ROUTE",
+   "S04-3-PAYLOAD",
+   "S04-R-CRITIC"
+  ],
+  "department": "Fleet/Haulage",
+  "tables": [
+   "dispatch_routes",
+   "fleet_telemetry",
+   "safety_telemetry"
+  ]
+ },
+ {
+  "group": "S05",
+  "agents": [
+   "S05-COORDINATOR",
+   "S05-1-CSS",
+   "S05-2-FEED",
+   "S05-3-WEAR",
+   "S05-R-CRITIC"
+  ],
+  "department": "Mineral Processing/Plant",
+  "tables": [
+   "assets",
+   "crusher_telemetry"
+  ]
+ },
+ {
+  "group": "S06",
+  "agents": [
+   "S06-COORDINATOR",
+   "S06-1-SAG",
+   "S06-2-BALL",
+   "S06-3-CYCLONE",
+   "S06-R-CRITIC"
+  ],
+  "department": "Mineral Processing/Plant",
+  "tables": [
+   "assets",
+   "plant_telemetry"
+  ]
+ },
+ {
+  "group": "S07",
+  "agents": [
+   "S07-COORDINATOR",
+   "S07-1-REAGENT",
+   "S07-2-AIR",
+   "S07-3-GRADE",
+   "S07-R-CRITIC"
+  ],
+  "department": "Mineral Processing/Plant",
+  "tables": [
+   "flotation_assays",
+   "plant_telemetry",
+   "reagent_inventory"
+  ]
+ },
+ {
+  "group": "S08",
+  "agents": [
+   "S08-COORDINATOR",
+   "S08-1-WATER",
+   "S08-2-PORE",
+   "S08-3-THICK",
+   "S08-R-CRITIC"
+  ],
+  "department": "Mineral Processing/Plant",
+  "tables": [
+   "plant_telemetry",
+   "safety_permits",
+   "tsf_piezometers",
+   "water_balance_logs"
+  ]
+ },
+ {
+  "group": "S09",
+  "agents": [
+   "S09-COORDINATOR",
+   "S09-1-VIBRATION",
+   "S09-2-TRIBOLOGY",
+   "S09-3-THERMAL",
+   "S09-R-CRITIC"
+  ],
+  "department": "Asset Integrity/Maintenance",
+  "tables": [
+   "assets",
+   "crusher_telemetry",
+   "erp_work_orders",
+   "lube_samples"
+  ]
+ },
+ {
+  "group": "S10",
+  "agents": [
+   "S10-COORDINATOR",
+   "S10-1-CONTRACT",
+   "S10-2-ESCALATE",
+   "S10-3-WARRANTY",
+   "S10-R-CRITIC"
+  ],
+  "department": "Supply Chain/Logistics",
+  "tables": [
+   "assets",
+   "invoices",
+   "vendor_contracts"
+  ]
+ },
+ {
+  "group": "S11",
+  "agents": [
+   "S11-COORDINATOR",
+   "S11-1-STOCK",
+   "S11-2-LEADTIME",
+   "S11-3-HOLDING",
+   "S11-R-CRITIC"
+  ],
+  "department": "Supply Chain/Logistics",
+  "tables": [
+   "purchase_orders",
+   "spares_inventory"
+  ]
+ },
+ {
+  "group": "S12",
+  "agents": [
+   "S12-COORDINATOR",
+   "S12-1-RAIL",
+   "S12-2-BLEND",
+   "S12-3-BERTH",
+   "S12-R-CRITIC"
+  ],
+  "department": "Supply Chain/Logistics",
+  "tables": [
+   "port_vessels",
+   "rail_schedules",
+   "stockpiles"
+  ]
+ },
+ {
+  "group": "AGT-19",
+  "agents": [
+   "AGT-19"
+  ],
+  "department": "Commercial/Finance/Strategy",
+  "tables": [
+   "financial_ledger",
+   "geological_block_models",
+   "mine_production_schedule"
+  ]
+ },
+ {
+  "group": "DEEP-SOLVERS",
+  "agents": [
+   "D01",
+   "D02",
+   "D03",
+   "D04",
+   "D05",
+   "D06",
+   "D07",
+   "D08",
+   "D09",
+   "D10",
+   "D11",
+   "D12",
+   "D13",
+   "D14",
+   "D15",
+   "D16",
+   "D17",
+   "D18",
+   "D19",
+   "D20",
+   "D21",
+   "D22",
+   "D23",
+   "D24",
+   "D25",
+   "D26",
+   "D27",
+   "D28",
+   "D29",
+   "D30",
+   "D31",
+   "D32",
+   "D33",
+   "D34",
+   "D35",
+   "D36",
+   "D37",
+   "D38",
+   "D39",
+   "D40"
+  ],
+  "department": "Exploration/Geology",
+  "tables": [
+   "assay_logs",
+   "assets",
+   "blast_designs",
+   "drill_holes",
+   "erp_work_orders",
+   "fatigue_monitoring_logs",
+   "fleet_telemetry",
+   "flotation_assays",
+   "geological_block_models",
+   "geotech_sensors",
+   "invoices",
+   "lube_samples",
+   "pit_designs",
+   "plant_telemetry",
+   "port_vessels",
+   "purchase_orders",
+   "rail_schedules",
+   "reagent_inventory",
+   "safety_permits",
+   "safety_telemetry",
+   "spares_inventory",
+   "tenement_leases",
+   "tsf_piezometers",
+   "vendor_contracts",
+   "water_balance_logs"
+  ]
+ }
+]
